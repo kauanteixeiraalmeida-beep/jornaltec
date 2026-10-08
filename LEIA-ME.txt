@@ -1,0 +1,6 @@
+JornaTec V5 - teste
+
+1. No computador, abra o arquivo HTML normalmente.
+2. O SQL V4 continua sendo o mesmo; esta versão não exige novo SQL para as correções de zoom/sessão.
+3. No celular, abrir o HTML diretamente como arquivo ainda é limitado pelo Chrome. A recuperação de sessão foi reforçada, mas o comportamento de aplicativo de verdade exige hospedar o JornaTec em HTTPS.
+4. O arquivo jornatec.webmanifest já está incluído para instalação como PWA quando o projeto estiver hospedado.

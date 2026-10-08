@@ -1,0 +1,9 @@
+{
+  "name": "JornaTec",
+  "short_name": "JornaTec",
+  "start_url": "./JornaTec-versao-teste-corrigida-final-v5.html",
+  "display": "standalone",
+  "background_color": "#f4f2ee",
+  "theme_color": "#8a1c1c",
+  "lang": "pt-BR"
+}
