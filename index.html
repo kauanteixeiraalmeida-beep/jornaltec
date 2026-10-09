@@ -253,7 +253,7 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 </main>
 
 <div id="viewer" hidden>
-  <div class="vbar"><strong id="vtitle"></strong><div class="vzoom"><button class="btn ghost" id="vminus" type="button" aria-label="Diminuir zoom">−</button><b id="vzoomtxt">100%</b><button class="btn ghost" id="vplus" type="button" aria-label="Aumentar zoom">+</button></div><button class="btn ghost" id="cmbtn">Comentários (0)</button><a class="btn ghost" id="vtab" target="_blank" rel="noopener">Nova aba</a><a class="btn" id="vdl">Baixar original</a><button class="btn ghost" id="vclose">Fechar</button></div>
+  <div class="vbar"><strong id="vtitle"></strong><div class="vzoom"><button class="btn ghost" id="vminus" type="button" aria-label="Diminuir zoom até 20 por cento">−</button><b id="vzoomtxt">100%</b><button class="btn ghost" id="vplus" type="button" aria-label="Aumentar zoom até 500 por cento">+</button></div><button class="btn ghost" id="cmbtn">Comentários (0)</button><a class="btn ghost" id="vtab" target="_blank" rel="noopener">Nova aba</a><a class="btn" id="vdl">Baixar original</a><button class="btn ghost" id="vclose">Fechar</button></div>
   <div id="vbody"></div>
   <section id="vcom" hidden aria-label="Comentários">
     <div class="chd"><b>Comentários</b><button class="btn ghost" id="cmclose">Fechar</button></div>
@@ -450,7 +450,7 @@ const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
 
 let pdfZoom=1,curViewerURL="";
 function setZoom(z){
-  pdfZoom=Math.max(.75,Math.min(2.5,Math.round(z*10)/10));
+  pdfZoom=Math.max(.2,Math.min(5,Math.round(z*10)/10));
   $("vzoomtxt").textContent=Math.round(pdfZoom*100)+"%";
   document.querySelectorAll("#pages .pdfpage").forEach(w=>{
     const bw=Number(w.dataset.baseW||0),bh=Number(w.dataset.baseH||0);
@@ -554,8 +554,8 @@ window.addEventListener("resize",()=>{
     }
   },180);
 });
-$("vminus").onclick=()=>setZoom(pdfZoom-.1);
-$("vplus").onclick=()=>setZoom(pdfZoom+.1);
+$("vminus").onclick=()=>setZoom(pdfZoom-.2);
+$("vplus").onclick=()=>setZoom(pdfZoom+.2);
 $("vclose").onclick=()=>{$("vcom").hidden=true;curDoc=null;$("viewer").hidden=true;$("vbody").innerHTML="";freeURL()};
 
 window.dl=async id=>{
