@@ -41,7 +41,7 @@ h1{font:bold clamp(2.2rem,9vw,3.4rem)/1 Georgia,"Times New Roman",serif;margin:0
 #vbody{flex:1;overflow:auto;display:block;min-height:0;-webkit-overflow-scrolling:touch}
 #vbody iframe{display:block;width:100%;height:100%;min-height:70vh;border:0;background:#fff}
 #vbody img{display:block;max-width:none;max-height:none;object-fit:contain;transform-origin:top left;transition:transform .15s ease}
-#vbody #pages{box-sizing:border-box;overflow:auto;width:100%;min-height:100%;padding:16px 12px 40px;background:#777;display:flex;flex-direction:column;align-items:center}
+#vbody #pages{box-sizing:border-box;overflow:auto;width:100%;min-height:100%;padding:16px 12px 40px;background:#777;display:flex;flex-direction:column;align-items:flex-start}
 #vbody #pages .pdfpage{position:relative;margin:0 auto 14px;overflow:visible;display:block;min-height:20px;max-width:none;flex:0 0 auto}
 #vbody #pages .pdfpage canvas{display:block;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18);transform-origin:top left;transition:transform .16s ease;max-width:none}
 #vbody .imgpage{position:relative;flex:0 0 auto;margin:auto;overflow:visible}
@@ -446,6 +446,8 @@ async function viewFile(d){
   return d.file;
 }
 
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+
 let pdfZoom=1,curViewerURL="";
 function setZoom(z){
   pdfZoom=Math.max(.75,Math.min(2.5,Math.round(z*10)/10));
@@ -502,7 +504,7 @@ async function showPdf(d,b,url){
   b.innerHTML='<div class="novw">Carregando o PDF…</div>';
   try{if(!window.pdfjsLib)await new Promise((ok,no)=>{const sc=document.createElement("script");sc.src=PDFJS+"pdf.min.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS+"pdf.worker.min.js";
     await pdfjsLib.getDocument({data:new Uint8Array(await d.file.arrayBuffer())}).promise;if(curURL!==url)return;b.innerHTML='<div id="pages"></div>';await renderPdfPages(d,$("pages"),url);
-  }catch(e){fb()}
+  }catch(e){console.error("JornaTec: falha ao carregar/renderizar PDF.js; abrindo alternativa do navegador.",e);fb()}
 }
 
 window.view=async(id,cm)=>{
