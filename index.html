@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V5</title>
+<title>JornaTec V9 — Eventos especiais</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -107,6 +107,20 @@ dialog textarea,dialog select{width:100%;padding:9px;margin:4px 0 10px;border:1p
 .event-card::before{content:"";position:absolute;inset:0;background:var(--evtexture,transparent);opacity:.75;z-index:-2}.event-card::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.18) 45%,transparent 70%);transform:translateX(-120%);z-index:-1;pointer-events:none}
 .event-card.ev-shine::after{animation:evshine 3.2s ease-in-out infinite}.event-card.ev-float{animation:evfloat 4s ease-in-out infinite}.event-card.ev-pulse{animation:evpulse 2.6s ease-in-out infinite}
 @keyframes evshine{50%,100%{transform:translateX(120%)}}@keyframes evfloat{50%{transform:translateY(-3px)}}@keyframes evpulse{50%{box-shadow:0 12px 30px color-mix(in srgb,var(--evc) 22%,transparent)}}
+.event-card.ev-zoom{animation:evzoom .65s cubic-bezier(.2,.8,.2,1) both}.event-card.ev-sparkle .evhero:after{content:"✦  ✧  ✦";position:absolute;right:18px;top:16px;font-size:1.5rem;letter-spacing:.4rem;animation:evspark 2.4s ease-in-out infinite}.event-card .evhero{position:relative}
+@keyframes evzoom{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}@keyframes evspark{50%{opacity:.35;transform:translateY(-5px) rotate(8deg)}}
+#epresent{border:0;padding:0;width:min(680px,calc(100vw - 28px));max-width:none;max-height:calc(100dvh - 28px);overflow:auto;border-radius:24px;background:var(--surface);color:var(--ink);box-shadow:0 30px 100px #0008}
+#epresent::backdrop{background:rgba(8,10,18,.76);backdrop-filter:blur(7px);animation:epback .35s ease-out}
+#epresent[open]{animation:epin .55s cubic-bezier(.2,.8,.2,1)}
+#epresent[data-animation="none"][open]{animation:none}#epresent[data-animation="float"][open]{animation:evfloat 4s ease-in-out infinite}#epresent[data-animation="pulse"] .ep-hero{animation:evpulse 2.6s ease-in-out infinite}#epresent[data-animation="none"] .ep-hero:after{display:none}#epresent[data-animation="sparkle"] .ep-hero:before{content:"✦  ✧  ✦";position:absolute;right:20px;top:18px;font-size:2rem;letter-spacing:.5rem;animation:evspark 2.4s ease-in-out infinite}#epresent[data-animation="float"] .ep-hero:after{display:none}
+@keyframes epin{from{opacity:0;transform:translateY(24px) scale(.88)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes epback{from{opacity:0}to{opacity:1}}
+#epresent .ep-hero{position:relative;min-height:210px;padding:30px 24px 24px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;background:linear-gradient(135deg,var(--evc),color-mix(in srgb,var(--evc) 45%,#111));background-position:center;background-size:cover;overflow:hidden}
+#epresent .ep-hero:after{content:"";position:absolute;inset:-50%;pointer-events:none;background:linear-gradient(110deg,transparent 42%,#ffffff38 50%,transparent 58%);transform:translateX(-65%);animation:evshine 3s ease-in-out infinite}
+#epresent .ep-icon{font-size:2.3rem;line-height:1.1;margin-bottom:10px;filter:drop-shadow(0 3px 8px #0005)}#epresent .ep-kicker{font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.9}#epresent .ep-hero h2{position:relative;z-index:1;font:bold clamp(1.7rem,5vw,2.5rem)/1.12 Georgia,serif;margin:8px 0 0;color:#fff;text-shadow:0 3px 16px #0005;overflow-wrap:anywhere}
+#epresent .ep-content{padding:22px 24px 24px}#epresent .ep-date{display:inline-flex;padding:6px 11px;border-radius:999px;background:color-mix(in srgb,var(--evc) 12%,var(--surface));color:var(--evc);font-weight:750;font-size:.82rem;margin-bottom:12px}#epresent .ep-text{white-space:pre-wrap;font-size:1.04rem;line-height:1.65;margin:0 0 16px;overflow-wrap:anywhere}#epresent .ep-footer{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:18px}
+@media(max-width:600px){#epresent{width:calc(100vw - 18px);max-height:calc(100dvh - 18px);border-radius:19px}#epresent .ep-hero{min-height:175px;padding:22px 18px 18px}#epresent .ep-content{padding:17px 18px 19px}#epresent .ep-icon{font-size:2rem}}
+@media(prefers-reduced-motion:reduce){.event-card.ev-zoom,.event-card.ev-sparkle,.event-card.ev-shine,.event-card.ev-float,.event-card.ev-pulse,#epresent[open],#epresent::backdrop{animation:none!important}#epresent .ep-hero:after{animation:none!important}}
+
 .evhero{padding:18px 18px 15px;color:#fff;background:linear-gradient(135deg,var(--evc),color-mix(in srgb,var(--evc) 55%,#111));background-size:cover;background-position:center;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end}.evhero .tg2{color:rgba(255,255,255,.82);letter-spacing:.08em;text-transform:uppercase}.evhero h2{margin:4px 0 0;font-size:1.45rem;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.25)}
 .evbody{padding:14px 18px 16px}.evdate{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:color-mix(in srgb,var(--evc) 10%,var(--surface));color:var(--evc);padding:5px 10px;font-size:.76rem;font-weight:700;margin-bottom:8px}.evtools{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:10px}.evtag{font-size:.74rem;color:var(--muted)}
 
@@ -281,13 +295,16 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 <div class="acts"><button class="btn" type="submit">Confirmar</button><button class="btn ghost" type="button" id="kcancel">Cancelar</button></div>
 </form></dialog>
 <dialog id="qdlg"><form method="dialog"><p id="qmsg"></p><div class="acts"><button class="btn" value="ok">Confirmar</button><button class="btn ghost" value="no">Cancelar</button></div></form></dialog>
+<dialog id="epresent" aria-labelledby="ep-title"><div id="ep-stage"></div><div class="ep-content"><div class="ep-date" id="ep-date"></div><p class="ep-text" id="ep-text"></p><div id="ep-options"></div><div class="ep-footer"><button class="btn ghost" type="button" id="ep-later">Fechar</button></div></div></dialog>
 <dialog id="edlg"><form id="eform">
 <label>Tipo<select id="etype"><option value="aviso">Aviso</option><option value="opcoes">Enquete / escolha</option></select></label>
 <label>Título<input type="text" id="etitle" maxlength="80" required></label>
 <label>Texto (opcional)<textarea id="etext" maxlength="400" rows="3" placeholder="Conte o que vai acontecer..."></textarea></label>
-<div class="acts" style="align-items:center"><label style="flex:1">Cor do evento<input id="ecolor" type="color" value="#8a1c1c"></label><label style="flex:1">Animação<select id="eanim"><option value="none">Nenhuma</option><option value="shine">Brilho</option><option value="float">Flutuar</option><option value="pulse">Pulso</option></select></label></div>
-<label>Textura<select id="etexture"><option value="paper">Papel</option><option value="dots">Pontos</option><option value="grid">Grade</option><option value="waves">Ondas</option><option value="none">Lisa</option></select></label>
+<div class="acts" style="align-items:center"><label style="flex:1">Cor principal<input id="ecolor" type="color" value="#8a1c1c"></label><label style="flex:1">Ícone do evento<select id="eicon"><option value="🎉">🎉 Celebração</option><option value="📣">📣 Comunicado</option><option value="📅">📅 Data importante</option><option value="🏆">🏆 Conquista</option><option value="🎓">🎓 Escolar</option><option value="🎭">🎭 Cultural</option><option value="⚡">⚡ Urgente</option><option value="🗳️">🗳️ Enquete</option><option value="✨">✨ Especial</option><option value="🎨">🎨 Personalizado</option></select></label></div>
+<label>Efeito visual<select id="eanim"><option value="zoom">Entrada cinematográfica</option><option value="shine">Brilho passando</option><option value="sparkle">Brilhos mágicos</option><option value="pulse">Pulso luminoso</option><option value="float">Flutuação suave</option><option value="none">Sem animação</option></select></label>
+<label>Textura do fundo<select id="etexture"><option value="paper">Papel</option><option value="dots">Pontos</option><option value="grid">Grade</option><option value="waves">Ondas</option><option value="none">Lisa</option></select></label>
 <label>Imagem de capa (opcional)<input type="url" id="eimage" maxlength="500" placeholder="https://.../imagem.jpg"></label>
+<label style="display:flex;align-items:flex-start;gap:9px;color:var(--ink);margin:10px 0"><input id="epopup" type="checkbox" checked style="width:20px;height:20px;margin:2px 0;flex-shrink:0"><span><b>Apresentar como evento especial na tela</b><small style="display:block;color:var(--muted)">Abre uma janela grande com animação para cada visitante, uma vez por navegador.</small></span></label>
 <div id="eoptw" hidden><b>Opções (de 2 a 6)</b><div id="eopts"></div><button type="button" class="btn ghost" id="eadd">Adicionar opção</button></div>
 <p id="emsg" role="alert" style="color:var(--accent);min-height:1.3em;font-size:.88rem"></p>
 <div class="acts"><button class="btn" type="submit">Publicar evento</button><button class="btn ghost" type="button" id="ecancel">Cancelar</button></div>
@@ -866,14 +883,37 @@ async function setCats(a){
   if(a.length){const ins=await sb.from("categories").insert(a.map(name=>({owner_id:me,name})));if(ins.error)throw ins.error}
 }
 
+let presentingEventId=null;
+function seenEventKey(id){return "jornatec:event-seen:"+String(id)}
+function markEventSeen(id){if(!id)return;try{localStorage.setItem(seenEventKey(id),"1")}catch(_){}}
+function presentEvent(ev){
+  if(!ev||!$("epresent")||$("epresent").open)return;
+  const t=ev.theme||{},color=t.color||"#8a1c1c",icon=t.icon|| (ev.type==="opcoes"?"🗳️":"🎉");presentingEventId=ev.id;
+  const stage=$("ep-stage");stage.className="ep-hero";$("epresent").dataset.animation=t.animation||"zoom";stage.style.setProperty("--evc",color);stage.style.backgroundImage=t.image?`linear-gradient(135deg,${color}dd,rgba(0,0,0,.38)),url("${String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m)}")`:"linear-gradient(135deg,"+color+",color-mix(in srgb,"+color+" 45%,#111))";
+  stage.innerHTML=`<span class="ep-icon" aria-hidden="true">${esc(icon)}</span><span class="ep-kicker">${ev.type==="opcoes"?"Você está convidado a participar":"Evento escolar"}</span><h2 id="ep-title">${esc(ev.title)}</h2>`;
+  $("ep-date").textContent="📅 Publicado em "+new Date(ev.created_at).toLocaleDateString("pt-BR");$("ep-text").textContent=ev.text||"";$("ep-text").hidden=!ev.text;
+  const opts=ev.type==="opcoes"?(ev.opts||[]).map((o,i)=>`<button class="opt" style="width:100%;margin:5px 0" data-act="vote" data-id="${esc(ev.id)}" data-i="${i}"><span>${esc(o.t)}</span><span>Votar ›</span></button>`).join(""):"";
+  $("ep-options").innerHTML=opts;$("epresent").style.setProperty("--evc",color);
+  if(t.animation==="none")$("epresent").classList.add("no-motion");else $("epresent").classList.remove("no-motion");
+  try{$("epresent").showModal()}catch(_){presentingEventId=null;return}
+}
+$("ep-later").onclick=()=>$("epresent").close();
+$("epresent").addEventListener("close",()=>{markEventSeen(presentingEventId);presentingEventId=null});
+function maybePresentEvent(events){
+  if(!Array.isArray(events)||$("epresent").open)return;
+  const candidate=events.find(ev=>ev.theme&&ev.theme.popup===true&&!(()=>{try{return localStorage.getItem(seenEventKey(ev.id))==="1"}catch(_){return false}})());
+  if(candidate)setTimeout(()=>presentEvent(candidate),280);
+}
+
 async function drawE(){
   if(!me){$("evs").hidden=true;return}const sb=await requireSB();
   const {data:events,error}=await sb.from("events").select("*,event_options(*)").order("created_at",{ascending:false});if(error){console.error(error);$("evs").hidden=true;return}
   const ids=(events||[]).map(e=>e.id);let votes=[];if(ids.length){const r=await sb.from("event_votes").select("event_id,option_index").eq("user_id",me).in("event_id",ids);votes=r.data||[]}
   const mine=Object.fromEntries(votes.map(v=>[v.event_id,v.option_index]));const a=(events||[]).map(e=>({...e,theme:e.theme||{},opts:(e.event_options||[]).map(o=>({id:o.id,t:o.text,n:o.votes||0})),mine:mine[e.id]}));$("evs").hidden=!a.length;
   const textures={paper:'linear-gradient(135deg,rgba(255,255,255,.12),transparent 45%),repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 5px)',dots:'radial-gradient(rgba(255,255,255,.24) 1px,transparent 1px)',grid:'linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px)',waves:'repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.12) 0 2px,transparent 2px 12px)',none:'none'};
-  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero"><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2></div><div class="evbody"><div class="evdate">📅 ${new Date(e.created_at).toLocaleDateString("pt-BR")}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div></article>`}).join("");
-  for(const e of a){const t=e.theme||{},card=document.querySelector(`[data-event-id="${e.id}"] .evhero`);if(card&&t.image){const u=String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m);card.style.backgroundImage=`linear-gradient(135deg,${t.color||'#8a1c1c'},rgba(0,0,0,.28)),url("${u}")`;}}
+  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse','zoom','sparkle'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero"><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2></div><div class="evbody"><div class="evdate">📅 ${new Date(e.created_at).toLocaleDateString("pt-BR")}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div></article>`}).join("");
+  for(const e of a){const t=e.theme||{},card=document.querySelector(`[data-event-id="${e.id}"] .evhero`);if(card&&t.image){const u=String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m);card.style.backgroundImage=`linear-gradient(135deg,${t.color||'#8a1c1c'},rgba(0,0,0,.28)),url("${u}")`;}if(card&&t.icon){const tag=card.querySelector('.tg2');if(tag)tag.textContent=t.icon+" "+(e.type==="aviso"?"AVISO":"ENQUETE");}}
+  maybePresentEvent(a);
 }
 
 window.vote=async(id,i)=>{
@@ -901,7 +941,7 @@ function addOpt(){const box=$("eopts");if(box.children.length>=6)return;
   r.innerHTML=`<input type="text" maxlength="60" placeholder="Opção"><button type="button" class="btn ghost" aria-label="Remover opção">✕</button>`;
   r.querySelector("button").onclick=()=>{if(box.children.length>2)r.remove()};box.appendChild(r)
 }
-$("evbtn").onclick=()=>{if(!unlocked)return;$("etype").value="aviso";$("etitle").value="";$("etext").value="";$("ecolor").value="#8a1c1c";$("eanim").value="shine";$("etexture").value="paper";$("eimage").value="";$("emsg").textContent="";$("eopts").innerHTML="";addOpt();addOpt();togE();$("edlg").showModal()};
+$("evbtn").onclick=()=>{if(!unlocked)return;$("etype").value="aviso";$("etitle").value="";$("etext").value="";$("ecolor").value="#8a1c1c";$("eicon").value="🎉";$("eanim").value="zoom";$("etexture").value="paper";$("eimage").value="";$("epopup").checked=true;$("emsg").textContent="";$("eopts").innerHTML="";addOpt();addOpt();togE();$("edlg").showModal()};
 $("etype").onchange=togE;$("eadd").onclick=addOpt;$("ecancel").onclick=()=>$("edlg").close();
 
 $("eform").addEventListener("submit",async e=>{
@@ -912,7 +952,7 @@ $("eform").addEventListener("submit",async e=>{
   if(type==="opcoes"&&opts.length<2){m.textContent="Informe ao menos 2 opções.";return}
   try{
     const sb=await requireSB();
-    const theme={color:$('ecolor').value||'#8a1c1c',animation:$('eanim').value||'none',texture:$('etexture').value||'paper',image:$('eimage').value.trim()||null};
+    const theme={color:$('ecolor').value||'#8a1c1c',icon:$('eicon').value||'🎉',animation:$('eanim').value||'zoom',texture:$('etexture').value||'paper',image:$('eimage').value.trim()||null,popup:$('epopup').checked};
     const ins=await sb.from("events").insert({owner_id:me,type,title,text:text||null,theme}).select().single();
     if(ins.error)throw ins.error;
     if(type==="opcoes"){
