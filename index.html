@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V10 — Eventos e cartões compactos</title>
+<title>JornaTec V11 — Notícias e eventos aprimorados</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -213,14 +213,18 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   dialog input,dialog textarea,dialog select,#login .lfield input{font-size:16px}
 }
 @media(min-width:800px){main{max-width:1120px}}
-/* V10: cartões compactos horizontais */
-.item:not(.ev){display:flex;flex-direction:row;align-items:stretch;padding:8px;gap:10px;margin-bottom:8px}
-.item:not(.ev) .th{flex:0 0 112px;width:112px;height:88px;min-width:112px;aspect-ratio:auto;border-radius:7px}
-.item:not(.ev) .bd{flex:1;display:flex;flex-direction:column;min-width:0;padding:0 2px 2px}
-.item:not(.ev) .bd h2{font-size:1.08rem;line-height:1.25}
-.item:not(.ev) .bd .acts{margin-top:7px;padding-top:0}
+/* V11: cartões de notícias compactos sem deformar as capas */
+.item:not(.ev){display:flex;flex-direction:column;align-items:stretch;padding:0;gap:0;margin-bottom:0;min-width:0}
+.item:not(.ev) .th{flex:0 0 auto;width:100%;min-width:0;height:clamp(105px,16vw,155px);max-height:155px;aspect-ratio:16/9;border-radius:9px 9px 0 0;overflow:hidden}
+.item:not(.ev) .th img,.item:not(.ev) .th video{width:100%;height:100%;object-fit:cover;display:block}
+.item:not(.ev) .bd{flex:1;display:flex;flex-direction:column;min-width:0;padding:10px}
+.item:not(.ev) .bd h2{font:bold 1.02rem/1.25 Georgia,serif;overflow-wrap:anywhere}
+.item:not(.ev) .bd .acts{margin-top:8px;padding-top:0;gap:5px}
+.item:not(.ev) .bd .acts .btn{font-size:.76rem;padding:5px 8px;min-height:34px}
 .item:not(.ev) .fileline,.item:not(.ev) .hashline{overflow-wrap:anywhere}
-@media(max-width:600px){.item:not(.ev){padding:7px;gap:8px}.item:not(.ev) .th{flex-basis:82px;width:82px;min-width:82px;height:70px}.item:not(.ev) .bd h2{font-size:1rem}.item:not(.ev) .bd .acts .btn{font-size:.76rem;padding:5px 7px}}
+@media(max-width:600px){#list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}.item:not(.ev) .th{height:100px}.item:not(.ev) .bd{padding:8px}.item:not(.ev) .bd h2{font-size:.94rem}.item:not(.ev) .meta{font-size:.69rem}.item:not(.ev) .bd .acts .btn{font-size:.7rem;padding:5px 6px;min-height:32px}}
+@media(max-width:360px){#list{grid-template-columns:1fr!important}.item:not(.ev) .th{height:150px}}
+.ev-subtitle,.ep-subtitle{margin:.4rem 0 0;opacity:.9;font-size:.96rem;font-style:italic}.ep-cta{margin:8px 0 12px}.event-card:has(.evhero) .evhero h2{font-family:var(--event-font,Georgia,serif)}
 </style>
 </head>
 <body>
@@ -308,6 +312,11 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 <label>Tipo<select id="etype"><option value="aviso">Aviso</option><option value="opcoes">Enquete / escolha</option></select></label>
 <label>Título<input type="text" id="etitle" maxlength="80" required></label>
 <label>Texto (opcional)<textarea id="etext" maxlength="400" rows="3" placeholder="Conte o que vai acontecer..."></textarea></label>
+<label>Subtítulo / frase de destaque (opcional)<input type="text" id="esubtitle" maxlength="120" placeholder="Uma frase curta que chama atenção"></label>
+<label>Data de encerramento (opcional)<input type="date" id="eenddate"></label>
+<label>Texto do botão (opcional)<input type="text" id="ebutton" maxlength="32" placeholder="Ex.: Ver programação"></label>
+<label>Link do botão (opcional)<input type="url" id="elink" maxlength="500" placeholder="https://..."></label>
+<div class="acts"><label style="flex:1;min-width:130px">Estilo do título<select id="efont"><option value="serif">Editorial (serifado)</option><option value="sans">Moderno</option><option value="elegant">Elegante</option></select></label><label style="flex:1;min-width:130px">Intensidade visual<select id="eintensity"><option value="normal">Suave</option><option value="bold">Marcante</option><option value="glow">Brilho</option></select></label></div>
 <div class="acts"><label style="flex:1;min-width:130px">Data do evento<input type="date" id="edate"></label><label style="flex:1;min-width:110px">Horário<input type="time" id="etime"></label></div>
 <label>Local do evento (opcional)<input type="text" id="elocation" maxlength="120" placeholder="Ex.: Auditório da escola"></label>
 <label>Modo de apresentação<select id="edisplay"><option value="cinematic">Cinematográfico — tela cheia e animação</option><option value="normal">Normal — cartão de destaque</option></select></label>
@@ -901,8 +910,9 @@ function presentEvent(ev){
   if(!ev||!$("epresent")||$("epresent").open)return;
   const t=ev.theme||{},color=t.color||"#8a1c1c",icon=t.icon|| (ev.type==="opcoes"?"🗳️":"🎉");presentingEventId=ev.id;
   const stage=$("ep-stage");stage.className="ep-hero";$("epresent").classList.toggle("ep-normal",t.display==="normal");$("epresent").dataset.animation=t.animation||"zoom";stage.style.setProperty("--evc",color);stage.style.backgroundImage=t.image?`linear-gradient(135deg,${color}dd,rgba(0,0,0,.38)),url("${String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m)}")`:"linear-gradient(135deg,"+color+",color-mix(in srgb,"+color+" 45%,#111))";
-  stage.innerHTML=`<span class="ep-icon" aria-hidden="true">${esc(icon)}</span><span class="ep-kicker">${ev.type==="opcoes"?"Você está convidado a participar":"Evento escolar"}</span><h2 id="ep-title">${esc(ev.title)}</h2>`;
+  stage.innerHTML=`<span class="ep-icon" aria-hidden="true">${esc(icon)}</span><span class="ep-kicker">${ev.type==="opcoes"?"Você está convidado a participar":"Evento escolar"}</span><h2 id="ep-title">${esc(ev.title)}</h2>${t.subtitle?`<p class="ep-subtitle">${esc(t.subtitle)}</p>`:""}`;
   $("ep-date").textContent=[t.eventDate?"📅 "+new Date(t.eventDate+"T12:00:00").toLocaleDateString("pt-BR"):"",t.eventTime?"🕒 "+t.eventTime:"",t.location?"📍 "+t.location:"",(!t.eventDate&&!t.eventTime&&!t.location)?"Publicado em "+new Date(ev.created_at).toLocaleDateString("pt-BR"):""].filter(Boolean).join(" · ");$("ep-text").textContent=ev.text||"";$("ep-text").hidden=!ev.text;
+  if(t.buttonText&&t.buttonUrl){const a=document.createElement("a");a.className="btn ep-cta";a.href=t.buttonUrl;a.target="_blank";a.rel="noopener";a.textContent=t.buttonText;$("ep-options").appendChild(a)}
   const opts=ev.type==="opcoes"?(ev.opts||[]).map((o,i)=>`<button class="opt" style="width:100%;margin:5px 0" data-act="vote" data-id="${esc(ev.id)}" data-i="${i}"><span>${esc(o.t)}</span><span>Votar ›</span></button>`).join(""):"";
   $("ep-options").innerHTML=opts;$("epresent").style.setProperty("--evc",color);
   if(t.animation==="none")$("epresent").classList.add("no-motion");else $("epresent").classList.remove("no-motion");
@@ -922,7 +932,7 @@ async function drawE(){
   const ids=(events||[]).map(e=>e.id);let votes=[];if(ids.length){const r=await sb.from("event_votes").select("event_id,option_index").eq("user_id",me).in("event_id",ids);votes=r.data||[]}
   const mine=Object.fromEntries(votes.map(v=>[v.event_id,v.option_index]));const a=(events||[]).map(e=>({...e,theme:e.theme||{},opts:(e.event_options||[]).map(o=>({id:o.id,t:o.text,n:o.votes||0})),mine:mine[e.id]}));$("evs").hidden=!a.length;
   const textures={paper:'linear-gradient(135deg,rgba(255,255,255,.12),transparent 45%),repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 5px)',dots:'radial-gradient(rgba(255,255,255,.24) 1px,transparent 1px)',grid:'linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px)',waves:'repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.12) 0 2px,transparent 2px 12px)',none:'none'};
-  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse','zoom','sparkle'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero"><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2></div><div class="evbody"><div class="evdate">${t.eventDate?"📅 "+new Date(t.eventDate+"T12:00:00").toLocaleDateString("pt-BR"):"📅 "+new Date(e.created_at).toLocaleDateString("pt-BR")}${t.eventTime?" · 🕒 "+esc(t.eventTime):""}${t.location?" · 📍 "+esc(t.location):""}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div></article>`}).join("");
+  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse','zoom','sparkle'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero"><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2>${t.subtitle?`<p class="ev-subtitle">${esc(t.subtitle)}</p>`:""}</div><div class="evbody"><div class="evdate">${t.eventDate?"📅 "+new Date(t.eventDate+"T12:00:00").toLocaleDateString("pt-BR"):"📅 "+new Date(e.created_at).toLocaleDateString("pt-BR")}${t.eventTime?" · 🕒 "+esc(t.eventTime):""}${t.eventEndDate?" · Até "+new Date(t.eventEndDate+"T12:00:00").toLocaleDateString("pt-BR"):""}${t.location?" · 📍 "+esc(t.location):""}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:""}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div></article>`}).join("");
   for(const e of a){const t=e.theme||{},card=document.querySelector(`[data-event-id="${e.id}"] .evhero`);if(card&&t.image){const u=String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m);card.style.backgroundImage=`linear-gradient(135deg,${t.color||'#8a1c1c'},rgba(0,0,0,.28)),url("${u}")`;}if(card&&t.icon){const tag=card.querySelector('.tg2');if(tag)tag.textContent=t.icon+" "+(e.type==="aviso"?"AVISO":"ENQUETE");}}
   maybePresentEvent(a);
 }
@@ -952,7 +962,7 @@ function addOpt(){const box=$("eopts");if(box.children.length>=6)return;
   r.innerHTML=`<input type="text" maxlength="60" placeholder="Opção"><button type="button" class="btn ghost" aria-label="Remover opção">✕</button>`;
   r.querySelector("button").onclick=()=>{if(box.children.length>2)r.remove()};box.appendChild(r)
 }
-$("evbtn").onclick=()=>{if(!unlocked)return;$("etype").value="aviso";$("etitle").value="";$("etext").value="";$("edate").value="";$("etime").value="";$("elocation").value="";$("edisplay").value="cinematic";$("ecolor").value="#8a1c1c";$("eicon").value="🎉";$("eanim").value="zoom";$("etexture").value="paper";$("eimage").value="";$("epopup").checked=true;$("emsg").textContent="";$("eopts").innerHTML="";addOpt();addOpt();togE();$("edlg").showModal()};
+$("evbtn").onclick=()=>{if(!unlocked)return;$("etype").value="aviso";$("etitle").value="";$("etext").value="";$("esubtitle").value="";$("eenddate").value="";$("ebutton").value="";$("elink").value="";$("efont").value="serif";$("eintensity").value="normal";$("edate").value="";$("etime").value="";$("elocation").value="";$("edisplay").value="cinematic";$("ecolor").value="#8a1c1c";$("eicon").value="🎉";$("eanim").value="zoom";$("etexture").value="paper";$("eimage").value="";$("epopup").checked=true;$("emsg").textContent="";$("eopts").innerHTML="";addOpt();addOpt();togE();$("edlg").showModal()};
 $("etype").onchange=togE;$("eadd").onclick=addOpt;$("ecancel").onclick=()=>$("edlg").close();
 
 $("eform").addEventListener("submit",async e=>{
@@ -963,7 +973,7 @@ $("eform").addEventListener("submit",async e=>{
   if(type==="opcoes"&&opts.length<2){m.textContent="Informe ao menos 2 opções.";return}
   try{
     const sb=await requireSB();
-    const theme={color:$('ecolor').value||'#8a1c1c',icon:$('eicon').value||'🎉',animation:$('eanim').value||'zoom',texture:$('etexture').value||'paper',image:$('eimage').value.trim()||null,popup:$('epopup').checked,display:$('edisplay').value||'cinematic',eventDate:$('edate').value||null,eventTime:$('etime').value||null,location:$('elocation').value.trim()||null};
+    const theme={color:$('ecolor').value||'#8a1c1c',icon:$('eicon').value||'🎉',animation:$('eanim').value||'zoom',texture:$('etexture').value||'paper',image:$('eimage').value.trim()||null,popup:$('epopup').checked,display:$('edisplay').value||'cinematic',eventDate:$('edate').value||null,eventEndDate:$('eenddate').value||null,eventTime:$('etime').value||null,location:$('elocation').value.trim()||null,subtitle:$('esubtitle').value.trim()||null,buttonText:$('ebutton').value.trim()||null,buttonUrl:$('elink').value.trim()||null,font:$('efont').value||'serif',intensity:$('eintensity').value||'normal'};
     const ins=await sb.from("events").insert({owner_id:me,type,title,text:text||null,theme}).select().single();
     if(ins.error)throw ins.error;
     if(type==="opcoes"){
