@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V11 — Notícias e eventos aprimorados</title>
+<title>JornaTec V12 — Editor de eventos organizado</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -225,6 +225,30 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 @media(max-width:600px){#list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}.item:not(.ev) .th{height:100px}.item:not(.ev) .bd{padding:8px}.item:not(.ev) .bd h2{font-size:.94rem}.item:not(.ev) .meta{font-size:.69rem}.item:not(.ev) .bd .acts .btn{font-size:.7rem;padding:5px 6px;min-height:32px}}
 @media(max-width:360px){#list{grid-template-columns:1fr!important}.item:not(.ev) .th{height:150px}}
 .ev-subtitle,.ep-subtitle{margin:.4rem 0 0;opacity:.9;font-size:.96rem;font-style:italic}.ep-cta{margin:8px 0 12px}.event-card:has(.evhero) .evhero h2{font-family:var(--event-font,Georgia,serif)}
+
+/* Editor de eventos: formulário organizado por etapas */
+#edlg.event-editor{width:min(760px,calc(100% - 24px));max-width:760px;max-height:92vh;overflow:auto;padding:0}
+#eform{padding:18px;display:flex;flex-direction:column;gap:12px}
+.event-editor-head{margin:0 0 2px;padding:2px 0 12px;border-bottom:1px solid var(--line);text-align:left}
+.event-editor-head h2{font:700 1.65rem/1.2 Georgia,serif;margin:5px 0}
+.event-editor-head p{color:var(--muted);margin:0;font-size:.9rem}
+.event-kicker{font-size:.72rem;letter-spacing:.12em;font-weight:800;color:var(--accent)}
+.event-section{border:1px solid var(--line);border-radius:12px;padding:14px;margin:0;min-width:0}
+.event-section legend{padding:0 8px;font-weight:800;font-size:.98rem}
+.event-section legend span{display:inline-grid;place-items:center;background:var(--accent);color:var(--accent-ink);width:26px;height:26px;border-radius:50%;font-size:.75rem;margin-right:6px}
+.event-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+#edlg label{display:block;font-size:.86rem;color:var(--muted);min-width:0}
+#edlg input:not([type=checkbox]),#edlg select,#edlg textarea{display:block;width:100%;max-width:100%;padding:9px 10px;margin:5px 0 0;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+#edlg input[type=color]{height:42px;padding:3px}
+#edlg textarea{resize:vertical}
+.event-grid .wide{grid-column:1/-1}
+.event-check{display:flex!important;align-items:flex-start;gap:10px;margin-top:12px;color:var(--ink)!important;background:var(--bg);border-radius:9px;padding:11px}
+.event-check input{width:19px;height:19px;flex:0 0 auto;margin:3px 0 0}
+.event-check small{display:block;color:var(--muted);font-weight:400;line-height:1.4;margin-top:3px}
+.event-actions{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 0 2px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#eoptw{margin-top:12px}#eopts .orow{display:flex;gap:8px;align-items:center}#eopts .orow input{flex:1;min-width:0}
+@media(max-width:560px){#eform{padding:13px}.event-grid{grid-template-columns:1fr}.event-grid .wide{grid-column:auto}.event-section{padding:11px}.event-actions .btn{flex:1}.event-editor-head h2{font-size:1.4rem}}
+
 </style>
 </head>
 <body>
@@ -308,26 +332,32 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 </form></dialog>
 <dialog id="qdlg"><form method="dialog"><p id="qmsg"></p><div class="acts"><button class="btn" value="ok">Confirmar</button><button class="btn ghost" value="no">Cancelar</button></div></form></dialog>
 <dialog id="epresent" aria-labelledby="ep-title"><div id="ep-stage"></div><div class="ep-content"><div class="ep-date" id="ep-date"></div><p class="ep-text" id="ep-text"></p><div id="ep-options"></div><div class="ep-footer"><button class="btn ghost" type="button" id="ep-later">Fechar</button></div></div></dialog>
-<dialog id="edlg"><form id="eform">
-<label>Tipo<select id="etype"><option value="aviso">Aviso</option><option value="opcoes">Enquete / escolha</option></select></label>
-<label>Título<input type="text" id="etitle" maxlength="80" required></label>
-<label>Texto (opcional)<textarea id="etext" maxlength="400" rows="3" placeholder="Conte o que vai acontecer..."></textarea></label>
-<label>Subtítulo / frase de destaque (opcional)<input type="text" id="esubtitle" maxlength="120" placeholder="Uma frase curta que chama atenção"></label>
-<label>Data de encerramento (opcional)<input type="date" id="eenddate"></label>
-<label>Texto do botão (opcional)<input type="text" id="ebutton" maxlength="32" placeholder="Ex.: Ver programação"></label>
-<label>Link do botão (opcional)<input type="url" id="elink" maxlength="500" placeholder="https://..."></label>
-<div class="acts"><label style="flex:1;min-width:130px">Estilo do título<select id="efont"><option value="serif">Editorial (serifado)</option><option value="sans">Moderno</option><option value="elegant">Elegante</option></select></label><label style="flex:1;min-width:130px">Intensidade visual<select id="eintensity"><option value="normal">Suave</option><option value="bold">Marcante</option><option value="glow">Brilho</option></select></label></div>
-<div class="acts"><label style="flex:1;min-width:130px">Data do evento<input type="date" id="edate"></label><label style="flex:1;min-width:110px">Horário<input type="time" id="etime"></label></div>
-<label>Local do evento (opcional)<input type="text" id="elocation" maxlength="120" placeholder="Ex.: Auditório da escola"></label>
-<label>Modo de apresentação<select id="edisplay"><option value="cinematic">Cinematográfico — tela cheia e animação</option><option value="normal">Normal — cartão de destaque</option></select></label>
-<div class="acts" style="align-items:center"><label style="flex:1">Cor principal<input id="ecolor" type="color" value="#8a1c1c"></label><label style="flex:1">Ícone do evento<select id="eicon"><option value="🎉">🎉 Celebração</option><option value="📣">📣 Comunicado</option><option value="📅">📅 Data importante</option><option value="🏆">🏆 Conquista</option><option value="🎓">🎓 Escolar</option><option value="🎭">🎭 Cultural</option><option value="⚡">⚡ Urgente</option><option value="🗳️">🗳️ Enquete</option><option value="✨">✨ Especial</option><option value="🎨">🎨 Personalizado</option></select></label></div>
-<label>Efeito visual<select id="eanim"><option value="zoom">Entrada cinematográfica</option><option value="shine">Brilho passando</option><option value="sparkle">Brilhos mágicos</option><option value="pulse">Pulso luminoso</option><option value="float">Flutuação suave</option><option value="none">Sem animação</option></select></label>
+<dialog id="edlg" class="event-editor"><form id="eform">
+<header class="event-editor-head"><span class="event-kicker">CENTRAL DE EVENTOS</span><h2> Criar evento </h2><p>Monte o anúncio por etapas. Os campos opcionais podem ficar em branco.</p></header>
+<fieldset class="event-section"><legend><span>01</span> Informações principais</legend>
+<div class="event-grid"><label>Tipo de publicação<select id="etype"><option value="aviso">Evento / aviso</option><option value="opcoes">Enquete / escolha</option></select></label>
+<label>Título do evento<input type="text" id="etitle" maxlength="80" required placeholder="Ex.: Feira de profissões"></label>
+<label class="wide">Frase de destaque (opcional)<input type="text" id="esubtitle" maxlength="120" placeholder="Uma frase curta que chama atenção"></label>
+<label class="wide">Descrição<textarea id="etext" maxlength="400" rows="3" placeholder="O que vai acontecer? Para quem é o evento?"></textarea></label></div>
+<div id="eoptw" hidden><b>Opções da enquete (de 2 a 6)</b><div id="eopts"></div><button type="button" class="btn ghost" id="eadd">+ Adicionar opção</button></div>
+</fieldset>
+<fieldset class="event-section"><legend><span>02</span> Data e local</legend>
+<div class="event-grid"><label>Data do evento<input type="date" id="edate"></label><label>Horário<input type="time" id="etime"></label><label>Data de encerramento (opcional)<input type="date" id="eenddate"></label><label>Local (opcional)<input type="text" id="elocation" maxlength="120" placeholder="Auditório, quadra..."></label></div></fieldset>
+<fieldset class="event-section"><legend><span>03</span> Aparência</legend>
+<div class="event-grid"><label>Modo de apresentação<select id="edisplay"><option value="cinematic">Cinematográfico — tela cheia</option><option value="normal">Normal — cartão de destaque</option></select></label>
+<label>Ícone do evento<select id="eicon"><option value="🎉">🎉 Celebração</option><option value="📣">📣 Comunicado</option><option value="📅">📅 Data importante</option><option value="🏆">🏆 Conquista</option><option value="🎓">🎓 Escolar</option><option value="🎭">🎭 Cultural</option><option value="⚡">⚡ Urgente</option><option value="🗳️">🗳️ Enquete</option><option value="✨">✨ Especial</option><option value="🎨">🎨 Criativo</option></select></label>
+<label>Cor principal<input id="ecolor" type="color" value="#8a1c1c"></label>
+<label>Efeito de animação<select id="eanim"><option value="zoom">Entrada cinematográfica</option><option value="shine">Brilho passando</option><option value="sparkle">Brilhos mágicos</option><option value="pulse">Pulso luminoso</option><option value="float">Flutuação suave</option><option value="none">Sem animação</option></select></label>
 <label>Textura do fundo<select id="etexture"><option value="paper">Papel</option><option value="dots">Pontos</option><option value="grid">Grade</option><option value="waves">Ondas</option><option value="none">Lisa</option></select></label>
-<label>Imagem de capa (opcional)<input type="url" id="eimage" maxlength="500" placeholder="https://.../imagem.jpg"></label>
-<label style="display:flex;align-items:flex-start;gap:9px;color:var(--ink);margin:10px 0"><input id="epopup" type="checkbox" checked style="width:20px;height:20px;margin:2px 0;flex-shrink:0"><span><b>Apresentar como evento especial na tela</b><small style="display:block;color:var(--muted)">Abre uma janela grande com animação para cada visitante, uma vez por navegador.</small></span></label>
-<div id="eoptw" hidden><b>Opções (de 2 a 6)</b><div id="eopts"></div><button type="button" class="btn ghost" id="eadd">Adicionar opção</button></div>
+<label>Estilo do título<select id="efont"><option value="serif">Editorial (serifado)</option><option value="sans">Moderno</option><option value="elegant">Elegante</option></select></label>
+<label>Intensidade visual<select id="eintensity"><option value="normal">Suave</option><option value="bold">Marcante</option><option value="glow">Brilho</option></select></label>
+<label class="wide">Imagem de capa (opcional)<input type="url" id="eimage" maxlength="500" placeholder="https://.../imagem.jpg"></label></div></fieldset>
+<fieldset class="event-section"><legend><span>04</span> Ação e exibição</legend>
+<div class="event-grid"><label>Texto do botão (opcional)<input type="text" id="ebutton" maxlength="32" placeholder="Ex.: Ver programação"></label><label>Link do botão (opcional)<input type="url" id="elink" maxlength="500" placeholder="https://..."></label></div>
+<label class="event-check"><input id="epopup" type="checkbox" checked><span><b>Apresentar como evento especial</b><small>Mostra uma janela de destaque para visitantes. Pode ser cinematográfica ou normal, conforme o modo escolhido.</small></span></label>
+</fieldset>
 <p id="emsg" role="alert" style="color:var(--accent);min-height:1.3em;font-size:.88rem"></p>
-<div class="acts"><button class="btn" type="submit">Publicar evento</button><button class="btn ghost" type="button" id="ecancel">Cancelar</button></div>
+<div class="event-actions"><button class="btn" type="submit">Publicar evento</button><button class="btn ghost" type="button" id="ecancel">Cancelar</button></div>
 </form></dialog>
 <dialog id="cdlg"><div>
 <b>Categorias</b>
