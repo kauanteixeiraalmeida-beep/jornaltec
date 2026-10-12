@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V13 — Eventos com imagem do dispositivo</title>
+<title>JornaTec V17 — Personalização ampliada</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -292,6 +292,18 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 @media(max-width:560px){#eform{padding:13px}.event-grid{grid-template-columns:1fr}.event-grid .wide{grid-column:auto}.event-section{padding:11px}.event-actions .btn{flex:1}.event-editor-head h2{font-size:1.4rem}}
 
 .cover-pick{border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:5px}.cover-pick input[type=file]{width:100%;max-width:100%;font-size:.9rem}.cover-pick small{display:block;color:var(--muted);margin-top:5px}.cover-preview{margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.cover-preview img{width:110px;height:78px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+
+/* V17 — preferências pessoais adicionais */
+body.density-compact .item{padding:8px;gap:6px}body.density-compact .item .th{width:86px;min-width:86px;height:70px;max-height:70px}body.density-compact .item h2{font-size:1rem}body.density-compact .item .acts .btn{padding:5px 7px;font-size:.78rem}
+body.density-comfortable .item{padding:18px;gap:12px}body.density-comfortable .item .th{width:132px;min-width:132px;height:108px;max-height:108px}
+body.cards-flat .item{box-shadow:none!important;border-color:transparent;border-bottom:1px solid var(--line);border-radius:4px!important}
+body.cards-lift .item{box-shadow:0 8px 24px #0002!important;transform:translateY(0);transition:transform .18s ease,box-shadow .18s ease}body.cards-lift .item:hover{transform:translateY(-2px);box-shadow:0 12px 28px #0003!important}
+body.cards-outline .item{border:2px solid var(--accent)!important;box-shadow:none!important}
+body.accent-soft .btn:not(.ghost){background:color-mix(in srgb,var(--accent) 78%,var(--surface));}
+body.accent-bold .btn:not(.ghost){font-weight:800;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 65%,#000)}
+body.personal-reduced-motion *,body.personal-reduced-motion *::before,body.personal-reduced-motion *::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+body.personal-no-motion *,body.personal-no-motion *::before,body.personal-no-motion *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+@media(max-width:480px){body.density-comfortable .item .th{width:100px;min-width:100px;height:84px;max-height:84px}}
 </style>
 </head>
 <body>
@@ -839,6 +851,10 @@ supabaseClient?.auth.onAuthStateChange((event,session)=>{
 const SORTS={new:(a,b)=>b.date-a.date,old:(a,b)=>a.date-b.date,az:(a,b)=>a.title.localeCompare(b.title,"pt-BR")};
 const FONTS=[["","Padrão"],["Georgia,'Times New Roman',serif","Clássica"],["system-ui,sans-serif","Moderna"],["'Palatino Linotype',Palatino,'Book Antiqua',serif","Elegante"],["ui-monospace,Menlo,Consolas,monospace","Máquina de escrever"],["'Trebuchet MS',ui-rounded,sans-serif","Arredondada"],["Impact,'Arial Black',sans-serif","Manchete"],["'Brush Script MT','Segoe Script',cursive","Manuscrita"]];
 const CTRL=[
+["Experiência pessoal","density","sel","Densidade da interface",[["","Padrão"],["compact","Compacta"],["comfortable","Confortável"]]],
+["Experiência pessoal","motion","sel","Animações da interface",[["","Padrão do dispositivo"],["on","Ativadas"],["off","Reduzidas"],["none","Desativadas"]]],
+["Experiência pessoal","focus","sel","Estilo dos cartões",[["","Padrão"],["flat","Minimalista"],["lift","Elevado"],["outline","Contornado"]]],
+["Experiência pessoal","accentStyle","sel","Formato dos destaques",[["","Padrão"],["soft","Suave"],["bold","Forte"]]],
 ["Texto","tag","text","Subtítulo"],
 ["Texto","hfont","sel","Fonte dos títulos",FONTS],
 ["Texto","bfont","sel","Fonte do texto",FONTS],
@@ -893,6 +909,11 @@ function applyP(){
   if(p.cols)r.setProperty("--gtc","repeat("+p.cols+",minmax(0,1fr))");
   if(p.hfont)b.classList.add("pfh");if(p.bfont)b.classList.add("pfb");
   if(p.shadow)b.classList.add("sh");
+  if(p.density)b.classList.add("density-"+p.density);
+  if(p.focus)b.classList.add("cards-"+p.focus);
+  if(p.accentStyle)b.classList.add("accent-"+p.accentStyle);
+  if(p.motion==="off"||p.motion==="none")b.classList.add("personal-reduced-motion");
+  if(p.motion==="none")b.classList.add("personal-no-motion");
   ["nodate","nohash","nofile","noguard","nofeat","noevs"].forEach(k=>{if(p[k])b.classList.add(k)});
   $("tag").textContent=p.tag||"";
 }
