@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V17 — Personalização ampliada</title>
+<title>JornaTec V18 — Interface organizada</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -293,17 +293,38 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 
 .cover-pick{border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:5px}.cover-pick input[type=file]{width:100%;max-width:100%;font-size:.9rem}.cover-pick small{display:block;color:var(--muted);margin-top:5px}.cover-preview{margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.cover-preview img{width:110px;height:78px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
 
-/* V17 — preferências pessoais adicionais */
-body.density-compact .item{padding:8px;gap:6px}body.density-compact .item .th{width:86px;min-width:86px;height:70px;max-height:70px}body.density-compact .item h2{font-size:1rem}body.density-compact .item .acts .btn{padding:5px 7px;font-size:.78rem}
-body.density-comfortable .item{padding:18px;gap:12px}body.density-comfortable .item .th{width:132px;min-width:132px;height:108px;max-height:108px}
-body.cards-flat .item{box-shadow:none!important;border-color:transparent;border-bottom:1px solid var(--line);border-radius:4px!important}
-body.cards-lift .item{box-shadow:0 8px 24px #0002!important;transform:translateY(0);transition:transform .18s ease,box-shadow .18s ease}body.cards-lift .item:hover{transform:translateY(-2px);box-shadow:0 12px 28px #0003!important}
-body.cards-outline .item{border:2px solid var(--accent)!important;box-shadow:none!important}
-body.accent-soft .btn:not(.ghost){background:color-mix(in srgb,var(--accent) 78%,var(--surface));}
-body.accent-bold .btn:not(.ghost){font-weight:800;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 65%,#000)}
-body.personal-reduced-motion *,body.personal-reduced-motion *::before,body.personal-reduced-motion *::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
-body.personal-no-motion *,body.personal-no-motion *::before,body.personal-no-motion *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
-@media(max-width:480px){body.density-comfortable .item .th{width:100px;min-width:100px;height:84px;max-height:84px}}
+/* V18: organização visual e navegação */
+:root{scroll-behavior:smooth}
+main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12px,2.5vw,28px)}
+.topbar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 0;flex-wrap:wrap}
+.app-quicknav{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.app-quicknav a{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:.88rem;border:1px solid transparent}
+.app-quicknav a:hover,.app-quicknav a:focus-visible{background:var(--bg);border-color:var(--line)}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 10px}
+.section-heading h3{margin:0}
+#list{align-items:stretch}
+#list .item{min-width:0}
+#pdlg{max-width:760px;width:min(760px,calc(100% - 24px));max-height:90dvh}
+#pdlg #pbody{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start}
+#pdlg #pbody>h3{grid-column:1/-1;margin:8px 0 0;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:9px}
+#pdlg #pbody>details.pref-group{grid-column:1/-1;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--surface)}
+#pdlg #pbody>details.pref-group>summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:750;background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:12px}
+#pdlg #pbody>details.pref-group>summary::-webkit-details-marker{display:none}
+#pdlg #pbody>details.pref-group>summary:after{content:'＋';font-size:1.1rem;color:var(--muted)}
+#pdlg #pbody>details.pref-group[open]>summary:after{content:'−'}
+#pdlg .pref-content{padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px}
+#pdlg .pref-content>label{min-width:0;margin:0}
+#pdlg .pref-content>label.chk{align-self:center;min-height:40px}
+#pdlg .pref-themes{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap}
+#pdlg .pref-themes button{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:7px 10px}
+#pdlg .pref-intro{grid-column:1/-1;color:var(--muted);margin:0;font-size:.88rem}
+#edlg{max-width:780px;width:min(780px,calc(100% - 20px));max-height:92dvh;overflow:auto}
+.event-editor-head{position:sticky;top:-1px;z-index:2;background:var(--surface);padding:10px 0}
+.event-section{margin-bottom:12px}
+#pub{scroll-margin-top:70px}#evs,#feat,#list,#tabs{scroll-margin-top:70px}
+@media(max-width:650px){main{padding:10px 10px 84px}.app-quicknav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.app-quicknav a{justify-content:center;padding:9px 5px}.topbar{position:relative}#pdlg #pbody{grid-template-columns:1fr}#pdlg .pref-content{grid-template-columns:1fr}#edlg{padding:14px}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
@@ -326,6 +347,7 @@ body.personal-no-motion *,body.personal-no-motion *::before,body.personal-no-mot
 </form></section>
 <main id="app" hidden>
   <div class="topbar"><span id="today"></span><span class="grow"></span><span id="who"></span><button class="btn ghost" id="notifyBtn" type="button" aria-label="Notificações">🔔<span id="nbadge" class="nbadge">0</span></button><button class="btn ghost" data-go="#pub">Publicar</button><button class="btn ghost" id="custom">Personalizar</button><button class="btn ghost" id="logout">Sair</button></div>
+  <nav class="app-quicknav" aria-label="Navegação rápida"><a href="#feat">⭐ Destaques</a><a href="#evs">📣 Eventos</a><a href="#lh">📰 Notícias</a><a href="#pub-heading">⬆ Publicação</a><a href="#custom" id="quick-custom">🎨 Personalização</a></nav>
   <header class="mast"><h1 id="mast">JornaTec</h1><div class="date" id="tag"></div>
     <div class="sbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Buscar notícia" aria-label="Buscar notícia"></div></header>
   <nav class="tabs" id="tabs" aria-label="Categorias"></nav>
@@ -338,7 +360,7 @@ body.personal-no-motion *,body.personal-no-motion *::before,body.personal-no-mot
   </div>
   <h3 class="sh3" id="lh">Últimas notícias</h3>
   <div id="list"></div>
-  <h3 class="sh3" style="margin-top:28px">Área de publicação</h3>
+  <h3 class="sh3" id="pub-heading" style="margin-top:28px">Área de publicação</h3>
   <div class="guard" id="gnote">Os arquivos são guardados byte a byte, exatamente como foram enviados. Nada é convertido, comprimido ou editado. A impressão digital (SHA-256) de cada arquivo comprova isso.</div>
   <section id="pub" aria-label="Área de publicação">
     <div id="plocked" class="guard"><b>Área de publicação protegida</b><br>Para adicionar documentos, crie uma senha de publicação no primeiro acesso.
@@ -851,10 +873,6 @@ supabaseClient?.auth.onAuthStateChange((event,session)=>{
 const SORTS={new:(a,b)=>b.date-a.date,old:(a,b)=>a.date-b.date,az:(a,b)=>a.title.localeCompare(b.title,"pt-BR")};
 const FONTS=[["","Padrão"],["Georgia,'Times New Roman',serif","Clássica"],["system-ui,sans-serif","Moderna"],["'Palatino Linotype',Palatino,'Book Antiqua',serif","Elegante"],["ui-monospace,Menlo,Consolas,monospace","Máquina de escrever"],["'Trebuchet MS',ui-rounded,sans-serif","Arredondada"],["Impact,'Arial Black',sans-serif","Manchete"],["'Brush Script MT','Segoe Script',cursive","Manuscrita"]];
 const CTRL=[
-["Experiência pessoal","density","sel","Densidade da interface",[["","Padrão"],["compact","Compacta"],["comfortable","Confortável"]]],
-["Experiência pessoal","motion","sel","Animações da interface",[["","Padrão do dispositivo"],["on","Ativadas"],["off","Reduzidas"],["none","Desativadas"]]],
-["Experiência pessoal","focus","sel","Estilo dos cartões",[["","Padrão"],["flat","Minimalista"],["lift","Elevado"],["outline","Contornado"]]],
-["Experiência pessoal","accentStyle","sel","Formato dos destaques",[["","Padrão"],["soft","Suave"],["bold","Forte"]]],
 ["Texto","tag","text","Subtítulo"],
 ["Texto","hfont","sel","Fonte dos títulos",FONTS],
 ["Texto","bfont","sel","Fonte do texto",FONTS],
@@ -909,11 +927,6 @@ function applyP(){
   if(p.cols)r.setProperty("--gtc","repeat("+p.cols+",minmax(0,1fr))");
   if(p.hfont)b.classList.add("pfh");if(p.bfont)b.classList.add("pfb");
   if(p.shadow)b.classList.add("sh");
-  if(p.density)b.classList.add("density-"+p.density);
-  if(p.focus)b.classList.add("cards-"+p.focus);
-  if(p.accentStyle)b.classList.add("accent-"+p.accentStyle);
-  if(p.motion==="off"||p.motion==="none")b.classList.add("personal-reduced-motion");
-  if(p.motion==="none")b.classList.add("personal-no-motion");
   ["nodate","nohash","nofile","noguard","nofeat","noevs"].forEach(k=>{if(p[k])b.classList.add(k)});
   $("tag").textContent=p.tag||"";
 }
@@ -926,8 +939,15 @@ function ctl(c){
   return`<label class="chk"><input type="checkbox" ${a}> ${lab}</label>`;
 }
 function buildP(){
-  let h=`<h3>Temas prontos</h3><div class="tabs">${Object.keys(THEMES).map(n=>`<button type="button" data-t="${n}">${n}</button>`).join("")}</div>`,sec="";
-  CTRL.forEach(c=>{if(c[0]!==sec){sec=c[0];h+=`<h3>${sec}</h3>`}h+=ctl(c)});
+  const groups=new Map();
+  CTRL.forEach(c=>{if(!groups.has(c[0]))groups.set(c[0],[]);groups.get(c[0]).push(c)});
+  const icons={"Experiência pessoal":"⚙️","Texto":"🔤","Cores":"🎨","Layout":"📐","Estilo":"🧩","Exibir":"👁️","Ordem":"↕️"};
+  let h=`<div class="pref-intro"><b>Personalização pessoal</b><br>As mudanças são salvas nesta conta e não alteram a aparência dos outros usuários. Abra uma seção para encontrar os controles.</div>`;
+  h+=`<details class="pref-group" open><summary>🎨 Temas prontos</summary><div class="pref-content"><div class="pref-themes">${Object.keys(THEMES).map(n=>`<button type="button" data-t="${n}">${n}</button>`).join("")}</div></div></details>`;
+  for(const [name,items] of groups){
+    const open=name==="Experiência pessoal"||name==="Cores";
+    h+=`<details class="pref-group" ${open?"open":""}><summary>${icons[name]||"⚙️"} ${name}<span class="meta">${items.length} opções</span></summary><div class="pref-content">${items.map(ctl).join("")}</div></details>`;
+  }
   $("pbody").innerHTML=h;
 }
 function fillP(){
@@ -946,6 +966,9 @@ $("pbody").addEventListener("input",e=>{
   const c=CTRL.find(x=>x[1]===k),p=getP(),v=el.type==="checkbox"?(el.checked?"1":""):el.value;
   if(v===""||(c[2]==="rng"&&Number(v)===c[7]))delete p[k];else p[k]=v;
   setP(p);applyP();refresh();
+  const dlg=$("pdlg");let status=dlg.querySelector(".pref-save-status");
+  if(!status){status=document.createElement("p");status.className="pref-save-status meta";status.setAttribute("role","status");status.style.margin="8px 0";dlg.querySelector(".st").before(status)}
+  status.textContent="Preferência salva nesta conta.";
 });
 $("pbody").addEventListener("click",e=>{
   const n=e.target.dataset&&e.target.dataset.t;if(!n)return;
