@@ -232,7 +232,10 @@ header.mast{padding:16px 0 14px;margin:0}
 .btabs button{flex:1;background:none;border:0;color:var(--muted);padding:13px 4px;font:600 .75rem system-ui,sans-serif;cursor:pointer}
 main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 @media(min-width:800px){.btabs{display:none}main{padding-bottom:60px}}
-#vbody video{display:block;width:min(100%,1200px);height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;background:#080808;margin:0 auto 18px}
+#vbody video{display:block;width:min(100%,1000px);height:auto;max-height:70vh;aspect-ratio:auto;object-fit:contain;background:#080808;margin:0 auto 18px;transform-origin:top center;transition:transform .12s ease}
+#vbody .video-zoom-stage{width:100%;max-height:72vh;overflow:auto;display:block;padding:8px;box-sizing:border-box}
+#vbody .video-zoom-stage video{max-width:100%;max-height:68vh}
+@media(max-width:600px){#vbody .video-zoom-stage{max-height:65vh;padding:4px}#vbody .video-zoom-stage video{max-height:60vh}}
 #vbody audio{display:block;width:min(96%,900px);height:64px;margin:24px auto}
 #vbody .media-stage{width:100%;min-height:65vh;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:clamp(8px,2vw,24px);gap:12px}
 #vbody .doc-preview{width:min(100%,1100px);min-height:65vh;margin:0 auto;padding:clamp(18px,4vw,48px);background:#fff;color:#222;box-shadow:0 2px 14px #0002;white-space:pre-wrap;overflow-wrap:anywhere;font:16px/1.65 system-ui,sans-serif}
@@ -547,8 +550,7 @@ async function refresh(){
     const q=$("q").value.trim().toLowerCase();
     const list=docs.filter(d=>(section==="Todas"||(d.section||"Geral")===section)&&(!q||(d.title+" "+d.name).toLowerCase().includes(q)));
     $("list").innerHTML=list.length?list.map(d=>`<div class="item" role="button" tabindex="0" data-act="view" data-id="${d.id}" aria-label="Abrir ${esc(d.title)}"><div class="th${kind(d)==="video"?" pv":""}" data-tid="${d.id}">${kind(d)==="img"?"":kind(d)==="video"?"▶":esc(d.name.split(".").pop().toUpperCase().slice(0,5))}</div><div class="bd"><span class="tagc">${esc(d.section||"Geral")}</span><h2>${esc(d.title)}</h2>
-      <div class="meta">${new Date(d.date).toLocaleDateString("pt-BR")}<span class="fileline"> · ${esc(d.name)} · ${size(d.size)}</span></div>
-      ${d.hash?`<div class="meta hashline">SHA-256: ${d.hash.slice(0,16)}…</div>`:""}
+      <div class="meta">${new Date(d.date).toLocaleDateString("pt-BR")}</div>
       <div class="acts"><button class="btn ghost" data-act="view" data-id="${d.id}">Abrir jornal</button>
       <button class="btn ghost" data-act="dl" data-id="${d.id}">Baixar original</button>
       <button class="btn ghost" data-act="viewc" data-id="${d.id}">Comentários (0)</button>
@@ -614,6 +616,8 @@ function setZoom(z){
     const c=w.querySelector("canvas");
     if(c)c.style.transform=`scale(${pdfZoom})`;
   });
+  const vid=$("vbody").querySelector("video");
+  if(vid){vid.style.transform=`scale(${pdfZoom})`;vid.style.maxWidth=`${100*pdfZoom}%`;vid.style.maxHeight=`${Math.round(68*pdfZoom)}vh`;vid.style.marginBottom=`${Math.max(18,18*pdfZoom)}px`}
   const img=$("vbody").querySelector("img");
   if(img){
     const bw=Number(img.dataset.baseW||img.naturalWidth||0),bh=Number(img.dataset.baseH||img.naturalHeight||0);
@@ -685,7 +689,7 @@ window.view=async(id,cm)=>{
       };
     }
     else if(k==="video"||k==="audio"){
-      b.innerHTML=`<div class="media-stage"><p class="viewer-hint">${esc(d.name)} · Reprodução do arquivo original, sem recompressão pelo JornaTec.</p><${k} controls playsinline preload="metadata" controlsList="nodownload" src="${curURL}"></${k}></div>`;
+      b.innerHTML=`<div class="media-stage"><p class="viewer-hint">Reprodução do arquivo original, sem recompressão pelo JornaTec.</p>${k==="video"?`<div class="video-zoom-stage"><video controls playsinline preload="metadata" controlsList="nodownload" src="${curURL}"></video></div>`:`<audio controls preload="metadata" controlsList="nodownload" src="${curURL}"></audio>`}</div>`;
       const player=b.querySelector(k);
       player.onerror=()=>{b.innerHTML=`<div class="novw"><p><b>${esc(d.name)}</b></p><p>Este navegador não conseguiu reproduzir este formato. Baixe o original para abrir em um reprodutor compatível.</p></div>`};
     }else if(k==="text"){
