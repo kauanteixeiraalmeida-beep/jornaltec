@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V18 — Interface organizada</title>
+<title>JornaTec V19 — Mídia e pré-visualização</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -232,8 +232,14 @@ header.mast{padding:16px 0 14px;margin:0}
 .btabs button{flex:1;background:none;border:0;color:var(--muted);padding:13px 4px;font:600 .75rem system-ui,sans-serif;cursor:pointer}
 main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 @media(min-width:800px){.btabs{display:none}main{padding-bottom:60px}}
-#vbody video{width:100%;max-height:100%;background:#000}
-#vbody audio{width:min(92%,520px)}
+#vbody video{display:block;width:min(100%,1200px);height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;background:#080808;margin:0 auto 18px}
+#vbody audio{display:block;width:min(96%,900px);height:64px;margin:24px auto}
+#vbody .media-stage{width:100%;min-height:65vh;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:clamp(8px,2vw,24px);gap:12px}
+#vbody .doc-preview{width:min(100%,1100px);min-height:65vh;margin:0 auto;padding:clamp(18px,4vw,48px);background:#fff;color:#222;box-shadow:0 2px 14px #0002;white-space:pre-wrap;overflow-wrap:anywhere;font:16px/1.65 system-ui,sans-serif}
+#vbody .doc-preview img{max-width:100%;height:auto}
+#vbody .doc-preview table{border-collapse:collapse;max-width:100%}#vbody .doc-preview td,#vbody .doc-preview th{border:1px solid #bbb;padding:6px}
+#vbody .viewer-hint{width:min(100%,1100px);margin:0 auto;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){#vbody .media-stage{min-height:58vh;padding:8px}#vbody .doc-preview{min-height:58vh;padding:16px;font-size:14px}#vbody audio{width:100%;height:58px;margin:12px auto}}
 .th.pv{font-size:3rem;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 #vbody{min-height:0}
 #vcom{display:flex;flex-direction:column;max-height:50%;border-top:1px solid var(--line);background:var(--surface)}
@@ -496,7 +502,11 @@ const kind=d=>{
   return t==="application/pdf"||/\.pdf$/i.test(n)?"pdf":
     t.startsWith("image/")?"img":
     t.startsWith("video/")||/\.(mp4|m4v|mov|webm|ogv|mkv|3gp)$/i.test(n)?"video":
-    t.startsWith("audio/")||/\.(mp3|m4a|wav|ogg|oga|aac|flac)$/i.test(n)?"audio":"other";
+    t.startsWith("audio/")||/\.(mp3|m4a|wav|ogg|oga|aac|flac)$/i.test(n)?"audio":
+    t.startsWith("text/")||/\.(txt|md|csv|log|json|xml)$/i.test(n)?"text":
+    /\.(html|htm)$/i.test(n)?"html":
+    /\.(docx)$/i.test(n)?"docx":
+    /\.(xlsx|xls|ods)$/i.test(n)?"sheet":"other";
 };
 
 async function blobForDocument(d){
@@ -675,9 +685,26 @@ window.view=async(id,cm)=>{
       };
     }
     else if(k==="video"||k==="audio"){
-      b.innerHTML=`<${k} controls playsinline preload="metadata" src="${curURL}"></${k}>`;
-      b.firstChild.onerror=()=>{b.innerHTML=`<div class="novw"><p><b>${esc(d.name)}</b></p><p>Este aparelho não conseguiu reproduzir esse ${k==="video"?"vídeo":"áudio"}.</p></div>`};
-    }else b.innerHTML=`<div class="novw"><p><b>${esc(d.name)}</b></p><p>Baixe o original para abrir no programa de origem.</p></div>`;
+      b.innerHTML=`<div class="media-stage"><p class="viewer-hint">${esc(d.name)} · Reprodução do arquivo original, sem recompressão pelo JornaTec.</p><${k} controls playsinline preload="metadata" controlsList="nodownload" src="${curURL}"></${k}></div>`;
+      const player=b.querySelector(k);
+      player.onerror=()=>{b.innerHTML=`<div class="novw"><p><b>${esc(d.name)}</b></p><p>Este navegador não conseguiu reproduzir este formato. Baixe o original para abrir em um reprodutor compatível.</p></div>`};
+    }else if(k==="text"){
+      const text=await d.file.text();
+      b.innerHTML=`<div class="media-stage"><p class="viewer-hint">Pré-visualização de texto · ${esc(d.name)}</p><pre class="doc-preview"></pre></div>`;
+      b.querySelector("pre").textContent=text.slice(0,2000000);
+    }else if(k==="html"){
+      const raw=await d.file.text();
+      b.innerHTML=`<div class="media-stage"><p class="viewer-hint">Pré-visualização isolada · ${esc(d.name)}</p><iframe title="Pré-visualização do documento" sandbox srcdoc=""></iframe></div>`;
+      const frame=b.querySelector("iframe");frame.style.cssText="width:100%;height:70vh;border:1px solid #ccc;background:white";frame.srcdoc=raw;
+    }else if(k==="docx"){
+      b.innerHTML='<div class="media-stage"><p class="viewer-hint">Preparando pré-visualização do Word…</p><article class="doc-preview" id="docx-preview"></article></div>';
+      if(!window.mammoth)await new Promise((ok,no)=>{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});
+      const result=await mammoth.convertToHtml({arrayBuffer:await d.file.arrayBuffer()});b.querySelector("#docx-preview").innerHTML=result.value||"Não foi possível gerar a pré-visualização.";
+    }else if(k==="sheet"){
+      b.innerHTML='<div class="media-stage"><p class="viewer-hint">Preparando pré-visualização da planilha…</p><div class="doc-preview" id="sheet-preview"></div></div>';
+      if(!window.XLSX)await new Promise((ok,no)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});
+      const wb=XLSX.read(await d.file.arrayBuffer(),{type:"array"});const first=wb.SheetNames[0];b.querySelector("#sheet-preview").innerHTML=XLSX.utils.sheet_to_html(wb.Sheets[first]);
+    }else b.innerHTML=`<div class="doc-preview"><h2>${esc(d.title)}</h2><p>Não há pré-visualização integrada para este formato. Você pode baixar o arquivo original para abri-lo no programa compatível.</p></div>`;
     curDoc=id;$("vcom").hidden=!cm;await drawCm();
   }catch(e){say("Não foi possível abrir o arquivo: "+(e.message||e))}
 };
