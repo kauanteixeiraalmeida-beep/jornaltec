@@ -3,12 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b2340">
+<meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>JornaTec</title>
+<title>JornaTec V22 — Chat escolar</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -337,6 +334,28 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
 @media(max-width:650px){main{padding:10px 10px 84px}.app-quicknav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.app-quicknav a{justify-content:center;padding:9px 5px}.topbar{position:relative}#pdlg #pbody{grid-template-columns:1fr}#pdlg .pref-content{grid-template-columns:1fr}#edlg{padding:14px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
+
+.chat-panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin:20px 0}
+.chat-layout{display:grid;grid-template-columns:minmax(180px, .8fr) minmax(0,1.5fr);gap:12px;min-height:360px}
+.chat-side,.chat-main{border:1px solid var(--line);border-radius:10px;min-width:0;overflow:hidden}
+.chat-side h4,.chat-main h4{margin:0;padding:12px;background:var(--bg);border-bottom:1px solid var(--line)}
+.chat-tools{padding:10px;border-bottom:1px solid var(--line)}
+.chat-tools input,.chat-compose textarea,.chat-compose input{width:100%;font:inherit;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.chat-convlist{max-height:430px;overflow:auto}
+.chat-conv{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);padding:11px;cursor:pointer}
+.chat-conv[aria-current=true]{background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+.chat-conv small{display:block;color:var(--muted)}
+.chat-messages{height:270px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.chat-bubble{max-width:88%;padding:9px 11px;border-radius:12px;background:var(--bg);border:1px solid var(--line);align-self:flex-start;overflow-wrap:anywhere}
+.chat-bubble.mine{align-self:flex-end;background:color-mix(in srgb,var(--accent) 13%,var(--surface))}
+.chat-bubble small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
+.chat-compose{padding:10px;border-top:1px solid var(--line);display:grid;gap:8px}
+.chat-compose textarea{resize:vertical;min-height:62px}
+.chat-compose .acts{margin:0;align-items:center}
+.chat-status{color:var(--muted);font-size:.82rem;min-height:1.2em}
+.chat-unread{display:inline-block;border-radius:99px;background:var(--accent);color:var(--accent-ink);padding:0 6px;font-size:.72rem}
+@media(max-width:650px){.chat-layout{grid-template-columns:1fr}.chat-side{max-height:210px}.chat-convlist{max-height:155px}.chat-messages{height:280px}}
+
 </style>
 </head>
 <body>
@@ -359,7 +378,7 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
 </form></section>
 <main id="app" hidden>
   <div class="topbar"><span id="today"></span><span class="grow"></span><span id="who"></span><button class="btn ghost" id="notifyBtn" type="button" aria-label="Notificações">🔔<span id="nbadge" class="nbadge">0</span></button><button class="btn ghost" data-go="#pub">Publicar</button><button class="btn ghost" id="custom">Personalizar</button><button class="btn ghost" id="logout">Sair</button></div>
-  <nav class="app-quicknav" aria-label="Navegação rápida"><a href="#feat">⭐ Destaques</a><a href="#evs">📣 Eventos</a><a href="#lh">📰 Notícias</a><a href="#pub-heading">⬆ Publicação</a><a href="#custom" id="quick-custom">🎨 Personalização</a></nav>
+  <nav class="app-quicknav" aria-label="Navegação rápida"><a href="#feat">⭐ Destaques</a><a href="#evs">📣 Eventos</a><a href="#lh">📰 Notícias</a><a href="#pub-heading">⬆ Publicação</a><a href="#chat-section">💬 Chat</a><a href="#custom" id="quick-custom">🎨 Personalização</a></nav>
   <header class="mast"><h1 id="mast">JornaTec</h1><div class="date" id="tag"></div>
     <div class="sbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Buscar notícia" aria-label="Buscar notícia"></div></header>
   <nav class="tabs" id="tabs" aria-label="Categorias"></nav>
@@ -388,6 +407,21 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
       <div class="acts" style="margin-top:8px"><button class="btn ghost" id="relock">Bloquear</button><button class="btn ghost" id="chpw">Trocar senha de publicação</button></div>
     </div>
   </section>
+
+  <section id="chat-section" class="chat-panel" aria-labelledby="chat-heading">
+    <div class="acts" style="justify-content:space-between;align-items:center;margin-top:0">
+      <div><h2 id="chat-heading" style="margin:0;font-family:Georgia,serif">💬 JornaTec Chat</h2><p class="meta" style="margin:4px 0">Comunicação privada para a equipe e usuários autorizados.</p></div>
+      <button class="btn" id="chat-new" type="button">Nova conversa</button>
+    </div>
+    <p class="guard">Use apenas para comunicação escolar. As conversas são privadas conforme as permissões do banco. Não compartilhe senhas nem informações pessoais sensíveis.</p>
+    <div class="chat-layout">
+      <aside class="chat-side"><h4>Conversas</h4><div class="chat-tools"><input id="chat-search" type="search" placeholder="Buscar conversas" aria-label="Buscar conversas"></div><div id="chat-convlist" class="chat-convlist"><p class="meta" style="padding:10px">Carregando conversas…</p></div></aside>
+      <section class="chat-main" aria-label="Conversa atual"><h4 id="chat-title">Selecione uma conversa</h4><div id="chat-messages" class="chat-messages" aria-live="polite"><p class="meta">Crie ou selecione uma conversa para começar.</p></div>
+        <form id="chat-compose" class="chat-compose"><textarea id="chat-text" maxlength="5000" placeholder="Escreva uma mensagem…" aria-label="Mensagem" disabled></textarea><input id="chat-files" type="file" accept="image/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.odt,.ods,.txt" multiple disabled><div class="acts"><span id="chat-status" class="chat-status" role="status"></span><button id="chat-send" class="btn" type="submit" disabled>Enviar</button></div></form>
+      </section>
+    </div>
+  </section>
+
   <nav class="btabs" aria-label="Atalhos"><button data-go="#today">Início</button><button data-go="#evs">Avisos</button><button data-go="#tabs">Categorias</button><button data-go="#pub">Publicar</button></nav>
 </main>
 
@@ -858,7 +892,7 @@ async function enterSession(user){
   try{sessionStorage.setItem("jornal_me",user.id)}catch(e){}
   $("who").textContent="Olá, "+(p.display||user.email||"usuário");
   $("login").hidden=true;$("app").hidden=false;
-  setLock(false);applyP();await refresh();startNotifications();
+  setLock(false);applyP();await refresh();startNotifications();chatInit();
 }
 
 async function signIn(){
@@ -894,7 +928,7 @@ $("lreg").addEventListener("click",async e=>{e.preventDefault();e.stopPropagatio
 
 $("logout").onclick=async()=>{
   try{if(supabaseClient)await supabaseClient.auth.signOut()}catch(e){}
-  me=null;applyP();unlocked=false;clearInterval(notifTimer);
+  me=null;applyP();unlocked=false;clearInterval(notifTimer);if(chatChannel&&supabaseClient){supabaseClient.removeChannel(chatChannel);chatChannel=null}chatCurrentId=null;
   try{sessionStorage.removeItem("jornal_me")}catch(e){}
   $("app").hidden=true;$("login").hidden=false;$("lp").value="";$("viewer").hidden=true;$("vbody").innerHTML="";freeURL();
 };
@@ -1326,6 +1360,106 @@ $("notifyBtn").onclick=async()=>{await loadNotifications();$("ndlg").showModal()
 $("nread").onclick=markNotificationsRead;
 $("nlist").addEventListener("click",async e=>{const n=e.target.closest(".nitem");if(!n)return;try{const sb=await requireSB();await sb.from("notifications").update({read_at:new Date().toISOString()}).eq("id",n.dataset.nid).eq("user_id",me)}catch(err){};$("ndlg").close();if(n.dataset.doc)view(n.dataset.doc)});
 function startNotifications(){clearInterval(notifTimer);loadNotifications();notifTimer=setInterval(loadNotifications,20000)}
+
+
+// JornaTec Chat — usa a sessão Supabase existente; acesso efetivo é controlado por RLS.
+let chatCurrentId=null, chatChannel=null, chatConversations=[], chatProfiles=[], chatPoll=null;
+const CHAT_BUCKET="jornatec-chat";
+function chatStatus(t){$("chat-status").textContent=t||""}
+function chatFileLabel(m){return m.attachment_name ? `📎 ${esc(m.attachment_name)}` : ""}
+async function chatLoadConversations(){
+ if(!me)return;
+ const sb=await requireSB();
+ const {data:members,error}=await sb.from("chat_members").select("conversation_id,role,chat_conversations(id,title,kind,created_at)").eq("user_id",me);
+ if(error)throw error;
+ const rows=(members||[]).map(x=>({...x.chat_conversations,member_role:x.role})).filter(Boolean);
+ // Load latest message snippets separately to avoid requiring a complex nested join.
+ const ids=rows.map(x=>x.id);
+ let latest={};
+ if(ids.length){
+  const r=await sb.from("chat_messages").select("conversation_id,body,created_at").in("conversation_id",ids).order("created_at",{ascending:false}).limit(100);
+  if(!r.error)for(const m of (r.data||[]))if(!latest[m.conversation_id])latest[m.conversation_id]=m;
+ }
+ chatConversations=rows.map(c=>({...c,last:latest[c.id]})).sort((a,b)=>new Date(b.last?.created_at||b.created_at)-new Date(a.last?.created_at||a.created_at));
+ chatRenderConversations();
+}
+function chatRenderConversations(){
+ const q=($("chat-search").value||"").toLowerCase();
+ const rows=chatConversations.filter(c=>(c.title||"Conversa").toLowerCase().includes(q));
+ $("chat-convlist").innerHTML=rows.length?rows.map(c=>`<button class="chat-conv" data-chat-id="${esc(c.id)}" aria-current="${c.id===chatCurrentId}"><b>${esc(c.title||"Conversa")}</b><small>${esc((c.last?.body||"Sem mensagens").slice(0,70))}</small></button>`).join(""):'<p class="meta" style="padding:10px">Nenhuma conversa. Use “Nova conversa”.</p>';
+}
+async function chatLoadMessages(){
+ if(!me||!chatCurrentId)return;
+ const sb=await requireSB();
+ const {data,error}=await sb.from("chat_messages").select("id,conversation_id,sender_id,body,attachment_name,attachment_path,created_at").eq("conversation_id",chatCurrentId).order("created_at",{ascending:true}).limit(200);
+ if(error)throw error;
+ $("chat-messages").innerHTML=(data||[]).map(m=>`<article class="chat-bubble ${m.sender_id===me?'mine':''}">${esc(m.body||"")}${m.attachment_path?`<div>${chatFileLabel(m)} <button type="button" class="btn ghost" data-chat-download="${esc(m.id)}">Abrir arquivo</button></div>`:""}<small>${new Date(m.created_at).toLocaleString("pt-BR")}${m.sender_id===me?" · Você":""}</small></article>`).join("")||'<p class="meta">Ainda não há mensagens. Envie a primeira.</p>';
+ $("chat-messages").scrollTop=$("chat-messages").scrollHeight;
+ $("chat-title").textContent=chatConversations.find(c=>c.id===chatCurrentId)?.title||"Conversa";
+ $("chat-text").disabled=false;$("chat-files").disabled=false;$("chat-send").disabled=false;
+}
+async function chatSelect(id){
+ if(chatChannel){try{await (await requireSB()).removeChannel(chatChannel)}catch(e){}chatChannel=null}
+ chatCurrentId=id;chatRenderConversations();await chatLoadMessages();
+ const sb=await requireSB();
+ chatChannel=sb.channel("jornatec-chat-"+id).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_messages",filter:"conversation_id=eq."+id},payload=>{if(payload.new?.conversation_id===chatCurrentId)chatLoadMessages().catch(()=>{});chatLoadConversations().catch(()=>{})}).subscribe();
+}
+async function chatNewConversation(){
+ try{
+  const sb=await requireSB();
+  const {data:profiles,error}=await sb.from("profiles").select("id,username,display_name").neq("id",me).order("display_name").limit(200);
+  if(error)throw error;
+  const eligible=(profiles||[]).filter(p=>p.id!==me);
+  if(!eligible.length){chatStatus("Não há outros perfis disponíveis. O usuário precisa ter uma conta confirmada.");return}
+  const options=eligible.map((p,i)=>`${i+1}. ${p.display_name||p.username||"Usuário"} (@${p.username||"sem usuário"})`).join("\n");
+  const answer=prompt("Escolha o número da pessoa para iniciar uma conversa:\n\n"+options);
+  if(answer===null)return;
+  const idx=Number(answer)-1,person=eligible[idx];
+  if(!person){chatStatus("Número inválido.");return}
+  // Direct conversations are created with both members; RLS also verifies membership.
+  const {data:conv,error:ce}=await sb.from("chat_conversations").insert({title:person.display_name||person.username||"Conversa",kind:"direct",created_by:me}).select("id,title,kind,created_at").single();
+  if(ce)throw ce;
+  const {error:meErr}=await sb.from("chat_members").insert([{conversation_id:conv.id,user_id:me,role:"member"},{conversation_id:conv.id,user_id:person.id,role:"member"}]);
+  if(meErr){await sb.from("chat_conversations").delete().eq("id",conv.id);throw meErr}
+  await chatLoadConversations();await chatSelect(conv.id);chatStatus("Conversa criada.");
+ }catch(e){chatStatus("Não foi possível criar conversa: "+(e.message||e))}
+}
+async function chatSend(e){
+ e.preventDefault();if(!chatCurrentId||!me)return;
+ const body=$("chat-text").value.trim(),files=[...$("chat-files").files];
+ if(!body&&!files.length)return;
+ const sb=await requireSB();$("chat-send").disabled=true;chatStatus("Enviando…");
+ try{
+  if(body){const {error}=await sb.from("chat_messages").insert({conversation_id:chatCurrentId,sender_id:me,body});if(error)throw error}
+  for(const file of files){
+   if(file.size>20*1024*1024)throw new Error("Cada anexo deve ter no máximo 20 MB.");
+   const safeName=file.name.replace(/[^\p{L}\p{N}._-]/gu,"_").slice(-100)||"arquivo";
+   const path=`${chatCurrentId}/${me}/${crypto.randomUUID()}-${safeName}`;
+   const up=await sb.storage.from(CHAT_BUCKET).upload(path,file,{contentType:file.type||"application/octet-stream",upsert:false});
+   if(up.error)throw up.error;
+   const ins=await sb.from("chat_messages").insert({conversation_id:chatCurrentId,sender_id:me,body:"",attachment_name:file.name,attachment_path:path,attachment_type:file.type||"application/octet-stream",attachment_size:file.size});
+   if(ins.error){await sb.storage.from(CHAT_BUCKET).remove([path]);throw ins.error}
+  }
+  $("chat-text").value="";$("chat-files").value="";await chatLoadMessages();await chatLoadConversations();chatStatus("Mensagem enviada.");
+ }catch(err){chatStatus("Erro ao enviar: "+(err.message||err))}
+ finally{$("chat-send").disabled=false}
+}
+$("chat-new").addEventListener("click",chatNewConversation);
+$("chat-search").addEventListener("input",chatRenderConversations);
+$("chat-convlist").addEventListener("click",e=>{const b=e.target.closest("[data-chat-id]");if(b)chatSelect(b.dataset.chatId).catch(err=>chatStatus(err.message))});
+$("chat-compose").addEventListener("submit",chatSend);
+$("chat-messages").addEventListener("click",async e=>{
+ const b=e.target.closest("[data-chat-download]");if(!b)return;
+ try{
+  const sb=await requireSB(),{data:m,error}=await sb.from("chat_messages").select("attachment_path,attachment_name").eq("id",b.dataset.chatDownload).single();
+  if(error)throw error;const {data,error:de}=await sb.storage.from(CHAT_BUCKET).createSignedUrl(m.attachment_path,60);
+  if(de)throw de;window.open(data.signedUrl,"_blank","noopener");
+ }catch(err){chatStatus("Não foi possível abrir o anexo: "+err.message)}
+});
+async function chatInit(){
+ try{await chatLoadConversations();if(chatCurrentId&&chatConversations.some(c=>c.id===chatCurrentId))await chatSelect(chatCurrentId);else if(chatConversations.length)await chatSelect(chatConversations[0].id);else chatStatus("Chat pronto. Crie uma conversa para começar.");}
+ catch(e){chatStatus("O chat precisa da migração SQL e do bucket privado. "+(e.message||e))}
+}
 
 let restoringSession=false;
 async function restoreSession(force=false){
