@@ -357,6 +357,20 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
 @media(max-width:650px){.chat-layout{grid-template-columns:1fr}.chat-side{max-height:210px}.chat-convlist{max-height:155px}.chat-messages{height:280px}}
 
 </style>
+
+<style id="chat-view-mode">
+/* O chat funciona como uma tela própria dentro do app. */
+#chat-section[hidden]{display:none!important}
+main#app.chat-mode > :not(.topbar):not(#chat-section){display:none!important}
+main#app.chat-mode #chat-section{display:block!important;margin:18px auto;max-width:1250px;min-height:calc(100vh - 120px)}
+main#app.chat-mode .chat-layout{min-height:calc(100vh - 300px)}
+main#app.chat-mode .chat-messages{height:calc(100vh - 455px);min-height:240px}
+@media(max-width:760px){
+  main#app.chat-mode #chat-section{margin:10px auto;padding:12px}
+  main#app.chat-mode .chat-messages{height:45vh;min-height:220px}
+}
+</style>
+
 </head>
 <body>
 <section id="login"><form id="lform" class="lcard">
@@ -378,7 +392,7 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
 </form></section>
 <main id="app" hidden>
   <div class="topbar"><span id="today"></span><span class="grow"></span><span id="who"></span><button class="btn ghost" id="notifyBtn" type="button" aria-label="Notificações">🔔<span id="nbadge" class="nbadge">0</span></button><button class="btn ghost" data-go="#pub">Publicar</button><button class="btn ghost" id="custom">Personalizar</button><button class="btn ghost" id="logout">Sair</button></div>
-  <nav class="app-quicknav" aria-label="Navegação rápida"><a href="#feat">⭐ Destaques</a><a href="#evs">📣 Eventos</a><a href="#lh">📰 Notícias</a><a href="#pub-heading">⬆ Publicação</a><a href="#chat-section">💬 Chat</a><a href="#custom" id="quick-custom">🎨 Personalização</a></nav>
+  <nav class="app-quicknav" aria-label="Navegação rápida"><a href="#feat">⭐ Destaques</a><a href="#evs">📣 Eventos</a><a href="#lh">📰 Notícias</a><a href="#pub-heading">⬆ Publicação</a><a href="#chat-section" id="open-chat-link">💬 JornaTec Chat</a><a href="#custom" id="quick-custom">🎨 Personalização</a></nav>
   <header class="mast"><h1 id="mast">JornaTec</h1><div class="date" id="tag"></div>
     <div class="sbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Buscar notícia" aria-label="Buscar notícia"></div></header>
   <nav class="tabs" id="tabs" aria-label="Categorias"></nav>
@@ -408,10 +422,10 @@ main{max-width:1180px;padding-left:clamp(12px,2.5vw,28px);padding-right:clamp(12
     </div>
   </section>
 
-  <section id="chat-section" class="chat-panel" aria-labelledby="chat-heading">
+  <section id="chat-section" class="chat-panel" aria-labelledby="chat-heading" hidden>
     <div class="acts" style="justify-content:space-between;align-items:center;margin-top:0">
-      <div><h2 id="chat-heading" style="margin:0;font-family:Georgia,serif">💬 JornaTec Chat</h2><p class="meta" style="margin:4px 0">Comunicação privada para a equipe e usuários autorizados.</p></div>
-      <button class="btn" id="chat-new" type="button">Nova conversa</button>
+      <div><h2 id="chat-heading" style="margin:0;font-family:Georgia,serif">💬 JornaTec Chat</h2><p class="meta" style="margin:4px 0">Sala pública, conversas privadas e grupos para usuários autorizados.</p></div>
+      <div class="acts" style="margin:0"><button class="btn ghost" id="chat-back" type="button">← Voltar ao jornal</button><button class="btn" id="chat-public" type="button">🌐 Público</button><button class="btn" id="chat-new" type="button">👤 Privado</button><button class="btn" id="chat-group" type="button">👥 Criar grupo</button></div>
     </div>
     <p class="guard">Use apenas para comunicação escolar. As conversas são privadas conforme as permissões do banco. Não compartilhe senhas nem informações pessoais sensíveis.</p>
     <div class="chat-layout">
@@ -1404,6 +1418,43 @@ async function chatSelect(id){
  const sb=await requireSB();
  chatChannel=sb.channel("jornatec-chat-"+id).on("postgres_changes",{event:"INSERT",schema:"public",table:"chat_messages",filter:"conversation_id=eq."+id},payload=>{if(payload.new?.conversation_id===chatCurrentId)chatLoadMessages().catch(()=>{});chatLoadConversations().catch(()=>{})}).subscribe();
 }
+async function chatOpenPublic(){
+ try{
+  const sb=await requireSB();
+  let {data:conv,error}=await sb.from("chat_conversations").select("id,title,kind,created_at").eq("kind","public").eq("title","Sala pública").limit(1).maybeSingle();
+  if(error)throw error;
+  if(!conv){
+   const made=await sb.from("chat_conversations").insert({title:"Sala pública",kind:"public",created_by:me}).select("id,title,kind,created_at").single();
+   if(made.error)throw made.error;conv=made.data;
+  }
+  const {data:membership,error:memberError}=await sb.from("chat_members").select("conversation_id").eq("conversation_id",conv.id).eq("user_id",me).maybeSingle();
+  if(memberError)throw memberError;
+  if(!membership){const joined=await sb.from("chat_members").insert({conversation_id:conv.id,user_id:me,role:"member"});if(joined.error)throw joined.error}
+  await chatLoadConversations();await chatSelect(conv.id);chatStatus("Você está na sala pública.");
+ }catch(e){chatStatus("Não foi possível abrir o chat público. Confira a migração SQL e as permissões: "+(e.message||e))}
+}
+async function chatNewGroup(){
+ try{
+  const title=(prompt("Qual será o nome do grupo?")||"").trim();
+  if(!title)return;
+  const sb=await requireSB();
+  const {data:profiles,error}=await sb.from("profiles").select("id,username,display_name").neq("id",me).order("display_name").limit(200);
+  if(error)throw error;
+  const people=(profiles||[]).filter(p=>p.id!==me);
+  if(!people.length){chatStatus("Não há outros perfis disponíveis.");return}
+  const options=people.map((p,i)=>`${i+1}. ${p.display_name||p.username||"Usuário"} (@${p.username||"sem usuário"})`).join("\n");
+  const answer=prompt("Digite os números das pessoas que deseja adicionar, separados por vírgula:\n\n"+options);
+  if(answer===null)return;
+  const selected=[...new Set(answer.split(",").map(v=>Number(v.trim())-1))].map(i=>people[i]).filter(Boolean);
+  if(!selected.length){chatStatus("Selecione pelo menos uma pessoa válida.");return}
+  const {data:conv,error:ce}=await sb.from("chat_conversations").insert({title,kind:"group",created_by:me}).select("id,title,kind,created_at").single();
+  if(ce)throw ce;
+  const members=[{conversation_id:conv.id,user_id:me,role:"owner"},...selected.map(person=>({conversation_id:conv.id,user_id:person.id,role:"member"}))];
+  const added=await sb.from("chat_members").insert(members);
+  if(added.error)throw added.error;
+  await chatLoadConversations();await chatSelect(conv.id);chatStatus("Grupo criado e participantes adicionados.");
+ }catch(e){chatStatus("Não foi possível criar grupo: "+(e.message||e))}
+}
 async function chatNewConversation(){
  try{
   const sb=await requireSB();
@@ -1445,6 +1496,8 @@ async function chatSend(e){
  finally{$("chat-send").disabled=false}
 }
 $("chat-new").addEventListener("click",chatNewConversation);
+$("chat-public").addEventListener("click",chatOpenPublic);
+$("chat-group").addEventListener("click",chatNewGroup);
 $("chat-search").addEventListener("input",chatRenderConversations);
 $("chat-convlist").addEventListener("click",e=>{const b=e.target.closest("[data-chat-id]");if(b)chatSelect(b.dataset.chatId).catch(err=>chatStatus(err.message))});
 $("chat-compose").addEventListener("submit",chatSend);
@@ -1460,6 +1513,25 @@ async function chatInit(){
  try{await chatLoadConversations();if(chatCurrentId&&chatConversations.some(c=>c.id===chatCurrentId))await chatSelect(chatCurrentId);else if(chatConversations.length)await chatSelect(chatConversations[0].id);else chatStatus("Chat pronto. Crie uma conversa para começar.");}
  catch(e){chatStatus("O chat precisa da migração SQL e do bucket privado. "+(e.message||e))}
 }
+
+
+function openJornaTecChat(){
+ const app=$("app"),section=$("chat-section");
+ if(!app||!section)return;
+ app.classList.add("chat-mode");
+ section.hidden=false;
+ window.scrollTo({top:0,behavior:"auto"});
+ chatInit();
+}
+function closeJornaTecChat(){
+ const app=$("app"),section=$("chat-section");
+ if(!app||!section)return;
+ app.classList.remove("chat-mode");
+ section.hidden=true;
+ window.scrollTo({top:0,behavior:"auto"});
+}
+$("open-chat-link")?.addEventListener("click",e=>{e.preventDefault();openJornaTecChat()});
+$("chat-back")?.addEventListener("click",closeJornaTecChat);
 
 let restoringSession=false;
 async function restoreSession(force=false){
