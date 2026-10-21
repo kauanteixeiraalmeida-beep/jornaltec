@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V43 — Responsivo para computador, tablet e celular</title>
+<title>JornaTec V46 — Pré-visualização de PDF na lista</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -244,6 +244,10 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 #vbody .viewer-hint{width:min(100%,1100px);margin:0 auto;color:var(--muted);font-size:.85rem}
 @media(max-width:600px){#vbody .media-stage{min-height:58vh;padding:8px}#vbody .doc-preview{min-height:58vh;padding:16px;font-size:14px}#vbody audio{width:100%;height:58px;margin:12px auto}}
 .th.pv{font-size:3rem;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.th.pdf-thumb{background-color:#f7f3ed;background-image:linear-gradient(135deg,#f8f5ef,#e8e0d3);color:#8a1c1c;font-size:.82rem;letter-spacing:.04em;text-align:center}
+.th.pdf-thumb::after{content:"PDF";position:absolute;left:8px;bottom:7px;padding:2px 6px;border-radius:4px;background:#8a1c1c;color:#fff;font:700 10px/1.5 system-ui,sans-serif;letter-spacing:.04em}
+.th.pdf-thumb.pdf-loading{font-size:.68rem;color:#5d5146}
+.th.pdf-thumb.pdf-ready{background-size:cover;background-position:top center;color:transparent}
 #vbody{min-height:0}
 #vcom{display:flex;flex-direction:column;max-height:50%;border-top:1px solid var(--line);background:var(--surface)}
 .chd{display:flex;justify-content:space-between;align-items:center;padding:8px 12px 0}
@@ -1125,7 +1129,7 @@ async function refresh(){
       <button class="btn ghost" data-act="viewc" data-id="${d.id}">Comentários (0)</button>
       ${unlocked?`<button class="btn ghost" data-act="pin" data-id="${d.id}">${pins().includes(d.id)?"Tirar destaque":"Marcar importante"}</button><button class="btn ghost" data-act="del" data-id="${d.id}">Excluir</button>`:""}</div></div></div>`).join("")
       :`<div class="empty">${q?"Nada encontrado.":"Nenhum documento ainda. Use a área de publicação abaixo."}</div>`;
-    docs.filter(d=>["img","video"].includes(kind(d))).forEach(mkThumb);
+    docs.filter(d=>["img","video","pdf"].includes(kind(d))).forEach(mkThumb);
     applyThumbs();renderF();await drawE();
   }catch(e){
     console.error(e);
@@ -1174,6 +1178,7 @@ async function viewFile(d){
 }
 
 const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+let pdfThumbLibPromise=null;
 
 let pdfZoom=1,curViewerURL="";
 function setZoom(z){
@@ -1786,18 +1791,71 @@ function vThumb(f){return new Promise(res=>{
   v.onloadeddata=()=>{try{v.currentTime=Math.min(1,(v.duration||2)/4)}catch(e){fin("")}};
   v.onseeked=()=>{try{const w=Math.min(720,v.videoWidth),h=Math.round(v.videoHeight*w/v.videoWidth),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(v,0,0,w,h);fin(c.toDataURL("image/jpeg",.78))}catch(e){fin("")}};
   v.onerror=()=>fin("");setTimeout(()=>fin(""),8000);v.src=u})}
+function loadPdfThumbLibrary(){
+  if(window.pdfjsLib)return Promise.resolve(window.pdfjsLib);
+  if(pdfThumbLibPromise)return pdfThumbLibPromise;
+  pdfThumbLibPromise=new Promise((resolve,reject)=>{
+    const existing=document.querySelector('script[data-jt-pdfjs="1"]');
+    if(existing){
+      if(window.pdfjsLib){resolve(window.pdfjsLib);return}
+      existing.addEventListener("load",()=>window.pdfjsLib?resolve(window.pdfjsLib):reject(new Error("PDF.js não inicializou")),{once:true});
+      existing.addEventListener("error",()=>reject(new Error("Não foi possível carregar o renderizador PDF")),{once:true});
+      return;
+    }
+    const sc=document.createElement("script");sc.src=PDFJS+"pdf.min.js";sc.dataset.jtPdfjs="1";
+    sc.onload=()=>window.pdfjsLib?resolve(window.pdfjsLib):reject(new Error("PDF.js não inicializou"));
+    sc.onerror=()=>reject(new Error("Não foi possível carregar o renderizador PDF"));
+    document.head.appendChild(sc);
+  });
+  return pdfThumbLibPromise;
+}
+function withThumbTimeout(promise,ms){return Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error("Tempo limite ao gerar miniatura PDF")),ms))])}
+async function pdfThumb(file){
+  const lib=await withThumbTimeout(loadPdfThumbLibrary(),10000);
+  lib.GlobalWorkerOptions.workerSrc=PDFJS+"pdf.worker.min.js";
+  const bytes=new Uint8Array(await withThumbTimeout(file.arrayBuffer(),10000));
+  const task=lib.getDocument({data:bytes});
+  const doc=await withThumbTimeout(task.promise,12000);
+  try{
+    const page=await withThumbTimeout(doc.getPage(1),8000);
+    const base=page.getViewport({scale:1});
+    const scale=Math.min(480/base.width,320/base.height,1.25);
+    const viewport=page.getViewport({scale});
+    const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
+    const ctx=canvas.getContext("2d",{alpha:false});if(!ctx)throw new Error("Canvas indisponível");
+    ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+    await withThumbTimeout(page.render({canvasContext:ctx,viewport}).promise,10000);
+    const data=canvas.toDataURL("image/jpeg",.78);
+    try{page.cleanup()}catch(_){};try{await doc.destroy()}catch(_){}
+    return data;
+  }catch(e){try{await doc.destroy()}catch(_){};throw e}
+}
 async function mkThumb(d){
   if(tmap[d.id]!==undefined)return;
   tmap[d.id]="";
+  const isPdf=kind(d)==="pdf";
+  const pdfEl=isPdf?document.querySelector(`[data-tid="${CSS.escape(String(d.id))}"]`):null;
+  if(pdfEl){pdfEl.classList.add("pdf-thumb","pdf-loading");pdfEl.textContent="Carregando prévia…";pdfEl.setAttribute("aria-label","Carregando pré-visualização da primeira página do PDF")}
   try{
-    const file=await blobForDocument(d);
+    const file=isPdf?await withThumbTimeout(blobForDocument(d),15000):await blobForDocument(d);
     if(kind(d)==="video"){tmap[d.id]=await vThumb(file);applyThumbs();return}
+    if(isPdf){
+      const el=document.querySelector(`[data-tid="${CSS.escape(String(d.id))}"]`);
+      if(el){el.textContent="Gerando prévia…";el.setAttribute("aria-label","Gerando pré-visualização da primeira página do PDF")}
+      tmap[d.id]=await pdfThumb(file);
+      if(el){el.classList.remove("pdf-loading");el.classList.add("pdf-ready");el.textContent="";el.setAttribute("aria-label","Pré-visualização da primeira página do PDF")}
+      applyThumbs();return;
+    }
     if(kind(d)!=="img"){applyThumbs();return}
     const bm=await createImageBitmap(file),w=Math.min(720,bm.width),h=Math.max(1,Math.round(bm.height*w/bm.width)),c=document.createElement("canvas");
     c.width=w;c.height=h;c.getContext("2d").drawImage(bm,0,0,w,h);
     if(bm.close)bm.close();
     tmap[d.id]=c.toDataURL("image/jpeg",.78);
-  }catch(e){console.warn("Não foi possível gerar miniatura",d.id,e)}
+  }catch(e){
+    console.warn("Não foi possível gerar miniatura",d.id,e);
+    const el=document.querySelector(`[data-tid="${CSS.escape(String(d.id))}"]`);
+    if(el&&kind(d)==="pdf"){el.classList.remove("pdf-loading");el.classList.add("pdf-thumb");el.textContent="Prévia indisponível";el.setAttribute("aria-label","Pré-visualização indisponível; abra o PDF para consultar o documento")}
+  }
   applyThumbs()}
 function applyThumbs(){document.querySelectorAll("[data-tid]").forEach(el=>{const u=tmap[el.dataset.tid];if(u)el.style.backgroundImage="url("+u+")"})}
 $("q").addEventListener("input",()=>refresh());
