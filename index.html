@@ -604,49 +604,47 @@ main#app.chat-mode,main#app.studio-mode,main#app.publication-mode{padding-left:c
 #publication-area .publication-top p{max-width:760px;line-height:1.5}
 </style>
 
-<style id="v39-real-menu-fix">
-/* V39: existe apenas um menu geral. A barra .app-quicknav era o segundo menu. */
-main#app .app-quicknav { display:none!important; }
+<style id="v40-menu-publication-studio-fix">
+/* V40: remove a navegação secundária com especificidade suficiente para vencer as regras antigas. */
+main#app .app-quicknav,
+main#app.publication-mode .app-quicknav,
+main#app.studio-mode .app-quicknav { display:none!important; }
 
-/* O menu principal é exclusivo da página inicial. Não deve cobrir Publicação nem Estúdio. */
+/* Menu principal apenas na página inicial; não pode sobrepor Publicação ou Estúdio. */
 main#app.publication-mode #main-home-menu,
 main#app.publication-mode #main-menu-toggle,
 main#app.publication-mode #main-menu-backdrop,
 main#app.studio-mode #main-home-menu,
 main#app.studio-mode #main-menu-toggle,
-main#app.studio-mode #main-menu-backdrop {
-  display:none!important;
-}
+main#app.studio-mode #main-menu-backdrop { display:none!important; }
 
-/* Publicação e Estúdio usam a largura inteira e seus próprios controles. */
+/* As áreas de trabalho ocupam a largura disponível, sem recuo do menu lateral. */
 main#app.publication-mode,
-main#app.studio-mode {
-  padding-left:10px!important;
-}
+main#app.studio-mode { padding-left:10px!important; }
 main#app.publication-mode #publication-area {
-  width:100%!important;
-  max-width:1500px!important;
-  margin:8px auto!important;
+  display:block!important; width:calc(100% - 16px)!important;
+  max-width:1500px!important; margin:8px auto!important;
+  box-sizing:border-box!important;
 }
 main#app.studio-mode #studio-section {
-  width:100%!important;
-  max-width:none!important;
-  margin:0 auto!important;
+  display:block!important; width:100%!important; max-width:none!important;
+  margin:0 auto!important; box-sizing:border-box!important;
 }
 
-/* Em desktop, reserva espaço para o menu lateral apenas na página inicial. */
+/* Áreas separadas não mostram a barra superior nem menus herdados. */
+main#app.publication-mode > .topbar,
+main#app.studio-mode > .topbar { display:none!important; }
+
+/* Reserva espaço para o menu lateral somente na página inicial em desktop. */
 @media(min-width:761px) {
   main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) {
     padding-left:clamp(250px,20vw,285px)!important;
   }
 }
-/* Em celular, o menu lateral abre pelo único botão ☰ apenas na página inicial. */
 @media(max-width:760px) {
-  main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) {
-    padding-left:10px!important;
-  }
-  main#app.publication-mode .topbar,
-  main#app.studio-mode .topbar { display:none!important; }
+  main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) { padding-left:10px!important; }
+  main#app.publication-mode #publication-area { width:100%!important; margin:6px 0!important; padding:12px!important; }
+  main#app.studio-mode #studio-section { padding:0!important; }
 }
 </style>
 
@@ -1886,6 +1884,9 @@ async function chatInit(){
 
 function openPublicationArea(){
  const app=$("app"),area=$("publication-area");if(!app||!area)return;
+ const chat=$("chat-section"),studio=$("studio-section");
+ if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}
+ if(studio)studio.hidden=true;
  app.classList.remove("chat-mode","studio-mode");app.classList.add("publication-mode");
  area.hidden=false;window.scrollTo({top:0,behavior:"auto"});
 }
@@ -1904,6 +1905,8 @@ $("publication-open-studio")?.addEventListener("click",async()=>{
 function openJornaTecChat(){
  const app=$("app"),section=$("chat-section");
  if(!app||!section)return;
+ const studio=$("studio-section"),pub=$("publication-area");
+ if(studio)studio.hidden=true;if(pub)pub.hidden=true;
  app.classList.remove("studio-mode","publication-mode");
  app.classList.add("chat-mode");
  section.hidden=false;
@@ -1967,7 +1970,7 @@ function studioReadDrafts(){try{return JSON.parse(localStorage.getItem(STUDIO_DR
 function studioRefreshDrafts(){const sel=$("studio-drafts");if(!sel)return;const current=sel.value;sel.innerHTML='<option value="">Escolha um rascunho...</option>';studioReadDrafts().forEach((d,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=d.title||('Rascunho '+(i+1));sel.appendChild(o)});if(current&&Number(current)<sel.options.length)sel.value=current}
 function studioCountWords(){if(!studioEditor)return;const n=(studioEditor.innerText||"").trim().split(/\s+/).filter(Boolean).length;$("studio-word-count").textContent=n+ (n===1?' palavra':' palavras')}
 function studioSaveDraft(show=true){if(!studioEditor)return;const draft={title:$("studio-title").value||"Jornal sem título",html:studioEditor.innerHTML,updatedAt:new Date().toISOString(),accent:$("studio-accent").value,pageBg:$("studio-page-bg").value,titleStyle:$("studio-title-style").value};const drafts=studioReadDrafts();const idx=drafts.findIndex(d=>d.title===draft.title);if(idx>=0)drafts[idx]=draft;else drafts.unshift(draft);try{localStorage.setItem(STUDIO_DRAFTS_KEY,JSON.stringify(drafts.slice(0,30)));studioRefreshDrafts();$("studio-save-status").textContent="Salvo neste navegador às "+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});if(show)chatStatus?.("Rascunho do estúdio salvo neste navegador.")}catch(e){$("studio-save-status").textContent="Não foi possível salvar: espaço insuficiente"}}
-function studioOpen(){const app=$("app"),section=$("studio-section");if(!app||!section)return;app.classList.remove("chat-mode");app.classList.add("studio-mode");section.hidden=false;studioRefreshDrafts();studioCountWords();window.scrollTo({top:0,behavior:"auto"})}
+function studioOpen(){const app=$("app"),section=$("studio-section");if(!app||!section)return;const chat=$("chat-section"),pub=$("publication-area");if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}if(pub)pub.hidden=true;app.classList.remove("chat-mode","publication-mode");app.classList.add("studio-mode");section.hidden=false;studioRefreshDrafts();studioCountWords();window.scrollTo({top:0,behavior:"auto"})}
 function studioClose(){const app=$("app"),section=$("studio-section");if(!app||!section)return;app.classList.remove("studio-mode");section.hidden=true;window.scrollTo({top:0,behavior:"auto"})}
 $("studio-back")?.addEventListener("click",studioClose);$("studio-save")?.addEventListener("click",()=>studioSaveDraft(true));
 $("studio-export")?.addEventListener("click",()=>{document.body.classList.add("studio-print");window.print();setTimeout(()=>document.body.classList.remove("studio-print"),800)});
