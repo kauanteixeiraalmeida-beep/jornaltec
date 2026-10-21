@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornaTec V28 — Jornal, Chat e Estúdio</title>
+<title>JornaTec V43 — Responsivo para computador, tablet e celular</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -693,6 +693,101 @@ main#app.chat-mode .chat-bubble {max-width:min(88%,680px)!important;overflow-wra
  main#app.chat-mode .chat-compose {padding:8px!important;gap:6px!important}
  main#app.chat-mode #chat-text {min-height:44px!important;font-size:16px!important}
 }
+</style>
+
+<style id="v43-responsive-all-devices">
+/* V43 — ajustes finais para computador, tablet e celular; mantém a mesma aplicação e os mesmos dados. */
+html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body { min-width:320px; }
+button, input, select, textarea { max-width:100%; }
+img, video, canvas, iframe { max-width:100%; }
+#publication-area, #studio-section, #chat-section { min-width:0; }
+#publication-area * { min-width:0; }
+#publication-area .publication-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+#publication-area .publication-top > div:first-child { flex:1 1 280px; }
+#publication-area .publication-top .acts { flex:0 1 auto; align-items:center; }
+#publication-area #pub, #publication-area #popen, #publication-area #plocked { min-width:0; }
+#publication-area .drop { max-width:100%; overflow-wrap:anywhere; }
+#publication-area #file { display:block; width:100%; max-width:100%; margin-top:12px; font:inherit; }
+main#app.studio-mode { min-width:0!important; width:100%!important; }
+main#app.studio-mode #studio-section { min-width:0!important; }
+.studio-workspace, .studio-center, .studio-document-wrap, .studio-page { min-width:0; }
+.studio-ribbon-group { max-width:100%; }
+.studio-ribbon button, .studio-left button, .studio-right button { min-height:38px; touch-action:manipulation; }
+.studio-editor { overflow-wrap:anywhere; }
+@media (min-width:1100px) {
+  main#app.publication-mode #publication-area { width:calc(100% - 40px)!important; padding:26px!important; }
+  main#app.studio-mode #studio-section { width:calc(100% - 24px)!important; }
+  .studio-workspace { grid-template-columns:190px minmax(0,1fr) 220px; }
+}
+/* Tablet: conserva o editor central e põe as opções de design numa faixa inferior. */
+@media (min-width:681px) and (max-width:1050px) {
+  main#app.publication-mode, main#app.studio-mode { padding:8px!important; }
+  main#app.publication-mode #publication-area { width:100%!important; margin:4px auto!important; padding:18px!important; }
+  main#app.studio-mode #studio-section { width:100%!important; margin:4px auto!important; }
+  .studio-workspace { grid-template-columns:150px minmax(0,1fr)!important; }
+  .studio-left { padding:10px!important; }
+  .studio-right { grid-column:1/-1!important; display:grid!important; grid-template-columns:repeat(3,minmax(0,1fr))!important; gap:10px!important; padding:12px!important; }
+  .studio-right h3, .studio-right hr, .studio-right .studio-note { grid-column:1/-1!important; }
+  .studio-page { padding:36px clamp(20px,5%,50px)!important; }
+  .studio-actions { justify-content:flex-start; }
+}
+/* Celular: uma coluna, controles tocáveis e sem rolagem horizontal da página. */
+@media (max-width:680px) {
+  html, body { width:100%; overflow-x:hidden; }
+  main#app:not(.chat-mode) { width:100%!important; max-width:100%!important; padding-left:8px!important; padding-right:8px!important; }
+  main#app.publication-mode, main#app.studio-mode { padding:0 8px 16px!important; }
+  main#app.publication-mode #publication-area { width:100%!important; margin:8px 0!important; padding:12px!important; border-radius:12px!important; }
+  #publication-area .publication-top { display:flex!important; flex-direction:column!important; align-items:stretch!important; gap:10px!important; }
+  #publication-area .publication-top > div { width:100%; }
+  #publication-area .publication-top h2 { font-size:clamp(20px,6vw,25px)!important; line-height:1.2; overflow-wrap:anywhere; }
+  #publication-area .publication-top p { font-size:14px; }
+  #publication-area .publication-top .acts { display:grid!important; grid-template-columns:1fr!important; width:100%; gap:8px!important; }
+  #publication-area .publication-top .btn, #publication-area .acts .btn { width:100%; min-height:44px; margin:0!important; }
+  #publication-area .guard { padding:12px!important; font-size:14px!important; overflow-wrap:anywhere; }
+  #publication-area .drop { padding:16px 10px!important; }
+  #publication-area #file { font-size:13px; }
+  #publication-area #popen > .acts { display:grid!important; grid-template-columns:1fr 1fr!important; }
+  #publication-area #popen > .acts .btn { min-height:42px; padding:8px 6px!important; }
+  main#app.studio-mode #studio-section { width:100%!important; margin:8px 0!important; border-radius:12px!important; }
+  .studio-top { align-items:flex-start!important; gap:10px!important; padding:12px!important; }
+  .studio-brand { align-items:flex-start!important; min-width:0; }
+  .studio-brand h2 { font-size:19px!important; }
+  .studio-brand p { font-size:12px; }
+  .studio-actions { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; width:100%!important; gap:7px!important; }
+  .studio-actions #studio-save-status { grid-column:1/-1; }
+  .studio-actions .btn { width:100%; min-height:42px; padding:8px 7px!important; white-space:normal; font-size:12px!important; }
+  .studio-workspace { display:flex!important; flex-direction:column!important; min-height:0!important; }
+  .studio-left { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; padding:10px!important; }
+  .studio-left h3, .studio-left hr, .studio-left .studio-note { grid-column:1/-1!important; }
+  .studio-left button { min-width:0; min-height:42px; padding:9px 7px!important; font-size:13px; overflow-wrap:anywhere; }
+  .studio-ribbon { padding:8px!important; gap:7px!important; }
+  .studio-ribbon-group { display:flex!important; flex-wrap:wrap!important; gap:5px!important; padding:0 0 7px!important; border-right:0!important; border-bottom:1px solid #e5e3dd!important; width:100%; }
+  .studio-ribbon-group:last-child { border-bottom:0!important; padding-bottom:0!important; }
+  .studio-ribbon button { min-height:40px; padding:8px!important; font-size:13px; }
+  .studio-ribbon label { flex-wrap:wrap; font-size:12px!important; }
+  .studio-ribbon select { max-width:150px!important; min-height:38px; }
+  .studio-document-wrap { padding:10px 4px!important; overflow-x:auto!important; }
+  .studio-page { width:100%!important; max-width:100%!important; min-height:600px!important; padding:24px 16px!important; border-top-width:4px!important; }
+  .studio-title-input { font-size:19px!important; min-height:44px; }
+  .studio-editor { min-height:520px!important; font-size:16px!important; line-height:1.65!important; }
+  .studio-editor h1 { font-size:clamp(24px,7vw,30px)!important; }
+  .studio-editor .studio-columns { columns:1!important; }
+  .studio-right { display:grid!important; grid-template-columns:1fr!important; padding:12px!important; gap:10px!important; }
+  .studio-right h3, .studio-right hr, .studio-right .studio-note { grid-column:1!important; }
+  .studio-right select { min-height:42px; }
+  .studio-right .btn { min-height:44px; }
+  .studio-footer { font-size:10px!important; }
+}
+@media (max-width:380px) {
+  #publication-area #popen > .acts { grid-template-columns:1fr!important; }
+  .studio-actions { grid-template-columns:1fr!important; }
+  .studio-left { grid-template-columns:1fr!important; }
+  .studio-left h3, .studio-left hr, .studio-left .studio-note { grid-column:1!important; }
+  .studio-ribbon-group label { width:100%; justify-content:space-between; }
+  .studio-ribbon select { flex:1; max-width:none!important; }
+}
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
 </style>
 
 </head>
