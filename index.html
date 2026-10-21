@@ -741,7 +741,7 @@ main#app.chat-mode .chat-bubble {max-width:min(88%,680px)!important;overflow-wra
   <h3 class="sh3" id="lh">Últimas notícias</h3>
   <div id="list"></div>
   <section id="publication-area" class="publication-shell" aria-labelledby="pub-heading" hidden>
-    <div class="publication-top"><div><h2 id="pub-heading">⬆ Área de publicação</h2><p>Esta é uma área separada e protegida por senha. Depois de desbloquear a publicação, você poderá acessar o Estúdio de Jornal por aqui.</p></div><div class="acts"><button class="btn ghost" id="publication-back" type="button">← Voltar ao início</button><button class="btn" id="publication-open-studio" type="button">📰 Acessar Estúdio de Jornal</button></div></div>
+    <div class="publication-top"><div><h2 id="pub-heading">⬆ Área de publicação</h2><p>Esta é uma área separada. Desbloqueie a publicação com sua senha para liberar o acesso ao Estúdio de Jornal aqui dentro.</p></div><div class="acts"><button class="btn ghost" id="publication-back" type="button">← Voltar ao início</button><button class="btn" id="publication-open-studio" type="button">📰 Acessar Estúdio de Jornal</button></div></div>
   <div class="guard" id="gnote">Os arquivos são guardados byte a byte, exatamente como foram enviados. Nada é convertido, comprimido ou editado. A impressão digital (SHA-256) de cada arquivo comprova isso.</div>
   <section id="pub" aria-label="Área de publicação">
     <div id="plocked" class="guard"><b>Área de publicação protegida</b><br>Para adicionar documentos, crie uma senha de publicação no primeiro acesso.
@@ -2011,7 +2011,7 @@ $("chat-section")?.querySelectorAll("[data-open-publication='true']").forEach(li
  function close(){menu.classList.remove('is-open');backdrop.classList.remove('is-open');toggle.setAttribute('aria-expanded','false')}
  toggle.addEventListener('click',()=>{const open=!menu.classList.contains('is-open');menu.classList.toggle('is-open',open);backdrop.classList.toggle('is-open',open);toggle.setAttribute('aria-expanded',String(open))});
  backdrop.addEventListener('click',close);document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
- menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{close();const action=a.dataset.mainGo;if(action==='chat'){e.preventDefault();if(typeof openJornaTecChat==='function')openJornaTecChat();return}if(action==='publication'){e.preventDefault();if(typeof openPublicationArea==='function')openPublicationArea();return}if(action==='studio'){e.preventDefault();if(typeof studioOpen==='function')studioOpen();return}if(action==='custom'){e.preventDefault();document.getElementById('custom')?.click();return}if(action==='home'){app.classList.remove('chat-mode','studio-mode','publication-mode');const ch=document.getElementById('chat-section'),st=document.getElementById('studio-section'),pub=document.getElementById('publication-area');if(ch)ch.hidden=true;if(st)st.hidden=true;if(pub)pub.hidden=true;const target=document.querySelector(a.getAttribute('href'));if(target){target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'})}}}));
+ menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{close();const action=a.dataset.mainGo;if(action==='chat'){e.preventDefault();if(typeof openJornaTecChat==='function')openJornaTecChat();return}if(action==='publication'){e.preventDefault();if(typeof openPublicationArea==='function')openPublicationArea();return}if(action==='studio'){e.preventDefault();if(typeof openPublicationArea==='function')openPublicationArea();return}if(action==='custom'){e.preventDefault();document.getElementById('custom')?.click();return}if(action==='home'){app.classList.remove('chat-mode','studio-mode','publication-mode');const ch=document.getElementById('chat-section'),st=document.getElementById('studio-section'),pub=document.getElementById('publication-area');if(ch)ch.hidden=true;if(st)st.hidden=true;if(pub)pub.hidden=true;const target=document.querySelector(a.getAttribute('href'));if(target){target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'})}}}));
  window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
 })();
 
@@ -2022,8 +2022,25 @@ function studioReadDrafts(){try{return JSON.parse(localStorage.getItem(STUDIO_DR
 function studioRefreshDrafts(){const sel=$("studio-drafts");if(!sel)return;const current=sel.value;sel.innerHTML='<option value="">Escolha um rascunho...</option>';studioReadDrafts().forEach((d,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=d.title||('Rascunho '+(i+1));sel.appendChild(o)});if(current&&Number(current)<sel.options.length)sel.value=current}
 function studioCountWords(){if(!studioEditor)return;const n=(studioEditor.innerText||"").trim().split(/\s+/).filter(Boolean).length;$("studio-word-count").textContent=n+ (n===1?' palavra':' palavras')}
 function studioSaveDraft(show=true){if(!studioEditor)return;const draft={title:$("studio-title").value||"Jornal sem título",html:studioEditor.innerHTML,updatedAt:new Date().toISOString(),accent:$("studio-accent").value,pageBg:$("studio-page-bg").value,titleStyle:$("studio-title-style").value};const drafts=studioReadDrafts();const idx=drafts.findIndex(d=>d.title===draft.title);if(idx>=0)drafts[idx]=draft;else drafts.unshift(draft);try{localStorage.setItem(STUDIO_DRAFTS_KEY,JSON.stringify(drafts.slice(0,30)));studioRefreshDrafts();$("studio-save-status").textContent="Salvo neste navegador às "+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});if(show)chatStatus?.("Rascunho do estúdio salvo neste navegador.")}catch(e){$("studio-save-status").textContent="Não foi possível salvar: espaço insuficiente"}}
-function studioOpen(){const app=$("app"),section=$("studio-section");if(!app||!section)return;const chat=$("chat-section"),pub=$("publication-area");if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}if(pub)pub.hidden=true;app.classList.remove("chat-mode","publication-mode");app.classList.add("studio-mode");section.hidden=false;studioRefreshDrafts();studioCountWords();window.scrollTo({top:0,behavior:"auto"})}
-function studioClose(){const app=$("app"),section=$("studio-section");if(!app||!section)return;app.classList.remove("studio-mode");section.hidden=true;window.scrollTo({top:0,behavior:"auto"})}
+function studioOpen(){
+ const app=$("app"),section=$("studio-section");if(!app||!section)return;
+ // O Estúdio de Jornal só pode ser aberto depois de desbloquear a Área de publicação.
+ if(!unlocked){
+  openPublicationArea();pendingPublicationStudio=true;
+  getPubPassword().then(current=>askPw(current?"unlock":"create")).catch(e=>{pendingPublicationStudio=false;say("Não foi possível verificar a senha de publicação: "+(e.message||e))});
+  return;
+ }
+ const chat=$("chat-section"),pub=$("publication-area");
+ if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}
+ if(pub)pub.hidden=true;app.classList.remove("chat-mode","publication-mode");app.classList.add("studio-mode");section.hidden=false;studioRefreshDrafts();studioCountWords();window.scrollTo({top:0,behavior:"auto"});
+}
+function studioClose(){
+ const app=$("app"),section=$("studio-section"),pub=$("publication-area");if(!app||!section)return;
+ app.classList.remove("studio-mode");section.hidden=true;
+ // O botão de voltar retorna à Área de publicação, único lugar que dá acesso ao Estúdio.
+ if(pub){pub.hidden=false;app.classList.add("publication-mode");}
+ window.scrollTo({top:0,behavior:"auto"});
+}
 $("studio-back")?.addEventListener("click",studioClose);$("studio-save")?.addEventListener("click",()=>studioSaveDraft(true));
 $("studio-export")?.addEventListener("click",()=>{document.body.classList.add("studio-print");window.print();setTimeout(()=>document.body.classList.remove("studio-print"),800)});
 studioEditor?.addEventListener("input",()=>{studioCountWords();$("studio-save-status").textContent="Alterações não salvas"});
