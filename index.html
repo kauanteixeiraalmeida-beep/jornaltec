@@ -879,6 +879,53 @@ main#app.studio-mode #main-home-menu,main#app.studio-mode #main-menu-toggle,main
 main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app.chat-mode #main-menu-backdrop{display:none!important}
 </style>
 
+
+<style id="v53-studio-fullscreen">
+/* V53 — Estúdio de Jornal em tela cheia, sem perder os controles de saída. */
+#studio-section.studio-fullscreen {
+  position:fixed!important; inset:0!important; z-index:99999!important;
+  display:flex!important; flex-direction:column!important; width:100vw!important;
+  height:100vh!important; height:100dvh!important; max-width:none!important;
+  min-height:0!important; margin:0!important; padding:0!important;
+  border:0!important; border-radius:0!important; overflow:hidden!important;
+  box-sizing:border-box!important; background:#f4f2ec!important;
+}
+#studio-section.studio-fullscreen .studio-top {
+  flex:0 0 auto!important; position:relative!important; z-index:3!important;
+  padding:10px 16px!important; border-radius:0!important;
+}
+#studio-section.studio-fullscreen .studio-workspace {
+  flex:1 1 auto!important; min-height:0!important; height:auto!important;
+  overflow:hidden!important; grid-template-columns:200px minmax(0,1fr) 230px!important;
+}
+#studio-section.studio-fullscreen .studio-left,
+#studio-section.studio-fullscreen .studio-right {
+  min-height:0!important; overflow-y:auto!important; overscroll-behavior:contain;
+}
+#studio-section.studio-fullscreen .studio-center {min-height:0!important; overflow:hidden!important}
+#studio-section.studio-fullscreen .studio-ribbon {flex:0 0 auto!important; max-height:30vh; overflow-y:auto!important}
+#studio-section.studio-fullscreen .studio-document-wrap {min-height:0!important; overflow:auto!important; flex:1 1 auto!important}
+#studio-section.studio-fullscreen .studio-footer {flex:0 0 auto!important}
+#studio-section.studio-fullscreen #studio-fullscreen-toggle {background:#f3d27a!important;color:#082744!important;border-color:#f3d27a!important;font-weight:800!important}
+@media(max-width:900px){
+ #studio-section.studio-fullscreen .studio-workspace {grid-template-columns:165px minmax(0,1fr)!important}
+ #studio-section.studio-fullscreen .studio-right {grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:25vh!important;border-top:1px solid #e0ded7!important}
+ #studio-section.studio-fullscreen .studio-right h3,#studio-section.studio-fullscreen .studio-right hr,#studio-section.studio-fullscreen .studio-right .studio-note {grid-column:1/-1!important}
+}
+@media(max-width:600px){
+ #studio-section.studio-fullscreen .studio-top {padding:8px!important;max-height:24vh;overflow-y:auto!important}
+ #studio-section.studio-fullscreen .studio-brand h2 {font-size:17px!important}
+ #studio-section.studio-fullscreen .studio-actions {gap:5px!important}
+ #studio-section.studio-fullscreen .studio-actions .btn {font-size:11px!important;padding:7px!important}
+ #studio-section.studio-fullscreen .studio-workspace {display:flex!important;flex-direction:column!important;overflow:auto!important}
+ #studio-section.studio-fullscreen .studio-left {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:25vh!important;overflow:auto!important;border-bottom:1px solid #e0ded7!important}
+ #studio-section.studio-fullscreen .studio-left h3,#studio-section.studio-fullscreen .studio-left hr,#studio-section.studio-fullscreen .studio-left .studio-note {grid-column:1/-1!important}
+ #studio-section.studio-fullscreen .studio-center {flex:1 0 55vh!important;min-height:55vh!important;overflow:visible!important}
+ #studio-section.studio-fullscreen .studio-ribbon {max-height:28vh!important}
+ #studio-section.studio-fullscreen .studio-right {display:grid!important;grid-template-columns:1fr!important;max-height:none!important}
+}
+</style>
+
 </head>
 <body>
 <section id="login"><form id="lform" class="lcard">
@@ -946,7 +993,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
   <section id="studio-section" class="studio-shell" aria-labelledby="studio-heading" hidden>
     <div class="studio-top">
       <div class="studio-brand"><span class="studio-logo">▤</span><div><h2 id="studio-heading">Estúdio de Jornal</h2><p>Crie, diagrama e prepare sua próxima edição.</p></div></div>
-      <div class="studio-actions"><span id="studio-save-status" role="status">Rascunho local</span><button class="btn ghost" id="studio-back" type="button">← Voltar ao jornal</button><button class="btn ghost" id="studio-save" type="button">💾 Salvar rascunho</button><button class="btn" id="studio-export" type="button">⬇ Exportar / PDF</button><button class="btn ghost" id="studio-export-html" type="button">HTML</button><button class="btn ghost" id="studio-export-txt" type="button">TXT</button></div>
+      <div class="studio-actions"><span id="studio-save-status" role="status">Rascunho local</span><button class="btn ghost" id="studio-fullscreen-toggle" type="button" aria-pressed="false" title="Expandir o Estúdio para a tela inteira">⛶ Tela cheia</button><button class="btn ghost" id="studio-back" type="button">← Voltar ao jornal</button><button class="btn ghost" id="studio-save" type="button">💾 Salvar rascunho</button><button class="btn" id="studio-export" type="button">⬇ Exportar / PDF</button><button class="btn ghost" id="studio-export-html" type="button">HTML</button><button class="btn ghost" id="studio-export-txt" type="button">TXT</button></div>
     </div>
     <div class="studio-workspace">
       <aside class="studio-left"><h3>Modos de edição</h3><button type="button" id="studio-mode-word" aria-pressed="true">📄 Documento (Word)</button><button type="button" id="studio-mode-design" aria-pressed="false">🎨 Design (Canva)</button><hr><h3>Inserir</h3><button type="button" data-studio-insert="heading">Tt　Título</button><button type="button" data-studio-insert="subtitle">Aa　Subtítulo</button><button type="button" data-studio-insert="paragraph">¶　Texto</button><button type="button" id="studio-add-image">▧　Adicionar imagem</button><input id="studio-image-file" type="file" accept="image/*" hidden><button type="button" data-studio-insert="quote">❝　Citação</button><button type="button" data-studio-insert="columns">▥　Duas colunas</button><button type="button" data-studio-insert="divider">—　Divisor</button><button type="button" id="studio-add-table">▦　Tabela</button><button type="button" id="studio-add-callout">💡　Caixa de destaque</button><button type="button" id="studio-add-sticker">✨　Elemento visual</button><button type="button" id="studio-add-date">📅　Data de hoje</button><button type="button" id="studio-add-textbox">T　Caixa de texto móvel</button><button type="button" id="studio-add-shape">◼　Forma / etiqueta</button><button type="button" id="studio-add-background-image">🖼　Fundo com imagem</button><input id="studio-background-file" type="file" accept="image/*" hidden><button type="button" id="studio-add-pagebreak">↧　Quebra de página</button><hr><h3>Modelos</h3><button type="button" data-studio-template="cover">Capa de jornal</button><button type="button" data-studio-template="article">Matéria editorial</button><button type="button" data-studio-template="interview">Entrevista</button><p class="studio-note">Dica: selecione um trecho para formatá-lo. Salvar rascunho guarda uma cópia neste navegador.</p></aside>
@@ -2425,6 +2472,43 @@ boot();
 
 document.getElementById("quick-custom")?.addEventListener("click",e=>{e.preventDefault();document.getElementById("custom")?.click()});
 </script>
+
+<script id="v53-studio-fullscreen-behavior">
+(function(){
+ const section=document.getElementById('studio-section');
+ const button=document.getElementById('studio-fullscreen-toggle');
+ if(!section||!button)return;
+ function setFullscreenMode(on){
+   section.classList.toggle('studio-fullscreen',!!on);
+   button.setAttribute('aria-pressed',String(!!on));
+   button.textContent=on?'⤢ Sair da tela cheia':'⛶ Tela cheia';
+   button.title=on?'Voltar ao tamanho normal do aplicativo':'Expandir o Estúdio para a tela inteira';
+   document.body.style.overflow=on?'hidden':'';
+ }
+ button.addEventListener('click',async function(){
+   const entering=!section.classList.contains('studio-fullscreen');
+   if(entering){
+     setFullscreenMode(true);
+     try{if(section.requestFullscreen)await section.requestFullscreen()}catch(_){/* O modo expandido por CSS continua disponível. */}
+   }else{
+     setFullscreenMode(false);
+     try{if(document.fullscreenElement&&document.exitFullscreen)await document.exitFullscreen()}catch(_){}
+   }
+ });
+ document.addEventListener('fullscreenchange',function(){
+   if(!document.fullscreenElement&&section.classList.contains('studio-fullscreen'))setFullscreenMode(false);
+ });
+ document.addEventListener('keydown',function(e){
+   if(e.key==='Escape'&&section.classList.contains('studio-fullscreen')&&!document.fullscreenElement)setFullscreenMode(false);
+ });
+ const back=document.getElementById('studio-back');
+ back?.addEventListener('click',function(){
+   if(section.classList.contains('studio-fullscreen'))setFullscreenMode(false);
+   if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+ });
+})();
+</script>
+
 </body>
 </html>
 
