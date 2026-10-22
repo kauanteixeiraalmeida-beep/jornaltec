@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornalTec — Aplicativo</title>
+<title>JornalTec V50 — Menu clicável</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -808,6 +808,34 @@ main#app.studio-mode #studio-section { min-width:0!important; }
   .studio-ribbon select { flex:1; max-width:none!important; }
 }
 @media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
+</style>
+
+
+<style id="v50-desktop-clickable-menu">
+/* V50: menu lateral recolhido por padrão em computadores e celulares. */
+main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode){padding-left:10px!important}
+main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) .main-menu-toggle{
+ display:inline-flex!important;position:fixed!important;left:16px!important;top:14px!important;z-index:160!important;
+ align-items:center!important;gap:8px!important;padding:10px 14px!important;margin:0!important;
+ border:1px solid #173b5a!important;border-radius:10px!important;background:#0a2c4c!important;color:#fff!important;
+ font-weight:700!important;box-shadow:0 4px 14px #061d3430!important;cursor:pointer!important
+}
+#main-home-menu{transform:translateX(-105%);transition:transform .22s ease!important;z-index:150!important;width:min(290px,82vw)!important}
+#main-home-menu.is-open{transform:translateX(0)!important}
+#main-menu-backdrop{display:none!important}
+#main-menu-backdrop.is-open{display:block!important;position:fixed!important;inset:0!important;z-index:140!important;
+ width:100vw!important;height:100vh!important;border:0!important;border-radius:0!important;padding:0!important;margin:0!important;
+ background:rgba(3,16,29,.42)!important;cursor:pointer!important}
+@media(min-width:761px){
+ main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode){padding-left:10px!important}
+ main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) .main-menu-toggle{position:fixed!important;top:16px!important;left:18px!important}
+}
+@media(max-width:760px){
+ main#app:not(.publication-mode):not(.studio-mode):not(.chat-mode) .main-menu-toggle{top:10px!important;left:10px!important}
+}
+main#app.publication-mode #main-home-menu,main#app.publication-mode #main-menu-toggle,main#app.publication-mode #main-menu-backdrop,
+main#app.studio-mode #main-home-menu,main#app.studio-mode #main-menu-toggle,main#app.studio-mode #main-menu-backdrop,
+main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app.chat-mode #main-menu-backdrop{display:none!important}
 </style>
 
 </head>
@@ -2194,15 +2222,16 @@ $("chat-section")?.querySelectorAll("[data-open-publication='true']").forEach(li
 
 
 
-// V36 — menu principal disponível na página inicial e em todas as áreas
+// V50 — menu principal abre pelo botão e fecha ao clicar fora ou pressionar Esc
 (function(){
  const app=document.getElementById('app'),menu=document.getElementById('main-home-menu'),toggle=document.getElementById('main-menu-toggle'),backdrop=document.getElementById('main-menu-backdrop');
  if(!app||!menu||!toggle||!backdrop)return;
- function close(){menu.classList.remove('is-open');backdrop.classList.remove('is-open');toggle.setAttribute('aria-expanded','false')}
- toggle.addEventListener('click',()=>{const open=!menu.classList.contains('is-open');menu.classList.toggle('is-open',open);backdrop.classList.toggle('is-open',open);toggle.setAttribute('aria-expanded',String(open))});
- backdrop.addEventListener('click',close);document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ function close(){menu.classList.remove('is-open');backdrop.classList.remove('is-open');app.classList.remove('main-menu-open');toggle.setAttribute('aria-expanded','false')}
+ function open(){menu.classList.add('is-open');backdrop.classList.add('is-open');app.classList.add('main-menu-open');toggle.setAttribute('aria-expanded','true')}
+ toggle.addEventListener('click',()=>menu.classList.contains('is-open')?close():open());
+ backdrop.addEventListener('click',close);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{close();const action=a.dataset.mainGo;if(action==='chat'){e.preventDefault();if(typeof openJornalTecChat==='function')openJornalTecChat();return}if(action==='publication'){e.preventDefault();if(typeof openPublicationArea==='function')openPublicationArea();return}if(action==='studio'){e.preventDefault();if(typeof openPublicationArea==='function')openPublicationArea();return}if(action==='custom'){e.preventDefault();document.getElementById('custom')?.click();return}if(action==='home'){app.classList.remove('chat-mode','studio-mode','publication-mode');const ch=document.getElementById('chat-section'),st=document.getElementById('studio-section'),pub=document.getElementById('publication-area');if(ch)ch.hidden=true;if(st)st.hidden=true;if(pub)pub.hidden=true;const target=document.querySelector(a.getAttribute('href'));if(target){target.hidden=false;target.scrollIntoView({behavior:'smooth',block:'start'})}}}));
- window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
 })();
 
 // V28 — ferramentas do Estúdio de Jornal
