@@ -980,7 +980,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
   <h3 class="sh3" id="lh">Últimas notícias</h3>
   <div id="list"></div>
   <section id="publication-area" class="publication-shell" aria-labelledby="pub-heading" hidden>
-    <div class="publication-top"><div><h2 id="pub-heading">⬆ Área de publicação</h2><p>Esta é uma área separada. Desbloqueie a publicação com sua senha para liberar o acesso ao Estúdio de Jornal aqui dentro.</p></div><div class="acts publication-actions"><button class="btn ghost" id="publication-back" type="button">← Voltar ao início</button><button class="btn ghost" id="publication-redacao-open" type="button" title="Abrir a Central de Redação">▦ Central de Redação</button><button class="btn" id="publication-open-studio" type="button">📰 Acessar Estúdio de Jornal</button></div></div>
+    <div class="publication-top publication-hero"><div class="publication-identity"><div class="publication-mark" aria-hidden="true">JT</div><div class="publication-copy"><span class="publication-kicker">JORNALTEC · CENTRAL EDITORIAL</span><h2 id="pub-heading">Área de publicação</h2><p>Organize os arquivos do jornal, acompanhe suas edições e acesse as ferramentas de produção em um só lugar.</p></div></div><div class="acts publication-actions"><button class="btn ghost" id="publication-back" type="button">← Início</button><button class="btn ghost" id="publication-redacao-open" type="button" title="Abrir a Central de Redação">▦ Central de Redação</button><button class="btn publication-studio-cta" id="publication-open-studio" type="button">📰 Abrir Estúdio</button></div></div>
   <div class="guard" id="gnote">Os arquivos são guardados byte a byte, exatamente como foram enviados. Nada é convertido, comprimido ou editado. A impressão digital (SHA-256) de cada arquivo comprova isso.</div>
   <section id="pub" aria-label="Área de publicação">
     <div id="plocked" class="guard"><b>Área de publicação protegida</b><br>Para adicionar documentos, crie uma senha de publicação no primeiro acesso.
@@ -2611,6 +2611,59 @@ load();
 #publication-area .publication-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 #publication-redacao-open{min-height:42px;font-weight:700;border-color:#c8d6e2}
 @media(max-width:680px){#publication-area .publication-top{gap:14px}#publication-area .publication-actions{width:100%}#publication-area .publication-actions button{flex:1 1 180px}}
+</style>
+
+
+<style id="v56-publication-interface-refresh">
+/* V56 — renovação visual da Área de Publicação, mantendo os IDs e ações existentes. */
+#publication-area.publication-shell{
+  --pub-ink:#102b45;--pub-navy:#092b49;--pub-blue:#16496d;--pub-gold:#d8ad42;--pub-paper:#fffdf8;
+  width:min(1500px,calc(100% - 36px));max-width:1500px;margin:22px auto 36px;padding:0 0 26px;
+  overflow:hidden;background:#f5f3ed;border:1px solid #d9dfe3;border-radius:22px;color:var(--pub-ink);
+  box-shadow:0 18px 50px rgba(12,39,61,.09)
+}
+#publication-area .publication-hero{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  margin:0;padding:28px 30px 26px;border:0;border-bottom:4px solid var(--pub-gold);
+  background:radial-gradient(circle at 88% 0%,rgba(70,120,151,.32),transparent 30%),linear-gradient(125deg,#08243d 0%,#103c5e 60%,#174d70 100%);
+  color:#fff
+}
+#publication-area .publication-identity{display:flex;align-items:center;gap:17px;flex:1 1 360px;min-width:0}
+#publication-area .publication-mark{display:grid;place-items:center;flex:0 0 62px;width:62px;height:62px;border:1px solid rgba(255,255,255,.32);border-radius:17px;background:linear-gradient(145deg,#f2d276,#c7972e);color:#092b49;font:900 21px Georgia,serif;letter-spacing:-1px;box-shadow:0 8px 22px #0002}
+#publication-area .publication-copy{min-width:0}
+#publication-area .publication-kicker{display:block;margin:0 0 7px;color:#f0ce72;font-size:10px;font-weight:900;letter-spacing:2px}
+#publication-area .publication-top h2{margin:0;color:#fff;font:700 clamp(25px,3vw,34px)/1.12 Georgia,serif;letter-spacing:-.45px}
+#publication-area .publication-top p{max-width:600px;margin:9px 0 0;color:#d8e5ee;font-size:13px;line-height:1.65}
+#publication-area .publication-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex:0 1 auto}
+#publication-area .publication-actions .btn{min-height:43px;padding:11px 14px;border:1px solid rgba(255,255,255,.23);border-radius:10px;background:rgba(255,255,255,.09);color:#fff;font-size:12px;font-weight:800;white-space:nowrap;transition:transform .18s ease,background .18s ease,border-color .18s ease;box-shadow:none}
+#publication-area .publication-actions .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.5)}
+#publication-area .publication-actions .publication-studio-cta{background:#e5bd58;color:#102b45;border-color:#e5bd58;box-shadow:0 5px 14px rgba(0,0,0,.12)}
+#publication-area .publication-actions .publication-studio-cta:hover{background:#f0cf75;border-color:#f0cf75}
+#publication-area #gnote{margin:22px 24px 18px;padding:14px 17px 14px 45px;position:relative;background:#edf4f7;border:1px solid #d8e5eb;border-left:4px solid #2d718e;border-radius:12px;color:#456174;font-size:12px;line-height:1.65}
+#publication-area #gnote:before{content:'✓';position:absolute;left:15px;top:12px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#d5e9ef;color:#1a607d;font-weight:900}
+#publication-area #pub{margin:0 24px;padding:0;min-width:0}
+#publication-area #plocked{margin:0;padding:24px;border:1px solid #e8d8a8;border-left:4px solid #d5a632;border-radius:15px;background:linear-gradient(120deg,#fffaf0,#fffdf8);color:#6c5b32;box-shadow:0 5px 18px rgba(57,46,19,.04)}
+#publication-area #plocked b{display:block;color:#263e53;font:700 20px Georgia,serif;margin-bottom:6px}
+#publication-area #plocked .acts{margin-top:17px!important}
+#publication-area #plocked .btn,#publication-area #popen .btn{min-height:42px;border-radius:9px;font-weight:800}
+#publication-area #popen{display:grid;gap:15px}
+#publication-area #popen>.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:190px;margin:0;padding:26px;border:2px dashed #a9bfce;border-radius:16px;background:linear-gradient(145deg,#fff 0%,#f3f8fa 100%);color:#163b57;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+#publication-area #popen>.drop:before{content:'↑';display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#e1edf3;color:#164c6d;font-size:28px;font-weight:500}
+#publication-area #popen>.drop:hover,#publication-area #popen>.drop.over{border-color:#c69a2f;background:#fffaf0;transform:translateY(-1px)}
+#publication-area #popen>.drop b{font:700 21px Georgia,serif;color:#153a56;margin:2px 0 0}
+#publication-area #popen>.drop span{max-width:540px;color:#6c7f8d;font-size:12px;line-height:1.6}
+#publication-area #popen>#file{max-width:540px;margin:4px auto 0;padding:10px;border:1px solid #dce5eb;border-radius:9px;background:#fff;font-size:12px}
+#publication-area #popen>.acts{display:flex;flex-wrap:wrap;gap:9px;margin:0!important}
+#publication-area #popen>.acts .btn{flex:0 1 auto;padding:11px 15px}
+#publication-area #popen>.acts .btn:not(.ghost){background:#103d5d;border-color:#103d5d}
+#publication-area #popen>.acts .btn.ghost{background:#fff;border:1px solid #d4dfe6;color:#284a63}
+#publication-area .guard:not(#plocked){border-radius:12px}
+#publication-area .meta{color:#6b7d8b;font-size:12px}
+#publication-area button:focus-visible,#publication-area input:focus-visible,#publication-area [tabindex]:focus-visible{outline:3px solid #e2b642;outline-offset:3px}
+@media(min-width:1200px){#publication-area #pub{max-width:1100px;margin-left:auto;margin-right:auto}}
+@media(max-width:900px){#publication-area.publication-shell{width:calc(100% - 22px);margin:12px auto 24px}#publication-area .publication-hero{padding:23px 20px;align-items:flex-start}#publication-area .publication-actions{justify-content:flex-start;width:100%}#publication-area #gnote{margin:17px 16px 14px}#publication-area #pub{margin:0 16px}}
+@media(max-width:600px){#publication-area.publication-shell{width:calc(100% - 12px);margin:6px auto 18px;border-radius:15px;padding-bottom:15px}#publication-area .publication-hero{padding:19px 14px 17px;gap:17px}#publication-area .publication-identity{gap:12px;align-items:flex-start;flex-basis:100%}#publication-area .publication-mark{width:46px;height:46px;flex-basis:46px;border-radius:12px;font-size:17px}#publication-area .publication-kicker{font-size:9px;letter-spacing:1.25px}#publication-area .publication-top h2{font-size:25px}#publication-area .publication-top p{font-size:12px;line-height:1.55}#publication-area .publication-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}#publication-area .publication-actions .btn{min-width:0;white-space:normal;padding:10px 7px;font-size:11px}#publication-area .publication-actions .publication-studio-cta{grid-column:1/-1}#publication-area #gnote{margin:13px 10px;padding:12px 12px 12px 39px;font-size:11px}#publication-area #gnote:before{left:11px;top:11px}#publication-area #pub{margin:0 10px}#publication-area #plocked{padding:18px 14px}#publication-area #plocked b{font-size:18px}#publication-area #popen>.drop{min-height:165px;padding:20px 12px}#publication-area #popen>.drop b{font-size:18px}#publication-area #popen>.acts{display:grid;grid-template-columns:1fr 1fr}#publication-area #popen>.acts .btn{width:100%;padding:10px 7px;font-size:12px}#publication-area #popen>.acts:last-child{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#publication-area .publication-actions .btn,#publication-area #popen>.drop{transition:none}}
 </style>
 
 </body>
