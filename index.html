@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornalTec V54 — Redação Profissional</title>
+<title>JornalTec V58 — Cargos conectados ao Supabase</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -1068,7 +1068,9 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
     <section class="jtr-view" data-jtr-view="reports"><div class="jtr-page-head"><div><p class="jtr-eyebrow">ACOMPANHAMENTO</p><h3>Relatórios da redação</h3><p>Indicadores operacionais dos registros criados nesta Central.</p></div><button class="jtr-btn jtr-muted" id="jtr-export-report">Exportar relatório CSV</button></div><div id="jtr-report-summary" class="jtr-stat-grid"></div><div class="jtr-card"><h4>Distribuição por etapa</h4><div id="jtr-stage-bars" class="jtr-bars"></div><p class="jtr-report-disclaimer">Estes indicadores representam apenas os registros desta Central neste navegador. Não são métricas de audiência do site nem dados sincronizados do Supabase.</p></div><div class="jtr-card"><h4>Registro de atividades</h4><div id="jtr-activity-log" class="jtr-activity-log"></div></div></section>
     <section class="jtr-view" data-jtr-view="access">
       <div class="jtr-page-head"><div><p class="jtr-eyebrow">SEGURANÇA E GOVERNANÇA</p><h3>Cargos e permissões</h3><p>Proposta de hierarquia do JornalTec: o Criador define os níveis e controla as permissões globais.</p></div><span class="jtr-pill">Prévia de planejamento</span></div>
-      <div class="jtr-card" style="border-left:4px solid #d9ad43;background:#fffaf0"><h4>Importante: ainda não conectado ao Supabase</h4><p style="font-size:12px;line-height:1.7;color:#6b6048;margin:8px 0 0">Esta tela documenta a configuração planejada. Alterações feitas aqui não mudam cargos, usuários ou permissões reais. A ativação exige migração SQL, políticas RLS e a definição segura da conta do Criador.</p></div>
+      <div class="jtr-card" id="jt-role-status-card" style="border-left:4px solid #d9ad43;background:#fffaf0"><h4 id="jt-role-status-title">Conectando cargos ao Supabase…</h4><p id="jt-role-status" style="font-size:12px;line-height:1.7;color:#6b6048;margin:8px 0 0">O JornalTec vai verificar sua sessão e consultar as funções protegidas do banco. Se a migração de cargos ainda não foi executada, esta área mostrará o erro sem alterar dados.</p></div>
+      <div class="jtr-card" id="jt-my-role-card"><div class="jtr-card-head"><div><h4>Meu acesso</h4><p>Cargo permanente consultado no banco de dados</p></div><span class="jtr-pill" id="jt-my-role-badge">Verificando…</span></div><div id="jt-my-role-detail" class="jtr-role-message">Aguardando sessão autenticada.</div></div>
+      <div class="jtr-card" id="jt-role-admin-card" hidden><div class="jtr-card-head"><div><h4>Gerenciar cargos da equipe</h4><p>Somente a conta Criador pode listar usuários e atribuir níveis 1 a 5.</p></div><button type="button" class="jtr-btn jtr-muted" id="jt-role-refresh">Atualizar lista</button></div><p class="jtr-role-message">A alteração é enviada à função protegida do Supabase; o nível 0 permanece reservado à conta Criador.</p><div id="jt-role-list" class="jt-role-list"><p class="jtr-role-message">Carregando usuários…</p></div><p id="jt-role-admin-status" role="status" class="jtr-role-message"></p></div>
       <div class="jtr-stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
        <article class="jtr-stat"><div class="jtr-stat-top">Nível máximo <span class="jtr-stat-icon">♛</span></div><strong>0</strong><small>Criador · controle global</small></article>
        <article class="jtr-stat"><div class="jtr-stat-top">Beta tester <span class="jtr-stat-icon">⚗</span></div><strong>1</strong><small>Ferramentas experimentais</small></article>
@@ -2695,6 +2697,94 @@ load();
 @media(max-width:600px){#publication-area.publication-shell{width:calc(100% - 12px);margin:6px auto 18px;border-radius:15px;padding-bottom:15px}#publication-area .publication-hero{padding:19px 14px 17px;gap:17px}#publication-area .publication-identity{gap:12px;align-items:flex-start;flex-basis:100%}#publication-area .publication-mark{width:46px;height:46px;flex-basis:46px;border-radius:12px;font-size:17px}#publication-area .publication-kicker{font-size:9px;letter-spacing:1.25px}#publication-area .publication-top h2{font-size:25px}#publication-area .publication-top p{font-size:12px;line-height:1.55}#publication-area .publication-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}#publication-area .publication-actions .btn{min-width:0;white-space:normal;padding:10px 7px;font-size:11px}#publication-area .publication-actions .publication-studio-cta{grid-column:1/-1}#publication-area #gnote{margin:13px 10px;padding:12px 12px 12px 39px;font-size:11px}#publication-area #gnote:before{left:11px;top:11px}#publication-area #pub{margin:0 10px}#publication-area #plocked{padding:18px 14px}#publication-area #plocked b{font-size:18px}#publication-area #popen>.drop{min-height:165px;padding:20px 12px}#publication-area #popen>.drop b{font-size:18px}#publication-area #popen>.acts{display:grid;grid-template-columns:1fr 1fr}#publication-area #popen>.acts .btn{width:100%;padding:10px 7px;font-size:12px}#publication-area #popen>.acts:last-child{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){#publication-area .publication-actions .btn,#publication-area #popen>.drop{transition:none}}
 </style>
+
+
+<style id="v58-supabase-role-manager">
+#jt-my-role-card .jtr-card-head,#jt-role-admin-card .jtr-card-head{align-items:flex-start;gap:12px;flex-wrap:wrap}
+.jtr-role-message{font-size:12px;line-height:1.7;color:#687b8b;margin:8px 0}
+.jt-role-list{display:grid;gap:10px;margin-top:14px}
+.jt-role-user{display:grid;grid-template-columns:minmax(150px,1fr) minmax(130px,190px) auto;align-items:center;gap:12px;padding:12px;border:1px solid #e1e8ed;border-radius:12px;background:#fff}
+.jt-role-user strong{display:block;color:#183b55;font-size:13px;overflow-wrap:anywhere}
+.jt-role-user small{display:block;color:#758695;font-size:11px;margin-top:4px;overflow-wrap:anywhere}
+.jt-role-user select{width:100%;min-width:0;padding:9px;border:1px solid #d6e0e8;border-radius:8px;background:#fff;color:#173b55;font:inherit;font-size:12px}
+.jt-role-user button{white-space:nowrap}
+#jt-role-status-card.jt-role-ok{border-left-color:#2c8a62!important;background:#f0fbf5!important}
+#jt-role-status-card.jt-role-error{border-left-color:#c34d4d!important;background:#fff5f3!important}
+@media(max-width:620px){.jt-role-user{grid-template-columns:1fr;gap:9px}.jt-role-user button{width:100%}}
+</style>
+<script id="v58-supabase-role-manager-script">
+(()=>{
+ const byId=id=>document.getElementById(id);
+ const roleNames={1:'Beta tester',2:'Direção',3:'Coordenação e professores autorizados',4:'Criadores de jornais e publicadores',5:'Leitores'};
+ const levelLabels={0:'Criador',...roleNames};
+ let currentUserId=null, creatorMode=false, loadingRoles=false;
+ const safe=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function status(title,message,kind=''){const card=byId('jt-role-status-card');if(!card)return;card.classList.remove('jt-role-ok','jt-role-error');if(kind)card.classList.add(kind==='ok'?'jt-role-ok':'jt-role-error');byId('jt-role-status-title').textContent=title;byId('jt-role-status').textContent=message;}
+ function showOwnRole(row){
+  const badge=byId('jt-my-role-badge'),detail=byId('jt-my-role-detail');
+  if(!row){badge.textContent='Sem cargo';detail.textContent='Sua conta ainda não tem um cargo permanente atribuído na tabela jornatec_user_roles. Peça ao Criador para atribuir um nível.';return;}
+  badge.textContent='Nível '+row.level;
+  detail.textContent=(row.role_name||levelLabels[row.level]||'Cargo personalizado')+' · nível '+row.level+'. O nível indica a hierarquia, mas não concede automaticamente todas as permissões de outros cargos.';
+ }
+ async function loadRoleList(){
+  if(!creatorMode||!window.supabase||!supabaseClient)return;
+  if(loadingRoles)return;loadingRoles=true;
+  const host=byId('jt-role-list'),msg=byId('jt-role-admin-status');
+  host.innerHTML='<p class="jtr-role-message">Consultando usuários pelo RPC protegido…</p>';msg.textContent='';
+  try{
+   const {data,error}=await supabaseClient.rpc('jornatec_list_user_roles');
+   if(error)throw error;
+   if(!Array.isArray(data)||!data.length){host.innerHTML='<p class="jtr-role-message">Nenhum usuário encontrado.</p>';return;}
+   host.innerHTML=data.map(u=>{
+    const name=u.display_name||u.username||u.email||u.user_id;
+    const current=Number.isInteger(Number(u.level))?Number(u.level):'';
+    const options=[1,2,3,4,5].map(n=>`<option value="${n}" ${current===n?'selected':''}>Nível ${n} — ${safe(roleNames[n])}</option>`).join('');
+    return `<div class="jt-role-user" data-user-id="${safe(u.user_id)}"><div><strong>${safe(name)}</strong><small>${safe(u.email||'E-mail não informado')} · ${current===''?'Sem cargo':`Nível ${current} — ${safe(u.role_name||levelLabels[current]||'Cargo')}`}</small></div><select aria-label="Novo cargo para ${safe(name)}" data-role-level>${options}</select><button type="button" class="jtr-btn jtr-primary" data-role-save>Salvar cargo</button></div>`;
+   }).join('');
+  }catch(e){host.innerHTML='<p class="jtr-role-message">Não foi possível carregar a equipe. Confira a migração e a função jornatec_list_user_roles no Supabase.</p>';msg.textContent=e?.message||String(e);}
+  finally{loadingRoles=false;}
+ }
+ async function loadMyRole(user){
+  if(!user||!supabaseClient)return;
+  currentUserId=user.id;
+  byId('jt-my-role-badge').textContent='Verificando…';byId('jt-my-role-detail').textContent='Consultando seu cargo no Supabase.';
+  try{
+   const {data:isCreator,error:creatorError}=await supabaseClient.rpc('jornatec_is_creator');
+   if(creatorError)throw creatorError;
+   creatorMode=isCreator===true;
+   const {data:row,error:roleError}=await supabaseClient.from('jornatec_user_roles').select('user_id,level,role_name').eq('user_id',user.id).maybeSingle();
+   if(roleError)throw roleError;
+   showOwnRole(row);
+   byId('jt-role-admin-card').hidden=!creatorMode;
+   const accessTab=document.querySelector('[data-jtr-tab="access"]');
+   if(accessTab)accessTab.hidden=!creatorMode;
+   if(creatorMode){status('Supabase conectado — Criador confirmado','A função protegida do banco confirmou esta conta como Criador. A lista e as alterações de cargo usam RPCs que validam a autorização no servidor.','ok');await loadRoleList();}
+   else{status('Cargo consultado no Supabase','Seu cargo foi carregado. O painel administrativo de cargos fica disponível apenas para a conta Criador.','ok');}
+  }catch(e){creatorMode=false;byId('jt-role-admin-card').hidden=true;const accessTab=document.querySelector('[data-jtr-tab="access"]');if(accessTab)accessTab.hidden=true;status('Não foi possível validar cargos no Supabase',e?.message||String(e),'error');byId('jt-my-role-badge').textContent='Não verificado';byId('jt-my-role-detail').textContent='Não foi possível confirmar seu cargo. A tela não vai conceder privilégios localmente.';}
+ }
+ async function saveRole(button){
+  const row=button.closest('[data-user-id]');if(!row||!creatorMode)return;
+  const userId=row.dataset.userId,level=Number(row.querySelector('[data-role-level]').value),roleName=roleNames[level];
+  const msg=byId('jt-role-admin-status');button.disabled=true;button.textContent='Salvando…';msg.textContent='';
+  try{
+   const {error}=await supabaseClient.rpc('jornatec_assign_user_role',{p_user_id:userId,p_level:level,p_role_name:roleName});
+   if(error)throw error;
+   msg.textContent='Cargo salvo no Supabase.';
+   await loadRoleList();
+   if(userId===currentUserId){const {data:meRow,error:meError}=await supabaseClient.from('jornatec_user_roles').select('user_id,level,role_name').eq('user_id',currentUserId).maybeSingle();if(!meError)showOwnRole(meRow);}
+  }catch(e){msg.textContent='Não foi possível salvar: '+(e?.message||String(e));}
+  finally{button.disabled=false;button.textContent='Salvar cargo';}
+ }
+ byId('jt-role-list')?.addEventListener('click',e=>{const b=e.target.closest('[data-role-save]');if(b)saveRole(b)});
+ byId('jt-role-refresh')?.addEventListener('click',loadRoleList);
+ // Revalida sempre que uma sessão autenticada é criada/restaurada; não usa cargo local como autorização.
+ if(supabaseClient){
+  supabaseClient.auth.getSession().then(({data,error})=>{if(error){status('Erro ao consultar sessão',error.message,'error');return;}if(data.session?.user)loadMyRole(data.session.user);else{status('Entre na sua conta','Faça login para consultar seu cargo e as permissões disponíveis.');byId('jt-my-role-badge').textContent='Sem sessão';byId('jt-my-role-detail').textContent='Aguardando login no JornalTec.';byId('jt-role-admin-card').hidden=true;}}).catch(e=>status('Erro ao consultar sessão',e?.message||String(e),'error'));
+  supabaseClient.auth.onAuthStateChange((event,session)=>{setTimeout(()=>{if(session?.user)loadMyRole(session.user);else{currentUserId=null;creatorMode=false;byId('jt-role-admin-card').hidden=true;const t=document.querySelector('[data-jtr-tab="access"]');if(t)t.hidden=true;byId('jt-my-role-badge').textContent='Sem sessão';byId('jt-my-role-detail').textContent='Entre para consultar seu cargo.';status('Entre na sua conta','Faça login para consultar cargos e permissões.');}},0)});
+ }else status('Supabase indisponível','A biblioteca ou configuração do Supabase não foi carregada.','error');
+ // O acesso temporário permanece apenas como proposta: ainda não há tabela/RPC de concessão temporária no banco.
+})();
+</script>
 
 </body>
 </html>
