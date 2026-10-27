@@ -2612,7 +2612,15 @@ function renderEditions(){$('jtr-edition-list').innerHTML=state.editions.length?
 function renderReports(){const total=state.tasks.length,stages=['Rascunho','Em produção','Em revisão','Aprovada','Publicada'];$('jtr-report-summary').innerHTML=stat('Total de pautas',total,'Registros editoriais','☷')+stat('Publicadas',state.tasks.filter(t=>t.stage==='Publicada').length,'Marcadas como publicadas','✓')+stat('Em revisão',state.tasks.filter(t=>t.stage==='Em revisão').length,'Aguardando revisão','◷')+stat('Edições criadas',state.editions.length,'Edições locais registradas','▤');$('jtr-stage-bars').innerHTML=stages.map(s=>{const n=state.tasks.filter(t=>t.stage===s).length,p=total?Math.round(n/total*100):0;return `<div class="jtr-bar-row"><span>${safe(s)}</span><div class="jtr-bar-track"><div class="jtr-bar-fill" style="width:${p}%"></div></div><b>${n}</b></div>`}).join('');$('jtr-activity-log').innerHTML=state.activity.length?state.activity.slice(0,25).map(a=>`<div class="jtr-activity">${safe(a.action)}${a.detail?` — ${safe(a.detail)}`:''}<small>${safe(timeFmt(a.at))}</small></div>`).join(''):empty('As atividades registradas aparecerão aqui.')}
 function renderAll(){renderOverview();renderTasks();renderCalendar();renderEditions();renderReports();renderMedia()}
 function switchTab(tab){hub.querySelectorAll('[data-jtr-tab]').forEach(b=>b.classList.toggle('active',b.dataset.jtrTab===tab));hub.querySelectorAll('[data-jtr-view]').forEach(v=>v.classList.toggle('active',v.dataset.jtrView===tab));if(tab==='media')renderMedia();if(tab==='calendar')renderCalendar()}
-function openHub(){hub.hidden=false;document.body.style.overflow='hidden';renderAll();switchTab('overview');$('jtr-close').focus()}
+async function openHub(){
+ if(typeof window.jornatecCanOpenRedacao!=='function'){
+  alert('Não foi possível validar seu nível no Supabase. A Central de Redação permanecerá bloqueada.');return;
+ }
+ let allowed=false;
+ try{allowed=await window.jornatecCanOpenRedacao()}catch(e){console.error('JornalTec: validação da Central de Redação falhou',e)}
+ if(!allowed){alert('Acesso bloqueado. A Central de Redação está disponível somente para os níveis 0 (Criador), 2 (Direção) e 3 (Coordenação/professores autorizados).');return;}
+ hub.hidden=false;document.body.style.overflow='hidden';renderAll();switchTab('overview');$('jtr-close').focus()
+}
 function closeHub(){hub.hidden=true;document.body.style.overflow='';($('publication-redacao-open')||$('publication-open-studio'))?.focus()}
 function saveBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 function exportEdition(e){const html='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(e.title)+'</title><style>body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.7 Georgia,serif;color:#222}h1,h2{line-height:1.15}img{max-width:100%;height:auto}blockquote{border-left:4px solid #dba528;padding-left:16px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>'+safe(e.title)+'</h1><p><small>JornalTec · '+safe(dateFmt(e.createdAt.slice(0,10)))+'</small></p><hr>'+e.html+'</body></html>';saveBlob((e.title||'edicao-jornaltec').replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')+'.html',new Blob([html],{type:'text/html;charset=utf-8'}))}
@@ -2718,6 +2726,19 @@ load();
  const roleNames={1:'Beta tester',2:'Direção',3:'Coordenação e professores autorizados',4:'Criadores de jornais e publicadores',5:'Leitores'};
  const levelLabels={0:'Criador',...roleNames};
  let currentUserId=null, creatorMode=false, loadingRoles=false;
+ // Gate de acesso da Central de Redação: consulta o cargo atual no banco a cada abertura.
+ // Em caso de erro ou ausência de cargo, falha fechado (não concede acesso).
+ window.jornatecCanOpenRedacao=async function(){
+  if(!window.supabase||!supabaseClient)return false;
+  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+  if(sessionError||!sessionData?.session?.user)return false;
+  const userId=sessionData.session.user.id;
+  const {data:creator,error:creatorError}=await supabaseClient.rpc('jornatec_is_creator');
+  if(!creatorError&&creator===true)return true;
+  const {data:role,error:roleError}=await supabaseClient.from('jornatec_user_roles').select('level').eq('user_id',userId).maybeSingle();
+  if(roleError||!role)return false;
+  return [2,3].includes(Number(role.level));
+ };
  const safe=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function status(title,message,kind=''){const card=byId('jt-role-status-card');if(!card)return;card.classList.remove('jt-role-ok','jt-role-error');if(kind)card.classList.add(kind==='ok'?'jt-role-ok':'jt-role-error');byId('jt-role-status-title').textContent=title;byId('jt-role-status').textContent=message;}
  function showOwnRole(row){
