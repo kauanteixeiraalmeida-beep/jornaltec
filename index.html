@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornalTec V59 — Portal público e acesso por níveis</title>
+<title>JornalTec V59.2 — Portal público com prévia e eventos</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -943,16 +943,27 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 .jt-public-section-head{max-width:1180px;margin:0 auto 18px;padding:0 24px;display:flex;align-items:end;justify-content:space-between;gap:16px}.jt-public-section-head>div>span{color:#9b7626}.jt-public-section-head h2{font:700 clamp(25px,3vw,34px) Georgia,serif;margin:7px 0;color:#1d2d3b}.jt-public-section-head p{font-size:13px;color:#747b7c;margin:0}.jt-public-count{font-size:11px;color:#727a7d;background:#fff;padding:8px 12px;border:1px solid #e4dfd5;border-radius:30px}
 .jt-public-grid{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.jt-public-card{background:#fff;border:1px solid #e4dfd5;border-radius:14px;padding:18px;box-shadow:0 5px 20px #1d2d3b08;min-width:0}.jt-public-card .jt-public-card-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9b7626;font-weight:800}.jt-public-card h3{font:700 20px/1.2 Georgia,serif;color:#243849;margin:10px 0 7px;overflow-wrap:anywhere}.jt-public-card p{font-size:12px;color:#7a8183;margin:0 0 14px}.jt-public-card .acts{margin:0}.jt-public-card .btn{font-size:12px}.jt-public-empty{grid-column:1/-1;background:#fff;border:1px dashed #d9d2c5;border-radius:14px;padding:35px;text-align:center;color:#7b7d78;font-size:13px}.jt-public-footer{max-width:1180px;margin:45px auto 0;padding:20px 24px 0;border-top:1px solid #ded8ca;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#81796d;font-size:11px}
 .jt-publish-check{display:flex!important;align-items:center;gap:9px;background:#f4f8f5;padding:11px 12px;border:1px solid #d7e7da;border-radius:8px;font-size:13px}.jt-publish-check input{width:auto!important}
+
+.jt-public-featured{max-width:1180px;margin:0 auto 42px}.jt-public-carousel-wrap{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:0 24px}.jt-public-arrow{width:44px;height:44px;border-radius:50%;border:1px solid #d8d2c5;background:#fff;color:#17364d;font-size:30px;cursor:pointer;box-shadow:0 4px 14px #172b3b12}.jt-public-featured-stage{min-width:0;min-height:330px}.jt-public-feature-slide{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr);gap:22px;align-items:stretch;padding:18px;background:#fff;border:1px solid #e4dfd5;border-radius:18px;box-shadow:0 8px 28px #172b3b0c;animation:jtPubFade .28s ease}.jt-public-preview-thumb{min-height:290px;background:#e9e5dc;border-radius:12px;overflow:hidden;display:grid;place-items:center;position:relative}.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{width:100%;height:100%;min-height:290px;object-fit:contain;border:0;background:#fff}.jt-public-preview-thumb .jt-file-mark{font:700 48px Georgia,serif;color:#8a1c1c}.jt-public-feature-copy{display:flex;flex-direction:column;justify-content:center;padding:10px 12px}.jt-public-feature-copy .jt-public-card-tag{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#9b7626;font-weight:850}.jt-public-feature-copy h3{font:700 clamp(24px,3vw,36px)/1.12 Georgia,serif;color:#20384b;margin:13px 0}.jt-public-feature-copy p{font-size:13px;line-height:1.65;color:#7a8183}.jt-public-feature-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.jt-public-dots{display:flex;justify-content:center;gap:7px;margin-top:14px}.jt-public-dots button{width:8px;height:8px;border:0;border-radius:20px;background:#c9c2b4;padding:0;cursor:pointer}.jt-public-dots button[aria-current=true]{width:24px;background:#8a1c1c}.jt-public-events{margin-top:48px;padding-top:28px;border-top:1px solid #ded8ca}.jt-public-event-card{background:#fff;border:1px solid #e4dfd5;border-radius:14px;overflow:hidden;box-shadow:0 5px 20px #1d2d3b08}.jt-public-event-card .event-visual{padding:20px;background:var(--evc,#8a1c1c);color:#fff;min-height:120px;background-size:cover;background-position:center}.jt-public-event-card .event-visual small{font-size:10px;letter-spacing:.13em;font-weight:800;opacity:.85}.jt-public-event-card .event-visual h3{font:700 23px/1.15 Georgia,serif;margin:9px 0 0}.jt-public-event-card .event-info{padding:16px}.jt-public-event-card .event-info p{font-size:13px;line-height:1.6;color:#65727b}.jt-public-event-card .event-meta{font-size:11px;color:#92722d;font-weight:750}.jt-public-preview-dialog{width:min(1100px,96vw);max-width:1100px;height:min(88vh,900px);padding:0;border:0;border-radius:14px;box-shadow:0 20px 80px #0006}.jt-public-preview-dialog::backdrop{background:#081c2dcc;backdrop-filter:blur(4px)}.jt-public-preview-head{height:58px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#102f48;color:#fff}.jt-public-preview-head .btn{color:#17364d;background:#fff}.jt-public-preview-dialog #public-preview-body{height:calc(100% - 58px);background:#e8e8e8}.jt-public-preview-dialog #public-preview-body iframe,.jt-public-preview-dialog #public-preview-body img{width:100%;height:100%;border:0;object-fit:contain;background:#fff}.jt-public-preview-dialog #public-preview-body .preview-note{padding:30px;text-align:center;color:#52616d}
+@keyframes jtPubFade{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:760px){.jt-public-carousel-wrap{grid-template-columns:30px minmax(0,1fr) 30px;gap:5px;padding:0 10px}.jt-public-arrow{width:30px;height:36px;font-size:23px}.jt-public-feature-slide{grid-template-columns:1fr;padding:10px;gap:10px}.jt-public-preview-thumb,.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{min-height:210px}.jt-public-feature-copy{padding:10px 6px}.jt-public-feature-copy h3{font-size:25px}.jt-public-featured{margin-bottom:30px}.jt-public-events{margin-top:34px}.jt-public-preview-dialog{width:100vw;height:92vh;border-radius:0}}
 @media(max-width:760px){.jt-public-hero{margin:16px 12px 36px;min-height:0}.jt-public-art{width:110px;height:110px;flex-basis:110px}.jt-public-art span{font-size:56px}.jt-public-grid{grid-template-columns:1fr;padding:0 12px}.jt-public-section-head{padding:0 12px}.jt-public-header{padding:15px 12px}.jt-public-hero h1{font-size:34px}.jt-public-art i{font-size:22px}.jt-public-footer{padding:18px 12px;flex-wrap:wrap}}
 </style>
 </head>
-<body data-jornatec-version="59-public-portal-level-access">
+<body data-jornatec-version="59.2-public-preview-carousel-events">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
-  <div class="jt-public-section-head"><div><span>ARQUIVO ABERTO</span><h2>Jornais publicados</h2><p>Conteúdo liberado publicamente pela equipe editorial.</p></div><span class="jt-public-count" id="public-count">Carregando…</span></div>
+  <section class="jt-public-featured" aria-label="Pré-visualização das edições recentes">
+    <div class="jt-public-section-head"><div><span>VITRINE EDITORIAL</span><h2>Conheça os jornais</h2><p>As cinco edições mais recentes em destaque, alternando automaticamente.</p></div><span class="jt-public-count" id="public-featured-count">Carregando…</span></div>
+    <div class="jt-public-carousel-wrap"><button class="jt-public-arrow" type="button" id="public-prev" aria-label="Jornal anterior">‹</button><div id="public-featured" class="jt-public-featured-stage"><div class="jt-public-empty">Carregando pré-visualização…</div></div><button class="jt-public-arrow" type="button" id="public-next" aria-label="Próximo jornal">›</button></div>
+    <div id="public-featured-dots" class="jt-public-dots" aria-label="Selecionar edição"></div>
+  </section>
+  <div class="jt-public-section-head"><div><span>ARQUIVO ABERTO</span><h2>Todos os jornais publicados</h2><p>Leia também as edições anteriores, sem precisar criar uma conta.</p></div><span class="jt-public-count" id="public-count">Carregando…</span></div>
   <div id="public-documents" class="jt-public-grid"><div class="jt-public-empty">Carregando jornais públicos…</div></div>
+  <section id="public-events-section" class="jt-public-events" aria-label="Eventos escolares"><div class="jt-public-section-head"><div><span>AGENDA DA COMUNIDADE</span><h2>Eventos e avisos</h2><p>Fique por dentro do que acontece na escola.</p></div><span class="jt-public-count" id="public-event-count">Carregando…</span></div><div id="public-event-list" class="jt-public-grid"><div class="jt-public-empty">Carregando eventos…</div></div></section>
   <footer class="jt-public-footer"><span>JornalTec · Comunicação escolar</span><button type="button" class="btn ghost" id="public-login-footer">Acessar áreas internas</button></footer>
+  <dialog id="public-preview-dialog" class="jt-public-preview-dialog"><div class="jt-public-preview-head"><strong id="public-preview-title">Pré-visualização do jornal</strong><button type="button" class="btn ghost" id="public-preview-close">Fechar</button></div><div id="public-preview-body"></div></dialog>
 </section>
 <section id="login" hidden><form id="lform" class="lcard">
 <div class="llogo">
@@ -1313,32 +1324,49 @@ async function loadDocuments(){
   }));
 }
 
-async function loadPublicDocuments(){
- const host=$("public-documents"),count=$("public-count");if(!host)return;
- host.innerHTML='<div class="jt-public-empty">Buscando publicações…</div>';
- try{
-  const sb=await requireSB();
-  const {data,error}=await sb.from("documents").select("id,title,section,name,type,size,created_at,storage_path,is_public").order("created_at",{ascending:false});
-  if(error)throw error;
-  const rows=(data||[]).map(d=>({id:d.id,title:d.title||d.name||"Jornal sem título",section:d.section||"Edição",name:d.name||d.file_name||"arquivo",type:d.type||d.mime_type||"",size:Number(d.size??d.file_size??0),date:new Date(d.created_at).getTime(),storage_path:d.storage_path,is_public:true}));
-  window.jtPublicDocs=rows;count.textContent=rows.length+ (rows.length===1?" publicação":" publicações");
-  if(!rows.length){host.innerHTML='<div class="jt-public-empty">Ainda não há jornais publicados. Quando a equipe publicar uma edição, ela aparecerá aqui.</div>';return;}
-  host.innerHTML=rows.map(d=>`<article class="jt-public-card"><span class="jt-public-card-tag">${esc(d.section||"Edição")}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString("pt-BR")} · ${esc(d.name)}</p><div class="acts"><button class="btn" type="button" data-public-open="${esc(d.id)}">Ler publicação</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar original</button></div></article>`).join("");
-  window.jtPublicDocs=rows;
- }catch(e){console.error("Portal público:",e);count.textContent="Indisponível";host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os jornais públicos. Confira se a migração V59 foi executada no Supabase.</div>';}
+let publicFeaturedIndex=0,publicFeaturedTimer=null,publicObjectUrls=new Map();
+function publicFileKind(d){const t=(d.type||'').toLowerCase(),n=(d.name||'').toLowerCase();if(t.includes('pdf')||n.endsWith('.pdf'))return'pdf';if(t.startsWith('image/')||/\.(png|jpe?g|webp|gif|svg)$/i.test(n))return'image';if(t.includes('html')||n.endsWith('.html'))return'html';return'other'}
+async function publicBlob(d){if(publicObjectUrls.has(d.id))return publicObjectUrls.get(d.id);const sb=await requireSB();const {data,error}=await sb.storage.from('documents').download(d.storage_path);if(error)throw error;const url=URL.createObjectURL(data);publicObjectUrls.set(d.id,url);return url}
+function renderPublicFeatured(){
+ const host=$('public-featured'),dots=$('public-featured-dots'),items=(window.jtPublicDocs||[]).slice(0,5);if(!host)return;
+ $('public-featured-count').textContent=items.length+' de até 5 edições';
+ if(!items.length){host.innerHTML='<div class="jt-public-empty">As edições mais recentes aparecerão aqui assim que forem publicadas.</div>';dots.innerHTML='';return}
+ publicFeaturedIndex=(publicFeaturedIndex+items.length)%items.length;const d=items[publicFeaturedIndex],kind=publicFileKind(d),url=publicObjectUrls.get(d.id);
+ let preview=url?(kind==='image'?`<img src="${url}" alt="Capa de ${esc(d.title)}">`:kind==='pdf'?`<iframe title="Prévia de ${esc(d.title)}" src="${url}#toolbar=0&navpanes=0&view=FitH"></iframe>`:kind==='html'?`<iframe title="Prévia de ${esc(d.title)}" sandbox="allow-same-origin" src="${url}"></iframe>`:`<div class="jt-file-mark">JT</div>`):`<div class="jt-file-mark">${kind==='pdf'?'PDF':kind==='image'?'IMG':'JT'}</div>`;
+ host.innerHTML=`<article class="jt-public-feature-slide"><div class="jt-public-preview-thumb">${preview}</div><div class="jt-public-feature-copy"><span class="jt-public-card-tag">${esc(d.section||'Edição recente')} · EDIÇÃO ${publicFeaturedIndex+1}</span><h3>${esc(d.title)}</h3><p>Publicado em ${new Date(d.date).toLocaleDateString('pt-BR')} · ${esc(d.name)}<br>Esta é uma pré-visualização da publicação mais recente do JornalTec.</p><div class="jt-public-feature-actions"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Pré-visualizar jornal</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar edição</button></div></div></article>`;
+ dots.innerHTML=items.map((x,i)=>`<button type="button" aria-label="Mostrar edição ${i+1}" aria-current="${i===publicFeaturedIndex?'true':'false'}" data-public-dot="${i}"></button>`).join('');
+ const next=items[(publicFeaturedIndex+1)%items.length];if(next&&!publicObjectUrls.has(next.id))publicBlob(next).then(()=>{}).catch(()=>{});
 }
-$("public-refresh")?.addEventListener("click",loadPublicDocuments);
-document.addEventListener("click",async e=>{
- const open=e.target.closest("[data-public-open]"),download=e.target.closest("[data-public-download]");if(!open&&!download)return;
- const id=(open||download).dataset.publicOpen||(open||download).dataset.publicDownload;
- const d=(window.jtPublicDocs||[]).find(x=>String(x.id)===String(id));if(!d)return;
- try{
-  const tab=open?window.open("about:blank","_blank"):null;
-  const sb=await requireSB();const {data,error}=await sb.storage.from("documents").download(d.storage_path);if(error)throw error;d.file=data;docs=[d];
-  const url=URL.createObjectURL(data);
-  if(open&&tab){tab.location.href=url;tab.opener=null;setTimeout(()=>URL.revokeObjectURL(url),60000);}
-  else{const a=document.createElement("a");a.href=url;a.download=d.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
- }catch(err){alert("Não foi possível abrir esta publicação: "+(err.message||err));}
+function startPublicFeatured(){clearInterval(publicFeaturedTimer);if((window.jtPublicDocs||[]).length<2)return;publicFeaturedTimer=setInterval(()=>{publicFeaturedIndex=(publicFeaturedIndex+1)%Math.min(5,window.jtPublicDocs.length);renderPublicFeatured()},6500)}
+async function loadPublicEvents(){
+ const host=$('public-event-list'),count=$('public-event-count');if(!host)return;
+ try{const sb=await requireSB();const {data,error}=await sb.from('events').select('id,type,title,text,theme,created_at,event_options(id,event_id,text,votes)').order('created_at',{ascending:false});if(error)throw error;const a=data||[];count.textContent=a.length+(a.length===1?' evento':' eventos');
+ if(!a.length){host.innerHTML='<div class="jt-public-empty">Nenhum evento ou aviso publicado no momento.</div>';return}
+ host.innerHTML=a.map(e=>{const t=e.theme||{},date=t.eventDate?new Date(t.eventDate+'T12:00:00').toLocaleDateString('pt-BR'):new Date(e.created_at).toLocaleDateString('pt-BR'),image=t.image&&!t.imageOnly?`background-image:linear-gradient(120deg,${esc(t.color||'#8a1c1c')}dd,${esc(t.color||'#8a1c1c')}88),url('${String(t.image).replace(/['\\\n\r]/g,'')}')`:'';return `<article class="jt-public-event-card"><div class="event-visual" style="--evc:${esc(t.color||'#8a1c1c')};${image}"><small>${esc(t.icon||'📣')} · ${e.type==='opcoes'?'ENQUETE':'EVENTO / AVISO'}</small><h3>${esc(e.title||'Comunicado escolar')}</h3></div><div class="event-info"><div class="event-meta">📅 ${date}${t.eventTime?' · 🕒 '+esc(t.eventTime):''}${t.location?' · 📍 '+esc(t.location):''}</div>${e.text?`<p>${esc(e.text)}</p>`:''}${t.subtitle?`<p><b>${esc(t.subtitle)}</b></p>`:''}${e.type==='opcoes'&&e.event_options?.length?`<p><b>Opções:</b> ${e.event_options.map(o=>esc(o.text)).join(' · ')}</p><small>Para participar da votação, entre na equipe com uma conta autorizada.</small>`:''}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:''}</div></article>`}).join('');
+ }catch(e){console.error('Eventos públicos:',e);count.textContent='Indisponível';host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os eventos. Verifique as permissões públicas da tabela events no Supabase.</div>'}
+}
+async function loadPublicDocuments(){
+ const host=$('public-documents'),count=$('public-count');if(!host)return;host.innerHTML='<div class="jt-public-empty">Buscando publicações…</div>';
+ try{const sb=await requireSB();const {data,error}=await sb.from('documents').select('id,title,section,name,type,size,created_at,storage_path,is_public').order('created_at',{ascending:false});if(error)throw error;
+ const rows=(data||[]).map(d=>({id:d.id,title:d.title||d.name||'Jornal sem título',section:d.section||'Edição',name:d.name||d.file_name||'arquivo',type:d.type||d.mime_type||'',size:Number(d.size??d.file_size??0),date:new Date(d.created_at).getTime(),storage_path:d.storage_path,is_public:true}));window.jtPublicDocs=rows;count.textContent=rows.length+(rows.length===1?' jornal':' jornais');
+ if(!rows.length)host.innerHTML='<div class="jt-public-empty">Ainda não há jornais publicados. Quando a equipe publicar uma edição, ela aparecerá aqui.</div>';
+ else host.innerHTML=rows.map(d=>`<article class="jt-public-card"><span class="jt-public-card-tag">${esc(d.section||'Edição')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')} · ${esc(d.name)}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Pré-visualizar</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar original</button></div></article>`).join('');
+ publicFeaturedIndex=0;renderPublicFeatured();loadPublicEvents();
+ const first=rows.slice(0,5);for(const d of first){if(!publicObjectUrls.has(d.id))publicBlob(d).then(()=>{if(first[publicFeaturedIndex]?.id===d.id)renderPublicFeatured()}).catch(err=>console.warn('Prévia indisponível para',d.title,err))}
+ startPublicFeatured();
+ }catch(e){console.error('Portal público:',e);count.textContent='Indisponível';host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os jornais públicos. Confira a migração do Supabase.</div>';loadPublicEvents()}
+}
+$('public-prev')?.addEventListener('click',()=>{publicFeaturedIndex=(publicFeaturedIndex+4)%Math.min(5,window.jtPublicDocs?.length||1);renderPublicFeatured();startPublicFeatured()});
+$('public-next')?.addEventListener('click',()=>{publicFeaturedIndex=(publicFeaturedIndex+1)%Math.min(5,window.jtPublicDocs?.length||1);renderPublicFeatured();startPublicFeatured()});
+$('public-featured')?.addEventListener('mouseenter',()=>clearInterval(publicFeaturedTimer));$('public-featured')?.addEventListener('mouseleave',startPublicFeatured);
+$('public-featured-dots')?.addEventListener('click',e=>{const b=e.target.closest('[data-public-dot]');if(!b)return;publicFeaturedIndex=Number(b.dataset.publicDot);renderPublicFeatured();startPublicFeatured()});
+$('public-preview-close')?.addEventListener('click',()=>$('public-preview-dialog')?.close());
+$('public-refresh')?.addEventListener('click',()=>{loadPublicDocuments();loadPublicEvents()});
+document.addEventListener('click',async e=>{
+ const preview=e.target.closest('[data-public-preview]'),download=e.target.closest('[data-public-download]');if(!preview&&!download)return;const id=(preview||download).dataset.publicPreview||(preview||download).dataset.publicDownload;const d=(window.jtPublicDocs||[]).find(x=>String(x.id)===String(id));if(!d)return;
+ try{const url=await publicBlob(d);if(preview){$('public-preview-title').textContent=d.title;$('public-preview-body').innerHTML=publicFileKind(d)==='image'?`<img src="${url}" alt="${esc(d.title)}">`:['pdf','html'].includes(publicFileKind(d))?`<iframe title="${esc(d.title)}" src="${url}${publicFileKind(d)==='pdf'?'#toolbar=1&navpanes=0':''}" ${publicFileKind(d)==='html'?'sandbox="allow-same-origin"':''}></iframe>`:`<div class="preview-note">Este formato não possui pré-visualização integrada. Use o botão de download para abrir o arquivo.</div>`;$('public-preview-dialog').showModal()}
+ else{const a=document.createElement('a');a.href=url;a.download=d.name;document.body.appendChild(a);a.click();a.remove()}
+ }catch(err){alert('Não foi possível abrir esta publicação: '+(err.message||err))}
 });
 
 async function refresh(){
