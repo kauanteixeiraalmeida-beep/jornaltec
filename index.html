@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornalTec V58 — Cargos conectados ao Supabase</title>
+<title>JornalTec V59 — Portal público e acesso por níveis</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -934,9 +934,27 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 @media(prefers-reduced-motion:reduce){.jtr-overlay *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 
+<style id="jt-v59-public-portal">
+#public-portal{min-height:100vh;background:#f5f2eb;color:#1c2b36;padding:0 0 30px;font-family:Inter,system-ui,sans-serif}
+#public-portal[hidden],#login[hidden]{display:none!important}
+.jt-public-header{max-width:1180px;margin:auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #ded8ca}
+.jt-public-brand{display:flex;align-items:center;gap:12px}.jt-public-mark{width:44px;height:44px;display:grid;place-items:center;background:#8a1c1c;color:#fff;border-radius:12px;font:900 17px Georgia,serif;letter-spacing:-1px}.jt-public-brand b{display:block;font:700 22px Georgia,serif;color:#222}.jt-public-brand small{display:block;color:#81796d;font-size:11px;margin-top:2px}
+.jt-public-hero{max-width:1180px;margin:28px auto 52px;padding:clamp(25px,5vw,64px);border-radius:22px;background:linear-gradient(120deg,#142f46,#244f66 62%,#8a1c1c);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden;position:relative;min-height:280px}.jt-public-hero>div:first-child{max-width:680px;position:relative;z-index:1}.jt-public-kicker,.jt-public-section-head>div>span{font-size:10px;font-weight:850;letter-spacing:.18em;color:#e8c777}.jt-public-hero h1{font:700 clamp(32px,5vw,58px)/1.05 Georgia,serif;letter-spacing:-.04em;margin:15px 0}.jt-public-hero p{max-width:570px;color:#dce5ea;font-size:15px;line-height:1.7;margin:0 0 22px}.jt-public-hero .btn{background:#e9c46a;color:#172b3b;border:0}.jt-public-art{width:210px;height:210px;flex:0 0 210px;border:1px solid #ffffff38;border-radius:50%;display:grid;place-items:center;position:relative;transform:rotate(-12deg);background:#ffffff0b}.jt-public-art span{font:900 105px Georgia,serif;position:absolute;color:#ffffffdb}.jt-public-art span:first-child{transform:translate(-24px,-4px)}.jt-public-art span:nth-child(2){transform:translate(29px,27px);color:#e9c46a}.jt-public-art i{position:absolute;right:15px;top:18px;color:#e9c46a;font-size:38px;font-style:normal}
+.jt-public-section-head{max-width:1180px;margin:0 auto 18px;padding:0 24px;display:flex;align-items:end;justify-content:space-between;gap:16px}.jt-public-section-head>div>span{color:#9b7626}.jt-public-section-head h2{font:700 clamp(25px,3vw,34px) Georgia,serif;margin:7px 0;color:#1d2d3b}.jt-public-section-head p{font-size:13px;color:#747b7c;margin:0}.jt-public-count{font-size:11px;color:#727a7d;background:#fff;padding:8px 12px;border:1px solid #e4dfd5;border-radius:30px}
+.jt-public-grid{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.jt-public-card{background:#fff;border:1px solid #e4dfd5;border-radius:14px;padding:18px;box-shadow:0 5px 20px #1d2d3b08;min-width:0}.jt-public-card .jt-public-card-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9b7626;font-weight:800}.jt-public-card h3{font:700 20px/1.2 Georgia,serif;color:#243849;margin:10px 0 7px;overflow-wrap:anywhere}.jt-public-card p{font-size:12px;color:#7a8183;margin:0 0 14px}.jt-public-card .acts{margin:0}.jt-public-card .btn{font-size:12px}.jt-public-empty{grid-column:1/-1;background:#fff;border:1px dashed #d9d2c5;border-radius:14px;padding:35px;text-align:center;color:#7b7d78;font-size:13px}.jt-public-footer{max-width:1180px;margin:45px auto 0;padding:20px 24px 0;border-top:1px solid #ded8ca;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#81796d;font-size:11px}
+.jt-publish-check{display:flex!important;align-items:center;gap:9px;background:#f4f8f5;padding:11px 12px;border:1px solid #d7e7da;border-radius:8px;font-size:13px}.jt-publish-check input{width:auto!important}
+@media(max-width:760px){.jt-public-hero{margin:16px 12px 36px;min-height:0}.jt-public-art{width:110px;height:110px;flex-basis:110px}.jt-public-art span{font-size:56px}.jt-public-grid{grid-template-columns:1fr;padding:0 12px}.jt-public-section-head{padding:0 12px}.jt-public-header{padding:15px 12px}.jt-public-hero h1{font-size:34px}.jt-public-art i{font-size:22px}.jt-public-footer{padding:18px 12px;flex-wrap:wrap}}
+</style>
 </head>
-<body>
-<section id="login"><form id="lform" class="lcard">
+<body data-jornatec-version="59-public-portal-level-access">
+<section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
+  <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
+  <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
+  <div class="jt-public-section-head"><div><span>ARQUIVO ABERTO</span><h2>Jornais publicados</h2><p>Conteúdo liberado publicamente pela equipe editorial.</p></div><span class="jt-public-count" id="public-count">Carregando…</span></div>
+  <div id="public-documents" class="jt-public-grid"><div class="jt-public-empty">Carregando jornais públicos…</div></div>
+  <footer class="jt-public-footer"><span>JornalTec · Comunicação escolar</span><button type="button" class="btn ghost" id="public-login-footer">Acessar áreas internas</button></footer>
+</section>
+<section id="login" hidden><form id="lform" class="lcard">
 <div class="llogo">
 <svg width="66" height="66" viewBox="0 0 48 48" fill="none" stroke="#e23b45" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="8" width="34" height="32" rx="5"/><path d="M14 17h20M14 24h9M14 31h9M28 24h6v7h-6z"/></svg>
 <div class="wm">Jornal<i>Tec</i></div>
@@ -951,7 +969,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 <button class="lbtn red" type="submit">Entrar na plataforma</button>
 <button class="lbtn out" id="lreg" type="button">Criar conta</button>
 <div class="ldiv"><span></span></div>
-<p class="lfoot">Contas, notícias e documentos ficam sincronizados com o Supabase.</p>
+<p class="lfoot">Contas e áreas internas protegidas por níveis de acesso.</p><button class="lbtn out" id="login-public-back" type="button">← Voltar ao portal público</button>
 </form></section>
 <main id="app" hidden>
   <button type="button" id="main-menu-toggle" class="main-menu-toggle" aria-expanded="false" aria-controls="main-home-menu">☰ Menu</button>
@@ -983,8 +1001,8 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
     <div class="publication-top publication-hero"><div class="publication-identity"><div class="publication-mark" aria-hidden="true">JT</div><div class="publication-copy"><span class="publication-kicker">JORNALTEC · CENTRAL EDITORIAL</span><h2 id="pub-heading">Área de publicação</h2><p>Organize os arquivos do jornal, acompanhe suas edições e acesse as ferramentas de produção em um só lugar.</p></div></div><div class="acts publication-actions"><button class="btn ghost" id="publication-back" type="button">← Início</button><button class="btn ghost" id="publication-redacao-open" type="button" title="Abrir a Central de Redação">▦ Central de Redação</button><button class="btn publication-studio-cta" id="publication-open-studio" type="button">📰 Abrir Estúdio</button></div></div>
   <div class="guard" id="gnote">Os arquivos são guardados byte a byte, exatamente como foram enviados. Nada é convertido, comprimido ou editado. A impressão digital (SHA-256) de cada arquivo comprova isso.</div>
   <section id="pub" aria-label="Área de publicação">
-    <div id="plocked" class="guard"><b>Área de publicação protegida</b><br>Para adicionar documentos, crie uma senha de publicação no primeiro acesso.
-      <div class="acts" style="margin-top:10px"><button class="btn" id="unlock">Criar senha / Desbloquear</button></div></div>
+    <div id="plocked" class="guard"><b>Acesso restrito por cargo</b><br>Entre com uma conta autorizada. A senha universal de publicação foi desativada; o JornalTec verifica seu nível diretamente no Supabase.
+      <div class="acts" style="margin-top:10px"><button class="btn" id="unlock" type="button">Verificar meu acesso</button></div></div>
     <div id="popen" hidden>
       <div class="drop" id="drop" tabindex="0" role="button">
     <b>Adicionar documento</b>
@@ -993,7 +1011,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
   <button class="btn" type="button" id="pick" style="margin-top:10px">Escolher arquivos</button></div>
       <p id="pstat" class="meta" role="status" style="margin:8px 0"></p>
       <div class="acts" style="margin-top:12px"><button class="btn" id="evbtn">Evento</button><button class="btn" id="catbtn">Categorias</button></div>
-      <div class="acts" style="margin-top:8px"><button class="btn ghost" id="relock">Bloquear</button><button class="btn ghost" id="chpw">Trocar senha de publicação</button></div>
+      <div class="acts" style="margin-top:8px"><button class="btn ghost" id="relock" type="button">Bloquear área</button><span class="meta">Acesso validado pelo seu cargo no Supabase.</span></div>
     </div>
   </section>
   </section>
@@ -1051,36 +1069,26 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
   <div class="jtr-body">
    <nav class="jtr-nav" aria-label="Ferramentas da redação">
     <button class="active" data-jtr-tab="overview">▦ <span>Painel geral</span></button>
-    <button data-jtr-tab="admin">⌘ <span>Administração do app</span></button>
     <button data-jtr-tab="pautas">☷ <span>Pautas e tarefas</span></button>
     <button data-jtr-tab="calendar">▦ <span>Calendário editorial</span></button>
     <button data-jtr-tab="media">▧ <span>Biblioteca de mídia</span></button>
     <button data-jtr-tab="editions">▤ <span>Edições do jornal</span></button>
     <button data-jtr-tab="reports">◫ <span>Relatórios</span></button>
     <button data-jtr-tab="access">♙ <span>Cargos e permissões</span></button>
-    <div class="jtr-nav-note"><b>Fluxo editorial</b><p>Planejar → Produzir → Revisar → Aprovar → Publicar</p><small>Pautas e edições locais permanecem neste navegador; o painel administrativo consulta dados do Supabase.</small></div>
+    <div class="jtr-nav-note"><b>Fluxo editorial</b><p>Planejar → Produzir → Revisar → Aprovar → Publicar</p><small>Os novos registros desta central são salvos neste navegador nesta versão.</small></div>
    </nav>
    <main class="jtr-content">
     <section class="jtr-view active" data-jtr-view="overview"><div class="jtr-welcome"><div><p class="jtr-eyebrow">VISÃO DA REDAÇÃO</p><h3>Bom trabalho começa com organização.</h3><p>Controle prazos, acompanhe a produção e prepare a próxima edição em um só lugar.</p></div><button class="jtr-btn jtr-primary" data-jtr-action="new-task">＋ Nova pauta</button></div><div class="jtr-stat-grid" id="jtr-stats"></div><div class="jtr-two-col"><article class="jtr-card"><div class="jtr-card-head"><div><h4>Produção em andamento</h4><p>As tarefas mais recentes da equipe</p></div><button class="jtr-link" data-jtr-tab="pautas">Ver todas →</button></div><div id="jtr-recent-tasks"></div></article><article class="jtr-card"><div class="jtr-card-head"><div><h4>Próximos prazos</h4><p>Planejamento editorial</p></div><button class="jtr-link" data-jtr-tab="calendar">Calendário →</button></div><div id="jtr-upcoming"></div></article></div><div class="jtr-card jtr-tip"><span>✦</span><div><b>Fluxo profissional recomendado</b><p>Defina um responsável e um prazo para cada pauta. Mantenha a matéria como rascunho até que a revisão e a aprovação estejam concluídas.</p></div></div></section>
-    <section class="jtr-view" data-jtr-view="admin">
-      <div class="jtr-page-head"><div><p class="jtr-eyebrow">CONTROLE CENTRALIZADO</p><h3>Administração do JornalTec</h3><p>Visão dos dados do aplicativo, equipe, conteúdo e serviços conectados.</p></div><div class="jta-head-tools"><span id="jta-live-pill" class="jta-live-pill"><i></i> Verificando conexão…</span><button class="jtr-btn jtr-primary" id="jta-refresh">↻ Atualizar agora</button></div></div>
-      <div class="jta-notice" id="jta-admin-notice">Os indicadores são consultados diretamente no Supabase. O tempo real depende da publicação Realtime e das políticas RLS.</div>
-      <div class="jta-stat-grid" id="jta-stats"><article class="jta-stat"><span>Carregando dados do app…</span><strong>—</strong></article></div>
-      <div class="jta-admin-grid"><article class="jtr-card"><div class="jtr-card-head"><div><h4>Saúde dos serviços</h4><p>Estado das tabelas administrativas</p></div></div><div id="jta-service-health" class="jta-health-list"><p>Consultando Supabase…</p></div></article><article class="jtr-card"><div class="jtr-card-head"><div><h4>Atividade em tempo real</h4><p>Alterações recebidas com esta tela aberta</p></div><span class="jta-live-dot"></span></div><div id="jta-live-feed" class="jta-live-feed"><p class="jta-empty">Aguardando eventos do Supabase…</p></div></article></div>
-      <article class="jtr-card jta-team-card"><div class="jtr-card-head"><div><h4>Equipe e hierarquia</h4><p>Cargos retornados pela função protegida do banco.</p></div><button class="jtr-btn jtr-muted" id="jta-team-refresh">Atualizar equipe</button></div><div id="jta-team-list"><p>Carregando equipe…</p></div></article>
-      <article class="jtr-card"><div class="jtr-card-head"><div><h4>Mapa do aplicativo</h4><p>Módulos monitorados nesta sessão</p></div></div><div class="jta-module-grid" id="jta-modules"></div></article>
-      <p class="jta-footnote">Este painel monitora dados remotos. Pautas, edições e arquivos que a versão atual guarda apenas neste navegador não passam a ser compartilhados automaticamente; isso exige migrar esses dados para Supabase Database/Storage. A segurança real depende de RLS e RPCs no servidor.</p>
-    </section>
     <section class="jtr-view" data-jtr-view="pautas"><div class="jtr-page-head"><div><p class="jtr-eyebrow">GESTÃO DE CONTEÚDO</p><h3>Pautas e tarefas</h3><p>Organize a produção por responsável, prioridade, prazo e etapa editorial.</p></div><button class="jtr-btn jtr-primary" data-jtr-action="new-task">＋ Criar pauta</button></div><div class="jtr-filters"><input id="jtr-task-search" placeholder="Buscar por título, responsável ou categoria…" aria-label="Buscar pautas"><select id="jtr-task-status" aria-label="Filtrar por etapa"><option value="all">Todas as etapas</option><option>Rascunho</option><option>Em produção</option><option>Em revisão</option><option>Aprovada</option><option>Publicada</option></select><select id="jtr-task-priority" aria-label="Filtrar por prioridade"><option value="all">Todas as prioridades</option><option>Urgente</option><option>Alta</option><option>Normal</option><option>Baixa</option></select></div><div id="jtr-task-list" class="jtr-task-list"></div></section>
     <section class="jtr-view" data-jtr-view="calendar"><div class="jtr-page-head"><div><p class="jtr-eyebrow">PLANEJAMENTO</p><h3>Calendário editorial</h3><p>Veja os prazos das pautas e organize o ritmo de publicação.</p></div><button class="jtr-btn jtr-primary" data-jtr-action="new-task">＋ Agendar pauta</button></div><div class="jtr-calendar-controls"><button class="jtr-btn jtr-muted" id="jtr-prev-month">← Anterior</button><h4 id="jtr-month-label"></h4><button class="jtr-btn jtr-muted" id="jtr-next-month">Próximo →</button><button class="jtr-btn jtr-muted" id="jtr-today">Hoje</button></div><div id="jtr-calendar" class="jtr-calendar"></div><div id="jtr-calendar-day" class="jtr-card jtr-calendar-day"></div></section>
     <section class="jtr-view" data-jtr-view="media"><div class="jtr-page-head"><div><p class="jtr-eyebrow">ARQUIVO CRIATIVO</p><h3>Biblioteca de mídia</h3><p>Centralize imagens, áudio, vídeo e documentos usados nas matérias.</p></div><label class="jtr-btn jtr-primary jtr-upload-label">＋ Adicionar arquivos<input id="jtr-media-input" type="file" multiple accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.txt" hidden></label></div><div class="jtr-media-note">Os arquivos são guardados neste navegador usando armazenamento local do site. Para compartilhar com toda a equipe e sincronizar entre dispositivos, será necessária integração de armazenamento no Supabase.</div><div class="jtr-filters"><input id="jtr-media-search" placeholder="Buscar arquivo…" aria-label="Buscar mídia"><select id="jtr-media-type"><option value="all">Todos os tipos</option><option value="image">Imagens</option><option value="audio">Áudios</option><option value="video">Vídeos</option><option value="document">Documentos</option></select></div><div id="jtr-media-grid" class="jtr-media-grid"></div></section>
     <section class="jtr-view" data-jtr-view="editions"><div class="jtr-page-head"><div><p class="jtr-eyebrow">PUBLICAÇÃO</p><h3>Edições do jornal</h3><p>Organize edições e exporte uma versão HTML pronta para revisão ou impressão.</p></div><button class="jtr-btn jtr-primary" id="jtr-capture-edition">＋ Criar com o documento do Estúdio</button></div><div class="jtr-edition-help"><b>Como funciona</b><p>O comando acima captura o título e o conteúdo que estão abertos no Estúdio. Você pode registrar uma edição, baixar o HTML e imprimir/salvar como PDF pelo navegador.</p></div><div id="jtr-edition-list" class="jtr-edition-list"></div></section>
     <section class="jtr-view" data-jtr-view="reports"><div class="jtr-page-head"><div><p class="jtr-eyebrow">ACOMPANHAMENTO</p><h3>Relatórios da redação</h3><p>Indicadores operacionais dos registros criados nesta Central.</p></div><button class="jtr-btn jtr-muted" id="jtr-export-report">Exportar relatório CSV</button></div><div id="jtr-report-summary" class="jtr-stat-grid"></div><div class="jtr-card"><h4>Distribuição por etapa</h4><div id="jtr-stage-bars" class="jtr-bars"></div><p class="jtr-report-disclaimer">Estes indicadores representam apenas os registros desta Central neste navegador. Não são métricas de audiência do site nem dados sincronizados do Supabase.</p></div><div class="jtr-card"><h4>Registro de atividades</h4><div id="jtr-activity-log" class="jtr-activity-log"></div></div></section>
     <section class="jtr-view" data-jtr-view="access">
-      <div class="jtr-page-head"><div><p class="jtr-eyebrow">SEGURANÇA E GOVERNANÇA</p><h3>Cargos e permissões</h3><p>Os cargos são consultados no Supabase. O painel de administração só aparece depois que o servidor confirma a conta Criador.</p></div><span class="jtr-pill">Validação pelo Supabase</span></div>
+      <div class="jtr-page-head"><div><p class="jtr-eyebrow">SEGURANÇA E GOVERNANÇA</p><h3>Cargos e permissões</h3><p>Proposta de hierarquia do JornalTec: o Criador define os níveis e controla as permissões globais.</p></div><span class="jtr-pill">Prévia de planejamento</span></div>
       <div class="jtr-card" id="jt-role-status-card" style="border-left:4px solid #d9ad43;background:#fffaf0"><h4 id="jt-role-status-title">Conectando cargos ao Supabase…</h4><p id="jt-role-status" style="font-size:12px;line-height:1.7;color:#6b6048;margin:8px 0 0">O JornalTec vai verificar sua sessão e consultar as funções protegidas do banco. Se a migração de cargos ainda não foi executada, esta área mostrará o erro sem alterar dados.</p></div>
       <div class="jtr-card" id="jt-my-role-card"><div class="jtr-card-head"><div><h4>Meu acesso</h4><p>Cargo permanente consultado no banco de dados</p></div><span class="jtr-pill" id="jt-my-role-badge">Verificando…</span></div><div id="jt-my-role-detail" class="jtr-role-message">Aguardando sessão autenticada.</div></div>
-      <div class="jtr-card" id="jt-role-admin-card" hidden><div class="jtr-card-head"><div><h4>Gerenciar cargos da equipe</h4><p>Somente a conta Criador pode listar usuários e atribuir níveis 1 a 5.</p></div><button type="button" class="jtr-btn jtr-muted" id="jt-role-refresh">Atualizar lista</button></div><p class="jtr-role-message">A alteração é enviada à função protegida do Supabase; o nível 0 permanece reservado à conta Criador.</p><div id="jt-role-list" class="jt-role-list"><p class="jtr-role-message">Carregando usuários…</p></div><p id="jt-role-admin-status" role="status" class="jtr-role-message"></p></div>
+      <div class="jtr-card" id="jt-role-admin-card" hidden><div class="jtr-card-head"><div><h4>Gerenciar cargos da equipe</h4><p>Somente a conta Criador pode listar usuários e atribuir níveis 1 a 4.</p></div><button type="button" class="jtr-btn jtr-muted" id="jt-role-refresh">Atualizar lista</button></div><p class="jtr-role-message">A alteração é enviada à função protegida do Supabase; o nível 0 permanece reservado à conta Criador.</p><div id="jt-role-list" class="jt-role-list"><p class="jtr-role-message">Carregando usuários…</p></div><p id="jt-role-admin-status" role="status" class="jtr-role-message"></p></div>
       <div class="jtr-stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
        <article class="jtr-stat"><div class="jtr-stat-top">Nível máximo <span class="jtr-stat-icon">♛</span></div><strong>0</strong><small>Criador · controle global</small></article>
        <article class="jtr-stat"><div class="jtr-stat-top">Beta tester <span class="jtr-stat-icon">⚗</span></div><strong>1</strong><small>Ferramentas experimentais</small></article>
@@ -1093,7 +1101,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
        <div class="jtr-task-row"><div class="jtr-task-dot"></div><div class="jtr-task-main"><b>Nível 2 — Direção</b><small>Gestão institucional e relatórios conforme permissões atribuídas.</small></div><span class="jtr-pill">Institucional</span></div>
        <div class="jtr-task-row"><div class="jtr-task-dot"></div><div class="jtr-task-main"><b>Nível 3 — Coordenação e professores autorizados</b><small>Revisão, acompanhamento e aprovação de conteúdo permitido.</small></div><span class="jtr-pill">Revisão</span></div>
        <div class="jtr-task-row"><div class="jtr-task-dot"></div><div class="jtr-task-main"><b>Nível 4 — Criadores de jornais e publicadores</b><small>Produção de matérias e edições conforme escopo concedido.</small></div><span class="jtr-pill">Editorial</span></div>
-       <div class="jtr-task-row"><div class="jtr-task-dot"></div><div class="jtr-task-main"><b>Nível 5 — Leitores</b><small>Acesso ao conteúdo publicado e às interações liberadas.</small></div><span class="jtr-pill">Leitura</span></div>
+       
       </div>
       <div class="jtr-two-col">
        <div class="jtr-card"><h4>Proposta de Acesso Elevado Temporário</h4><p style="font-size:12px;color:#758595;line-height:1.6">A autorização temporária não muda o cargo permanente. Escolha opções para visualizar a regra proposta.</p>
@@ -1132,13 +1140,6 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 <div id="pbody"></div>
 <p class="meta">Vale só para a sua conta. Outras contas não mudam. O nome JornalTec é fixo.</p>
 <div class="acts st"><button class="btn" value="ok">Fechar</button><button class="btn ghost" type="button" id="p_reset">Restaurar padrão</button></div>
-</form></dialog>
-<dialog id="kdlg"><form id="kform">
-<p id="ktitle" style="margin-top:0;font-weight:bold"></p>
-<label>Senha de publicação<input type="password" id="k1" autocomplete="off"></label>
-<label id="l2">Repita a senha<input type="password" id="k2" autocomplete="off"></label>
-<p id="kmsg" role="alert" style="color:var(--accent);min-height:1.3em;font-size:.88rem;margin:8px 0"></p>
-<div class="acts"><button class="btn" type="submit">Confirmar</button><button class="btn ghost" type="button" id="kcancel">Cancelar</button></div>
 </form></dialog>
 <dialog id="qdlg"><form method="dialog"><p id="qmsg"></p><div class="acts"><button class="btn" value="ok">Confirmar</button><button class="btn ghost" value="no">Cancelar</button></div></form></dialog>
 <dialog id="epresent" aria-labelledby="ep-title"><div id="ep-stage"></div><div class="ep-content"><div class="ep-date" id="ep-date"></div><p class="ep-text" id="ep-text"></p><div id="ep-options"></div><div class="ep-footer"><button class="btn ghost" type="button" id="ep-later">Fechar</button></div></div></dialog>
@@ -1182,7 +1183,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
   <form method="dialog" id="dform">
     <label>Título da matéria<input id="dtitle" required></label>
     <label>Categoria<select id="dsec"></select></label>
-    <p class="meta">Título e seção ficam à parte; o arquivo não é alterado.</p>
+    <p class="meta">Ao publicar, este jornal ficará disponível automaticamente no portal público, sem exigir conta dos leitores.</p>
     <div class="acts"><button class="btn" value="ok">Publicar</button><button class="btn ghost" value="cancel" formnovalidate>Cancelar</button></div>
   </form>
 </dialog>
@@ -1200,8 +1201,15 @@ const supabaseClient = sbReady
   : null;
 
 const $=id=>document.getElementById(id);
+function showPublicPortal(){const portal=$("public-portal"),login=$("login"),app=$("app");if(portal)portal.hidden=false;if(login)login.hidden=true;if(app)app.hidden=true;}
+function showLogin(){const portal=$("public-portal"),login=$("login");if(portal)portal.hidden=true;if(login)login.hidden=false;$("lu")?.focus();}
+function showInternalApp(){const portal=$("public-portal"),login=$("login");if(portal)portal.hidden=true;if(login)login.hidden=true;}
+$("public-login-open")?.addEventListener("click",showLogin);$("public-login-footer")?.addEventListener("click",showLogin);$("login-public-back")?.addEventListener("click",showPublicPortal);
+
 $("today").textContent=new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+showPublicPortal();loadPublicDocuments();
 let db,docs=[],section="Todas",queue=[],curURL=null,me=null;
+let currentAccessLevel=null;
 let askResolve=null;
 let appRealtimeChannel=null, realtimeRefreshTimer=null, realtimeReconnectBusy=false;
 function scheduleRealtimeRefresh(kind){
@@ -1299,11 +1307,39 @@ async function loadDocuments(){
   if(error)throw error;
   docs=(data||[]).map(d=>({
     id:d.id,owner:d.owner_id,title:d.title,section:d.section||"",
-    name:d.name||d.file_name||"arquivo",type:d.type||d.mime_type||"",size:Number(d.size??d.file_size??0),
+    name:d.name||"arquivo",type:d.type||"",size:Number(d.size??0),
     date:new Date(d.created_at).getTime(),hash:d.sha256||"",
-    storage_path:d.storage_path
+    storage_path:d.storage_path,is_public:d.is_public===true
   }));
 }
+
+async function loadPublicDocuments(){
+ const host=$("public-documents"),count=$("public-count");if(!host)return;
+ host.innerHTML='<div class="jt-public-empty">Buscando publicações…</div>';
+ try{
+  const sb=await requireSB();
+  const {data,error}=await sb.from("documents").select("id,title,section,name,type,size,created_at,storage_path,is_public").order("created_at",{ascending:false});
+  if(error)throw error;
+  const rows=(data||[]).map(d=>({id:d.id,title:d.title||d.name||"Jornal sem título",section:d.section||"Edição",name:d.name||d.file_name||"arquivo",type:d.type||d.mime_type||"",size:Number(d.size??d.file_size??0),date:new Date(d.created_at).getTime(),storage_path:d.storage_path,is_public:true}));
+  window.jtPublicDocs=rows;count.textContent=rows.length+ (rows.length===1?" publicação":" publicações");
+  if(!rows.length){host.innerHTML='<div class="jt-public-empty">Ainda não há jornais publicados. Quando a equipe publicar uma edição, ela aparecerá aqui.</div>';return;}
+  host.innerHTML=rows.map(d=>`<article class="jt-public-card"><span class="jt-public-card-tag">${esc(d.section||"Edição")}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString("pt-BR")} · ${esc(d.name)}</p><div class="acts"><button class="btn" type="button" data-public-open="${esc(d.id)}">Ler publicação</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar original</button></div></article>`).join("");
+  window.jtPublicDocs=rows;
+ }catch(e){console.error("Portal público:",e);count.textContent="Indisponível";host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os jornais públicos. Confira se a migração V59 foi executada no Supabase.</div>';}
+}
+$("public-refresh")?.addEventListener("click",loadPublicDocuments);
+document.addEventListener("click",async e=>{
+ const open=e.target.closest("[data-public-open]"),download=e.target.closest("[data-public-download]");if(!open&&!download)return;
+ const id=(open||download).dataset.publicOpen||(open||download).dataset.publicDownload;
+ const d=(window.jtPublicDocs||[]).find(x=>String(x.id)===String(id));if(!d)return;
+ try{
+  const tab=open?window.open("about:blank","_blank"):null;
+  const sb=await requireSB();const {data,error}=await sb.storage.from("documents").download(d.storage_path);if(error)throw error;d.file=data;docs=[d];
+  const url=URL.createObjectURL(data);
+  if(open&&tab){tab.location.href=url;tab.opener=null;setTimeout(()=>URL.revokeObjectURL(url),60000);}
+  else{const a=document.createElement("a");a.href=url;a.download=d.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+ }catch(err){alert("Não foi possível abrir esta publicação: "+(err.message||err));}
+});
 
 async function refresh(){
   try{
@@ -1321,12 +1357,12 @@ async function refresh(){
     $("dsec").innerHTML=`<option value="">Geral</option>`+cl.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
     const q=$("q").value.trim().toLowerCase();
     const list=docs.filter(d=>(section==="Todas"||(d.section||"Geral")===section)&&(!q||(d.title+" "+d.name).toLowerCase().includes(q)));
-    $("list").innerHTML=list.length?list.map(d=>`<div class="item" role="button" tabindex="0" data-act="view" data-id="${d.id}" aria-label="Abrir ${esc(d.title)}"><div class="th${kind(d)==="video"?" pv":""}" data-tid="${d.id}">${kind(d)==="img"?"":kind(d)==="video"?"▶":esc(d.name.split(".").pop().toUpperCase().slice(0,5))}</div><div class="bd"><span class="tagc">${esc(d.section||"Geral")}</span><h2>${esc(d.title)}</h2>
+    $("list").innerHTML=list.length?list.map(d=>`<div class="item" role="button" tabindex="0" data-act="view" data-id="${d.id}" aria-label="Abrir ${esc(d.title)}"><div class="th${kind(d)==="video"?" pv":""}" data-tid="${d.id}">${kind(d)==="img"?"":kind(d)==="video"?"▶":esc(d.name.split(".").pop().toUpperCase().slice(0,5))}</div><div class="bd"><span class="tagc">${esc(d.section||"Geral")}</span><span class="meta">${d.is_public?" · Público":" · Privado"}</span><h2>${esc(d.title)}</h2>
       <div class="meta">${new Date(d.date).toLocaleDateString("pt-BR")}</div>
       <div class="acts"><button class="btn ghost" data-act="view" data-id="${d.id}">Abrir jornal</button>
       <button class="btn ghost" data-act="dl" data-id="${d.id}">Baixar original</button>
       <button class="btn ghost" data-act="viewc" data-id="${d.id}">Comentários (0)</button>
-      ${unlocked?`<button class="btn ghost" data-act="pin" data-id="${d.id}">${pins().includes(d.id)?"Tirar destaque":"Marcar importante"}</button><button class="btn ghost" data-act="del" data-id="${d.id}">Excluir</button>`:""}</div></div></div>`).join("")
+      ${unlocked?`<button class="btn ghost" data-act="toggle-public" data-id="${d.id}">${d.is_public?"Retirar do portal público":"Publicar para todos"}</button><button class="btn ghost" data-act="pin" data-id="${d.id}">${pins().includes(d.id)?"Tirar destaque":"Marcar importante"}</button><button class="btn ghost" data-act="del" data-id="${d.id}">Excluir</button>`:""}</div></div></div>`).join("")
       :`<div class="empty">${q?"Nada encontrado.":"Nenhum documento ainda. Use a área de publicação abaixo."}</div>`;
     docs.filter(d=>["img","video","pdf"].includes(kind(d))).forEach(mkThumb);
     applyThumbs();renderF();await drawE();
@@ -1348,7 +1384,7 @@ async function put(d){
   const ins=await sb.from("documents").insert({
     owner_id:user.id,title:d.title,section:d.section||null,name:d.name,file_name:d.name,
     type:d.type||null,mime_type:d.type||null,size:d.size||file.size,file_size:d.size||file.size,
-    hash:d.hash||null,sha256:d.hash||null,storage_path:path
+    hash:d.hash||null,sha256:d.hash||null,storage_path:path,is_public:d.is_public===true
   }).select().single();
   if(ins.error){
     await sb.storage.from("documents").remove([path]);
@@ -1539,6 +1575,10 @@ window.dl=async id=>{
   }catch(e){say("Não foi possível baixar: "+(e.message||e))}
 };
 
+window.togglePublic=async id=>{
+ say("As publicações do JornalTec ficam públicas automaticamente. Para retirar um jornal do portal, exclua a publicação ou altere sua disponibilidade pela administração do Supabase.");
+};
+
 window.del=async id=>{
   if(unlocked&&await ask("Excluir este documento?")){
     try{await rm(id);setCms(id,[]);await refresh()}catch(e){say("Não foi possível excluir: "+(e.message||e))}
@@ -1585,7 +1625,7 @@ $("dform").addEventListener("submit",async e=>{
 
   const title=$("dtitle").value.trim()||f.name;
   const d={owner:me,id:crypto.randomUUID(),title,
-    section:$("dsec").value.trim(),name:f.name,type:f.type,size:f.size,date:Date.now(),file:f};
+    section:$("dsec").value.trim(),is_public:true,name:f.name,type:f.type,size:f.size,date:Date.now(),file:f};
 
   dialogBusy=true;
   const buttons=$("dform").querySelectorAll("button");
@@ -1643,12 +1683,28 @@ async function ensureProfile(user){
   return {username,display};
 }
 
+async function fetchAccessLevel(){
+ if(!supabaseClient||!me)return null;
+ const {data:isCreator,error:creatorError}=await supabaseClient.rpc("jornatec_is_creator");
+ if(!creatorError&&isCreator===true)return 0;
+ const {data,error}=await supabaseClient.from("jornatec_user_roles").select("level").eq("user_id",me).maybeSingle();
+ if(error)throw error;
+ return data&&Number.isInteger(Number(data.level))?Number(data.level):null;
+}
+async function hasLevelAccess(allowed){
+ if(!me){showLogin();return false;}
+ try{currentAccessLevel=await fetchAccessLevel();}catch(e){alert("Não foi possível validar seu cargo no Supabase. O acesso foi bloqueado por segurança. "+(e.message||e));return false;}
+ if(currentAccessLevel===null||!allowed.includes(currentAccessLevel)){alert("Seu cargo não tem permissão para acessar esta área. Níveis autorizados: "+allowed.join(", ")+"). Peça ao Criador para verificar suas permissões.");return false;}
+ return true;
+}
+
 async function enterSession(user){
   const p=await ensureProfile(user);
   me=user.id;
   try{sessionStorage.setItem("jornal_me",user.id)}catch(e){}
   $("who").textContent="Olá, "+(p.display||user.email||"usuário");
-  $("login").hidden=true;$("app").hidden=false;
+  showInternalApp();$("app").hidden=false;
+  currentAccessLevel=await fetchAccessLevel().catch(()=>null);
   setLock(false);applyP();await refresh();startNotifications();chatInit();await startRealtime();
 }
 
@@ -1685,14 +1741,14 @@ $("lreg").addEventListener("click",async e=>{e.preventDefault();e.stopPropagatio
 
 $("logout").onclick=async()=>{
   try{await stopRealtime();if(supabaseClient)await supabaseClient.auth.signOut()}catch(e){}
-  me=null;applyP();unlocked=false;clearInterval(notifTimer);if(chatChannel&&supabaseClient){supabaseClient.removeChannel(chatChannel);chatChannel=null}chatCurrentId=null;
+  me=null;applyP();unlocked=false;currentAccessLevel=null;clearInterval(notifTimer);if(chatChannel&&supabaseClient){supabaseClient.removeChannel(chatChannel);chatChannel=null}chatCurrentId=null;
   try{sessionStorage.removeItem("jornal_me")}catch(e){}
-  $("app").hidden=true;$("login").hidden=false;$("lp").value="";$("viewer").hidden=true;$("vbody").innerHTML="";freeURL();
+  currentAccessLevel=null;$("app").hidden=true;$("lp").value="";$("viewer").hidden=true;$("vbody").innerHTML="";freeURL();showPublicPortal();
 };
 
 supabaseClient?.auth.onAuthStateChange((event,session)=>{
   if(session?.user && !me){setTimeout(()=>enterSession(session.user).catch(e=>{console.error(e);$("msg").textContent="Não foi possível carregar seu perfil: "+(e.message||e)}),0)}
-  if(event==="SIGNED_OUT"&&!session){me=null;$("app").hidden=true;$("login").hidden=false;freeURL()}
+  if(event==="SIGNED_OUT"&&!session){me=null;currentAccessLevel=null;$("app").hidden=true;showPublicPortal();freeURL()}
 });
 
 const SORTS={new:(a,b)=>b.date-a.date,old:(a,b)=>a.date-b.date,az:(a,b)=>a.title.localeCompare(b.title,"pt-BR")};
@@ -2059,7 +2115,7 @@ async function mkThumb(d){
 function applyThumbs(){document.querySelectorAll("[data-tid]").forEach(el=>{const u=tmap[el.dataset.tid];if(u)el.style.backgroundImage="url("+u+")"})}
 $("q").addEventListener("input",()=>refresh());
 document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-act]");if(!b)return;
-  const id=b.dataset.id,i=+b.dataset.i,m={view:()=>view(id),viewc:()=>view(id,true),dl:()=>dl(id),pin:()=>pin(id),del:()=>del(id),vote:()=>vote(id,i),rmEv:()=>rmEv(id),goF:()=>goF(i)};
+  const id=b.dataset.id,i=+b.dataset.i,m={view:()=>view(id),viewc:()=>view(id,true),dl:()=>dl(id),pin:()=>pin(id),del:()=>del(id),"toggle-public":()=>togglePublic(id),vote:()=>vote(id,i),rmEv:()=>rmEv(id),goF:()=>goF(i)};
   if(m[b.dataset.act])m[b.dataset.act]()});
 document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest("[data-go]");if(!g)return;
   if(g.dataset.go==="#pub"){e.preventDefault();openPublicationArea();return}
@@ -2100,81 +2156,53 @@ $("cmlist").addEventListener("click",async e=>{
   if(e.target?.dataset?.del){say("Comentários publicados são preservados e não podem ser apagados.")}
 });
 
-function hex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("");}
-function fromHex(s){const b=new Uint8Array(s.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(s.slice(i*2,i*2+2),16);return b;}
-async function derive(password,saltHex){
- if(!window.crypto?.subtle)throw new Error("Seu navegador não suporta criptografia segura.");
- const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),{name:"PBKDF2"},false,["deriveBits"]);
- const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:fromHex(saltHex),iterations:120000,hash:"SHA-256"},key,256);
- return hex(new Uint8Array(bits));
+let unlocked=false;
+function setLock(v){unlocked=!!v;$("plocked").hidden=!!v;$("popen").hidden=!v;if($("relock"))$("relock").hidden=!v;refresh()}
+$("unlock")?.addEventListener("click",async()=>{if(await hasLevelAccess([0,2,3,4]))setLock(true)});
+$("relock")?.addEventListener("click",()=>setLock(false));
+async function openPublicationArea(){
+ if(!(await hasLevelAccess([0,2,3,4])))return;
+ const app=$("app"),area=$("publication-area");if(!app||!area)return;
+ const chat=$("chat-section"),studio=$("studio-section");
+ if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}
+ if(studio)studio.hidden=true;
+ app.classList.remove("chat-mode","studio-mode");app.classList.add("publication-mode");area.hidden=false;setLock(true);window.scrollTo({top:0,behavior:"auto"});
 }
-let unlocked=false,kmode="";
-function pubs(){try{return JSON.parse(localStorage.getItem("jornal_pub")||"{}")}catch(e){return{}}}
-function setLock(v){unlocked=v;$("plocked").hidden=v;$("popen").hidden=!v;if($("relock"))$("relock").hidden=!v;refresh()}
-async function getPubPassword(){
-  const sb=await requireSB();
-  const {data,error}=await sb.from("publication_settings").select("password_hash,password_salt").eq("id","global").maybeSingle();
-  if(error)throw error;
-  return data?.password_hash&&data?.password_salt?{hash:data.password_hash,salt:data.password_salt}:null;
-}
-async function savePubPassword(password){
-  const salt=hex(crypto.getRandomValues(new Uint8Array(16))),hash=await derive(password,salt),sb=await requireSB();
-  const user=(await sb.auth.getUser()).data.user;
-  if(!user)throw new Error("Sessão expirada. Entre novamente.");
-  const r=await sb.from("publication_settings").upsert({id:"global",password_hash:hash,password_salt:salt,updated_by:user.id,updated_at:new Date().toISOString()},{onConflict:"id"});
-  if(r.error)throw r.error;
-}
-function askPw(mode){kmode=mode;$("kmsg").textContent="";$("k1").value="";$("k2").value="";$("ktitle").textContent=mode==="unlock"?"Digite a senha de publicação":mode==="create"?"Crie sua senha de publicação":"Nova senha de publicação";$("l2").hidden=mode==="unlock";$("kdlg").showModal();$("k1").focus()}
-$("unlock").onclick=async()=>{try{askPw(await getPubPassword()?"unlock":"create")}catch(e){say("Não foi possível verificar a senha: "+(e.message||e))}};
-$("chpw").onclick=async()=>{try{askPw(await getPubPassword()?"change":"create")}catch(e){say("Não foi possível verificar a senha: "+(e.message||e))}};
-$("relock").onclick=()=>{pendingPublicationStudio=false;setLock(false)};$("kcancel").onclick=()=>$("kdlg").close();
-$("kform").addEventListener("submit",async e=>{
- e.preventDefault();const a=$("k1").value,m=$("kmsg");m.textContent="";
- try{
-  const current=await getPubPassword();
-  if(kmode==="unlock"){
-   if(!current){m.textContent="Você ainda não possui uma senha. Feche e clique novamente em Criar senha / Desbloquear.";return}
-   if(await derive(a,current.salt)!==current.hash){m.textContent="Senha incorreta.";return}
-  }else{
-   if(a.length<6){m.textContent="Use 6 caracteres ou mais.";return}
-   if(a!==$("k2").value){m.textContent="As senhas não coincidem.";return}
-   await savePubPassword(a);
-  }
-  $("kdlg").close();setLock(true);
-  if(pendingPublicationStudio){pendingPublicationStudio=false;closePublicationArea();studioOpen();}
- }catch(err){console.error(err);m.textContent="Não foi possível salvar/verificar a senha: "+(err.message||err)}
-});
-$("qdlg").addEventListener("close",()=>{
-  const ok=$("qdlg").returnValue==="ok";
-  if(askResolve){const r=askResolve;askResolve=null;r(ok)}
-});
-$("dlg").addEventListener("cancel",()=>{queue.shift();setTimeout(next,50)});
-let notifTimer=null;
-async function loadNotifications(){
-  if(!me)return;
-  try{
-    const sb=await requireSB();
-    const {data,error}=await sb.from("notifications").select("id,title,body,kind,created_at,read_at,document_id,event_id").eq("user_id",me).order("created_at",{ascending:false}).limit(30);
-    if(error)throw error;
-    const a=data||[],unread=a.filter(n=>!n.read_at).length;
-    $("nbadge").textContent=unread>99?"99+":String(unread);$("nbadge").style.display=unread?"block":"none";
-    $("nlist").innerHTML=a.length?a.map(n=>`<div class="nitem ${n.read_at?"":"unread"}" data-nid="${n.id}" data-doc="${n.document_id||""}"><span>${esc(n.title||"Nova notificação")}</span><small>${esc(n.body||"")} · ${new Date(n.created_at).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})}</small></div>`).join(""):"<p>Nenhuma notificação.</p>";
-  }catch(e){console.warn("Notificações indisponíveis",e);$("nbadge").style.display="none"}
-}
-async function markNotificationsRead(){
-  if(!me)return;try{const sb=await requireSB();const {error}=await sb.from("notifications").update({read_at:new Date().toISOString()}).eq("user_id",me).is("read_at",null);if(error)throw error;await loadNotifications()}catch(e){say("Não foi possível marcar as notificações: "+(e.message||e))}
-}
-$("notifyBtn").onclick=async()=>{await loadNotifications();$("ndlg").showModal()};
-$("nread").onclick=markNotificationsRead;
-$("nlist").addEventListener("click",async e=>{const n=e.target.closest(".nitem");if(!n)return;try{const sb=await requireSB();await sb.from("notifications").update({read_at:new Date().toISOString()}).eq("id",n.dataset.nid).eq("user_id",me)}catch(err){};$("ndlg").close();if(n.dataset.doc)view(n.dataset.doc)});
-function startNotifications(){clearInterval(notifTimer);loadNotifications();notifTimer=setInterval(loadNotifications,20000)}
+function closePublicationArea(){const app=$("app"),area=$("publication-area");if(!app||!area)return;app.classList.remove("publication-mode");area.hidden=true;window.scrollTo({top:0,behavior:"auto"})}
+$("open-publication-link")?.addEventListener("click",e=>{e.preventDefault();openPublicationArea()});
+$("publication-back")?.addEventListener("click",closePublicationArea);
+$("publication-open-studio")?.addEventListener("click",async()=>{if(!(await hasLevelAccess([0,2,3,4])))return;setLock(true);closePublicationArea();studioOpen()});
 
-
-// JornalTec Chat — usa a sessão Supabase existente; acesso efetivo é controlado por RLS.
+// JornaTec Chat — usa a sessão Supabase existente; acesso efetivo é controlado por RLS.
 let chatCurrentId=null, chatChannel=null, chatConversations=[], chatProfiles=[], chatPoll=null;
 const CHAT_BUCKET="jornatec-chat";
 function chatStatus(t){$("chat-status").textContent=t||""}
 function chatFileLabel(m){return m.attachment_name ? `📎 ${esc(m.attachment_name)}` : ""}
+
+// O diretório é carregado por uma função SQL que devolve apenas id, nome e usuário.
+// Isso respeita a política que permite a cada usuário ler diretamente só o próprio perfil.
+async function chatLoadDirectory(force=false){
+ if(chatProfiles.length&&!force)return chatProfiles;
+ const sb=await requireSB();
+ const {data,error}=await sb.rpc("jornatec_chat_directory");
+ if(error)throw new Error("Não foi possível carregar a lista de pessoas. Execute a migração SQL do chat: "+error.message);
+ chatProfiles=(data||[]).map(p=>({
+  id:p.id,
+  username:p.username||"",
+  display_name:p.display_name||""
+ })).filter(p=>p.id);
+ return chatProfiles;
+}
+function chatPersonName(id){
+ const p=chatProfiles.find(x=>x.id===id);
+ return p?.display_name||p?.username||(id===me?"Você":"Usuário");
+}
+function chatSenderLabel(id){
+ const p=chatProfiles.find(x=>x.id===id);
+ const name=p?.display_name||p?.username||"";
+ if(id===me)return name?`${name} (Você)`:"Você";
+ return name||"Usuário";
+}
 async function chatLoadConversations(){
  if(!me)return;
  const sb=await requireSB();
@@ -2199,9 +2227,11 @@ function chatRenderConversations(){
 async function chatLoadMessages(){
  if(!me||!chatCurrentId)return;
  const sb=await requireSB();
+ // Falha no diretório não deve impedir a leitura do histórico; nesse caso o nome vira "Usuário".
+ try{await chatLoadDirectory()}catch(e){console.warn("Diretório do chat indisponível:",e.message)}
  const {data,error}=await sb.from("chat_messages").select("id,conversation_id,sender_id,body,attachment_name,attachment_path,created_at").eq("conversation_id",chatCurrentId).order("created_at",{ascending:true}).limit(200);
  if(error)throw error;
- $("chat-messages").innerHTML=(data||[]).map(m=>`<article class="chat-bubble ${m.sender_id===me?'mine':''}">${esc(m.body||"")}${m.attachment_path?`<div>${chatFileLabel(m)} <button type="button" class="btn ghost" data-chat-download="${esc(m.id)}">Abrir arquivo</button></div>`:""}<small>${new Date(m.created_at).toLocaleString("pt-BR")}${m.sender_id===me?" · Você":""}</small></article>`).join("")||'<p class="meta">Ainda não há mensagens. Envie a primeira.</p>';
+ $("chat-messages").innerHTML=(data||[]).map(m=>`<article class="chat-bubble ${m.sender_id===me?'mine':''}">${esc(m.body||"")}${m.attachment_path?`<div>${chatFileLabel(m)} <button type="button" class="btn ghost" data-chat-download="${esc(m.id)}">Abrir arquivo</button></div>`:""}<small>${esc(chatSenderLabel(m.sender_id))} · ${new Date(m.created_at).toLocaleString("pt-BR")}</small></article>`).join("")||'<p class="meta">Ainda não há mensagens. Envie a primeira.</p>';
  $("chat-messages").scrollTop=$("chat-messages").scrollHeight;
  $("chat-title").textContent=chatConversations.find(c=>c.id===chatCurrentId)?.title||"Conversa";
  $("chat-text").disabled=false;$("chat-files").disabled=false;$("chat-send").disabled=false;
@@ -2232,9 +2262,8 @@ async function chatNewGroup(){
   const title=(prompt("Qual será o nome do grupo?")||"").trim();
   if(!title)return;
   const sb=await requireSB();
-  const {data:profiles,error}=await sb.from("profiles").select("id,username,display_name").neq("id",me).order("display_name").limit(200);
-  if(error)throw error;
-  const people=(profiles||[]).filter(p=>p.id!==me);
+  const profiles=await chatLoadDirectory(true);
+  const people=profiles.filter(p=>p.id!==me);
   if(!people.length){chatStatus("Não há outros perfis disponíveis.");return}
   const options=people.map((p,i)=>`${i+1}. ${p.display_name||p.username||"Usuário"} (@${p.username||"sem usuário"})`).join("\n");
   const answer=prompt("Digite os números das pessoas que deseja adicionar, separados por vírgula:\n\n"+options);
@@ -2245,16 +2274,19 @@ async function chatNewGroup(){
   if(ce)throw ce;
   const members=[{conversation_id:conv.id,user_id:me,role:"owner"},...selected.map(person=>({conversation_id:conv.id,user_id:person.id,role:"member"}))];
   const added=await sb.from("chat_members").insert(members);
-  if(added.error)throw added.error;
+  if(added.error){
+   // Remove somente a conversa recém-criada e ainda vazia, se a política permitir.
+   await sb.from("chat_conversations").delete().eq("id",conv.id).eq("created_by",me);
+   throw added.error;
+  }
   await chatLoadConversations();await chatSelect(conv.id);chatStatus("Grupo criado e participantes adicionados.");
  }catch(e){chatStatus("Não foi possível criar grupo: "+(e.message||e))}
 }
 async function chatNewConversation(){
  try{
   const sb=await requireSB();
-  const {data:profiles,error}=await sb.from("profiles").select("id,username,display_name").neq("id",me).order("display_name").limit(200);
-  if(error)throw error;
-  const eligible=(profiles||[]).filter(p=>p.id!==me);
+  const profiles=await chatLoadDirectory(true);
+  const eligible=profiles.filter(p=>p.id!==me);
   if(!eligible.length){chatStatus("Não há outros perfis disponíveis. O usuário precisa ter uma conta confirmada.");return}
   const options=eligible.map((p,i)=>`${i+1}. ${p.display_name||p.username||"Usuário"} (@${p.username||"sem usuário"})`).join("\n");
   const answer=prompt("Escolha o número da pessoa para iniciar uma conversa:\n\n"+options);
@@ -2310,26 +2342,6 @@ async function chatInit(){
 }
 
 
-function openPublicationArea(){
- const app=$("app"),area=$("publication-area");if(!app||!area)return;
- const chat=$("chat-section"),studio=$("studio-section");
- if(chat){chat.hidden=true;chat.classList.remove("jt-mobile-nav-open");$("chat-menu-toggle")?.setAttribute("aria-expanded","false");}
- if(studio)studio.hidden=true;
- app.classList.remove("chat-mode","studio-mode");app.classList.add("publication-mode");
- area.hidden=false;window.scrollTo({top:0,behavior:"auto"});
-}
-function closePublicationArea(){const app=$("app"),area=$("publication-area");if(!app||!area)return;app.classList.remove("publication-mode");area.hidden=true;window.scrollTo({top:0,behavior:"auto"})}
-$("open-publication-link")?.addEventListener("click",e=>{e.preventDefault();openPublicationArea()});
-$("publication-back")?.addEventListener("click",closePublicationArea);
-let pendingPublicationStudio=false;
-$("publication-open-studio")?.addEventListener("click",async()=>{
-  if(!unlocked){
-    pendingPublicationStudio=true;
-    try{askPw(await getPubPassword()?"unlock":"create")}catch(e){pendingPublicationStudio=false;say("Não foi possível verificar a senha de publicação: "+(e.message||e))}
-    return;
-  }
-  closePublicationArea();studioOpen();
-});
 function openJornalTecChat(){
  const app=$("app"),section=$("chat-section");
  if(!app||!section)return;
@@ -2408,8 +2420,7 @@ function studioOpen(){
  const app=$("app"),section=$("studio-section");if(!app||!section)return;
  // O Estúdio de Jornal só pode ser aberto depois de desbloquear a Área de publicação.
  if(!unlocked){
-  openPublicationArea();pendingPublicationStudio=true;
-  getPubPassword().then(current=>askPw(current?"unlock":"create")).catch(e=>{pendingPublicationStudio=false;say("Não foi possível verificar a senha de publicação: "+(e.message||e))});
+  openPublicationArea();
   return;
  }
  const chat=$("chat-section"),pub=$("publication-area");
@@ -2622,15 +2633,7 @@ function renderEditions(){$('jtr-edition-list').innerHTML=state.editions.length?
 function renderReports(){const total=state.tasks.length,stages=['Rascunho','Em produção','Em revisão','Aprovada','Publicada'];$('jtr-report-summary').innerHTML=stat('Total de pautas',total,'Registros editoriais','☷')+stat('Publicadas',state.tasks.filter(t=>t.stage==='Publicada').length,'Marcadas como publicadas','✓')+stat('Em revisão',state.tasks.filter(t=>t.stage==='Em revisão').length,'Aguardando revisão','◷')+stat('Edições criadas',state.editions.length,'Edições locais registradas','▤');$('jtr-stage-bars').innerHTML=stages.map(s=>{const n=state.tasks.filter(t=>t.stage===s).length,p=total?Math.round(n/total*100):0;return `<div class="jtr-bar-row"><span>${safe(s)}</span><div class="jtr-bar-track"><div class="jtr-bar-fill" style="width:${p}%"></div></div><b>${n}</b></div>`}).join('');$('jtr-activity-log').innerHTML=state.activity.length?state.activity.slice(0,25).map(a=>`<div class="jtr-activity">${safe(a.action)}${a.detail?` — ${safe(a.detail)}`:''}<small>${safe(timeFmt(a.at))}</small></div>`).join(''):empty('As atividades registradas aparecerão aqui.')}
 function renderAll(){renderOverview();renderTasks();renderCalendar();renderEditions();renderReports();renderMedia()}
 function switchTab(tab){hub.querySelectorAll('[data-jtr-tab]').forEach(b=>b.classList.toggle('active',b.dataset.jtrTab===tab));hub.querySelectorAll('[data-jtr-view]').forEach(v=>v.classList.toggle('active',v.dataset.jtrView===tab));if(tab==='media')renderMedia();if(tab==='calendar')renderCalendar()}
-async function openHub(){
- if(typeof window.jornatecCanOpenRedacao!=='function'){
-  alert('Não foi possível validar seu nível no Supabase. A Central de Redação permanecerá bloqueada.');return;
- }
- let allowed=false;
- try{allowed=await window.jornatecCanOpenRedacao()}catch(e){console.error('JornalTec: validação da Central de Redação falhou',e)}
- if(!allowed){alert('Acesso bloqueado. A Central de Redação está disponível somente para os níveis 0 (Criador), 2 (Direção) e 3 (Coordenação/professores autorizados).');return;}
- hub.hidden=false;document.body.style.overflow='hidden';renderAll();switchTab('overview');$('jtr-close').focus()
-}
+async function openHub(){if(!(await hasLevelAccess([0,2,3])))return;hub.hidden=false;document.body.style.overflow='hidden';renderAll();switchTab('overview');$('jtr-close').focus()}
 function closeHub(){hub.hidden=true;document.body.style.overflow='';($('publication-redacao-open')||$('publication-open-studio'))?.focus()}
 function saveBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 function exportEdition(e){const html='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(e.title)+'</title><style>body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.7 Georgia,serif;color:#222}h1,h2{line-height:1.15}img{max-width:100%;height:auto}blockquote{border-left:4px solid #dba528;padding-left:16px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>'+safe(e.title)+'</h1><p><small>JornalTec · '+safe(dateFmt(e.createdAt.slice(0,10)))+'</small></p><hr>'+e.html+'</body></html>';saveBlob((e.title||'edicao-jornaltec').replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')+'.html',new Blob([html],{type:'text/html;charset=utf-8'}))}
@@ -2650,7 +2653,7 @@ $('jtr-export-report').addEventListener('click',()=>{const rows=[['Título','Res
 hub.querySelectorAll('[data-jtr-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.jtrTab)));
 function updateTempProposal(){const duration=$('jtr-temp-duration')?.value||'10',scope=$('jtr-temp-scope')?.value||'Ferramentas editoriais extras',approval=$('jtr-temp-approval')?.value||'Responsável de nível adequado aprova';const out=$('jtr-temp-summary');if(out)out.innerHTML='Duração: '+safe(duration)+' minutos.<br>Escopo: '+safe(scope)+'.<br>Autorização: '+safe(approval)+'.';}
 ['jtr-temp-duration','jtr-temp-scope','jtr-temp-approval'].forEach(id=>$(id)?.addEventListener('change',updateTempProposal));
-$('jtr-export-access-proposal')?.addEventListener('click',()=>{const proposal={app:'JornalTec',status:'proposta-nao-ativada',hierarchy:[{level:0,name:'Criador',scope:'Controle global e configuração da hierarquia'},{level:1,name:'Beta tester',scope:'Ferramentas experimentais autorizadas'},{level:2,name:'Direção',scope:'Gestão institucional conforme permissões'},{level:3,name:'Coordenação e professores autorizados',scope:'Revisão e aprovação conforme permissões'},{level:4,name:'Criadores de jornais e publicadores',scope:'Produção editorial conforme permissões'},{level:5,name:'Leitores',scope:'Leitura e interações liberadas'}],temporaryAccess:{durationMinutes:Number($('jtr-temp-duration').value),scope:$('jtr-temp-scope').value,approval:$('jtr-temp-approval').value,changesPermanentRole:false,requiresServerValidation:true},note:'Arquivo de proposta. Não configura o Supabase nem ativa permissões.'};saveBlob('jornaltec-proposta-cargos-permissoes.json',new Blob([JSON.stringify(proposal,null,2)],{type:'application/json'}));});
+$('jtr-export-access-proposal')?.addEventListener('click',()=>{const proposal={app:'JornalTec',status:'proposta-nao-ativada',hierarchy:[{level:0,name:'Criador',scope:'Controle global e configuração da hierarquia'},{level:1,name:'Beta tester',scope:'Ferramentas experimentais autorizadas'},{level:2,name:'Direção',scope:'Gestão institucional conforme permissões'},{level:3,name:'Coordenação e professores autorizados',scope:'Revisão e aprovação conforme permissões'},{level:4,name:'Criadores de jornais e publicadores',scope:'Produção editorial conforme permissões'}],temporaryAccess:{durationMinutes:Number($('jtr-temp-duration').value),scope:$('jtr-temp-scope').value,approval:$('jtr-temp-approval').value,changesPermanentRole:false,requiresServerValidation:true},note:'Arquivo de proposta. Não configura o Supabase nem ativa permissões.'};saveBlob('jornaltec-proposta-cargos-permissoes.json',new Blob([JSON.stringify(proposal,null,2)],{type:'application/json'}));});
 load();
 })();
 </script>
@@ -2717,9 +2720,6 @@ load();
 </style>
 
 
-<style id="v59-live-admin-style">
-.jta-head-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.jta-live-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #d7e8df;background:#f0fbf5;color:#206b4b;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:800}.jta-live-pill i,.jta-live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2caa72;box-shadow:0 0 0 4px #2caa721a}.jta-live-pill.offline{border-color:#f0d6d2;background:#fff5f3;color:#9b3e36}.jta-live-pill.offline i{background:#c34d4d;box-shadow:0 0 0 4px #c34d4d1a}.jta-notice{padding:12px 14px;border:1px solid #dce6ed;border-radius:12px;background:#f6f9fc;color:#51697c;font-size:11px;line-height:1.6;margin:0 0 15px}.jta-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:14px}.jta-stat{background:#fff;border:1px solid #e1e8ed;border-radius:13px;padding:16px;min-width:0}.jta-stat span{display:block;font-size:10px;color:#718394;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.jta-stat strong{display:block;font-size:28px;line-height:1.2;color:#153a55;margin:9px 0 5px}.jta-stat small{font-size:10px;color:#8594a0;line-height:1.5}.jta-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}.jta-health-list{display:grid}.jta-health-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #edf0f3;padding:11px 0;font-size:11px;color:#40596e}.jta-health-status{font-size:9px;font-weight:800;border-radius:999px;padding:5px 8px;background:#f2f4f6;color:#687989;white-space:nowrap}.jta-health-status.ok{background:#eaf8f0;color:#26714f}.jta-health-status.bad{background:#fff0ee;color:#a13f37}.jta-live-feed{max-height:310px;overflow:auto}.jta-live-event{border-top:1px solid #edf0f3;padding:10px 0;font-size:11px;color:#40596e}.jta-live-event small{display:block;color:#8794a0;margin-top:4px;font-size:10px}.jta-empty{font-size:11px;color:#83919e;padding:12px 0}.jta-team-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}.jta-team-mini{background:#f7f9fb;border:1px solid #e7edf1;border-radius:10px;padding:10px}.jta-team-mini b{display:block;font-size:19px;color:#173b55}.jta-team-mini small{font-size:10px;color:#718394}.jta-team-list{display:grid;gap:7px}.jta-team-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid #e7edf1;border-radius:10px;padding:10px 12px}.jta-team-row strong{display:block;font-size:11px;color:#173b55;overflow-wrap:anywhere}.jta-team-row small{display:block;font-size:10px;color:#84919c;margin-top:3px;overflow-wrap:anywhere}.jta-team-level{font-size:9px;font-weight:800;background:#edf3f7;color:#35546a;border-radius:999px;padding:6px 9px;white-space:nowrap}.jta-module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.jta-module{border:1px solid #e6edf2;border-radius:10px;padding:12px;background:#fbfcfd}.jta-module b{display:block;font-size:11px;color:#173b55}.jta-module small{display:block;font-size:10px;color:#7d8c99;margin-top:5px;line-height:1.5}.jta-footnote{font-size:10px;line-height:1.7;color:#7a8995;margin:12px 0 0}@media(max-width:800px){.jta-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.jta-admin-grid{grid-template-columns:1fr}.jta-module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.jta-team-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.jta-team-mini{padding:8px}.jta-stat strong{font-size:24px}.jta-module-grid{grid-template-columns:1fr}}
-</style>
 <style id="v58-supabase-role-manager">
 #jt-my-role-card .jtr-card-head,#jt-role-admin-card .jtr-card-head{align-items:flex-start;gap:12px;flex-wrap:wrap}
 .jtr-role-message{font-size:12px;line-height:1.7;color:#687b8b;margin:8px 0}
@@ -2736,29 +2736,16 @@ load();
 <script id="v58-supabase-role-manager-script">
 (()=>{
  const byId=id=>document.getElementById(id);
- const roleNames={1:'Beta tester',2:'Direção',3:'Coordenação e professores autorizados',4:'Criadores de jornais e publicadores',5:'Leitores'};
+ const roleNames={1:'Beta tester',2:'Direção',3:'Coordenação e professores autorizados',4:'Criadores de jornais e publicadores'};
  const levelLabels={0:'Criador',...roleNames};
  let currentUserId=null, creatorMode=false, loadingRoles=false;
- // Gate de acesso da Central de Redação: consulta o cargo atual no banco a cada abertura.
- // Em caso de erro ou ausência de cargo, falha fechado (não concede acesso).
- window.jornatecCanOpenRedacao=async function(){
-  if(!window.supabase||!supabaseClient)return false;
-  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
-  if(sessionError||!sessionData?.session?.user)return false;
-  const userId=sessionData.session.user.id;
-  const {data:creator,error:creatorError}=await supabaseClient.rpc('jornatec_is_creator');
-  if(!creatorError&&creator===true)return true;
-  const {data:role,error:roleError}=await supabaseClient.from('jornatec_user_roles').select('level').eq('user_id',userId).maybeSingle();
-  if(roleError||!role)return false;
-  return [2,3].includes(Number(role.level));
- };
  const safe=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function status(title,message,kind=''){const card=byId('jt-role-status-card');if(!card)return;card.classList.remove('jt-role-ok','jt-role-error');if(kind)card.classList.add(kind==='ok'?'jt-role-ok':'jt-role-error');byId('jt-role-status-title').textContent=title;byId('jt-role-status').textContent=message;}
  function showOwnRole(row){
   const badge=byId('jt-my-role-badge'),detail=byId('jt-my-role-detail');
   if(!row){badge.textContent='Sem cargo';detail.textContent='Sua conta ainda não tem um cargo permanente atribuído na tabela jornatec_user_roles. Peça ao Criador para atribuir um nível.';return;}
   badge.textContent='Nível '+row.level;
-  detail.textContent=(row.role_name||levelLabels[row.level]||'Cargo personalizado')+' · nível '+row.level+'. O nível indica a hierarquia, mas não concede automaticamente todas as permissões de outros cargos.';
+  detail.textContent=(row.role_name||levelLabels[row.level]||'Cargo personalizado')+' · nível '+row.level+'. O nível indica a hierarquia; visitantes públicos não precisam de conta nem ocupam um nível.';
  }
  async function loadRoleList(){
   if(!creatorMode||!window.supabase||!supabaseClient)return;
@@ -2772,7 +2759,7 @@ load();
    host.innerHTML=data.map(u=>{
     const name=u.display_name||u.username||u.email||u.user_id;
     const current=Number.isInteger(Number(u.level))?Number(u.level):'';
-    const options=[1,2,3,4,5].map(n=>`<option value="${n}" ${current===n?'selected':''}>Nível ${n} — ${safe(roleNames[n])}</option>`).join('');
+    const options=[1,2,3,4].map(n=>`<option value="${n}" ${current===n?'selected':''}>Nível ${n} — ${safe(roleNames[n])}</option>`).join('');
     return `<div class="jt-role-user" data-user-id="${safe(u.user_id)}"><div><strong>${safe(name)}</strong><small>${safe(u.email||'E-mail não informado')} · ${current===''?'Sem cargo':`Nível ${current} — ${safe(u.role_name||levelLabels[current]||'Cargo')}`}</small></div><select aria-label="Novo cargo para ${safe(name)}" data-role-level>${options}</select><button type="button" class="jtr-btn jtr-primary" data-role-save>Salvar cargo</button></div>`;
    }).join('');
   }catch(e){host.innerHTML='<p class="jtr-role-message">Não foi possível carregar a equipe. Confira a migração e a função jornatec_list_user_roles no Supabase.</p>';msg.textContent=e?.message||String(e);}
@@ -2817,23 +2804,6 @@ load();
   supabaseClient.auth.onAuthStateChange((event,session)=>{setTimeout(()=>{if(session?.user)loadMyRole(session.user);else{currentUserId=null;creatorMode=false;byId('jt-role-admin-card').hidden=true;const t=document.querySelector('[data-jtr-tab="access"]');if(t)t.hidden=true;byId('jt-my-role-badge').textContent='Sem sessão';byId('jt-my-role-detail').textContent='Entre para consultar seu cargo.';status('Entre na sua conta','Faça login para consultar cargos e permissões.');}},0)});
  }else status('Supabase indisponível','A biblioteca ou configuração do Supabase não foi carregada.','error');
  // O acesso temporário permanece apenas como proposta: ainda não há tabela/RPC de concessão temporária no banco.
-})();
-</script>
-
-<script id="v59-live-admin-script">
-(()=>{
- const $=id=>document.getElementById(id), safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const names={profiles:'Perfis',blocks:'Blocos',news:'Notícias',media:'Mídia',interviews:'Entrevistas',spreadsheets:'Planilhas',votes:'Votações',journal_settings:'Configurações',activity_logs:'Atividades',jornatec_user_roles:'Cargos'};
- const tables=Object.keys(names);let channel=null,events=[],open=false,busy=false;
- function live(ok,msg){const e=$('jta-live-pill');if(!e)return;e.classList.toggle('offline',!ok);e.innerHTML='<i></i> '+safe(msg)}
- function feed(){const el=$('jta-live-feed');if(!el)return;el.innerHTML=events.length?events.map(x=>`<div class="jta-live-event"><b>${safe(names[x.table]||x.table)}</b> · ${safe(({INSERT:'novo registro',UPDATE:'registro atualizado',DELETE:'registro removido'}[x.event]||'alteração'))}<small>${safe(x.title)} · ${safe(new Date(x.at).toLocaleTimeString('pt-BR'))}</small></div>`).join(''):'<p class="jta-empty">Conectado. Aguardando alterações no banco…</p>'}
- async function count(t){try{const {count,error}=await supabaseClient.from(t).select('*',{count:'exact',head:true});if(error)throw error;return {t,count:count??0,ok:true}}catch(e){return {t,count:null,ok:false,error:e.message||String(e)}}}
- async function team(){const host=$('jta-team-list');try{const {data,error}=await supabaseClient.rpc('jornatec_list_user_roles');if(error)throw error;if(!Array.isArray(data))throw Error('Resposta de cargos inválida');let levels={0:0,1:0,2:0,3:0,4:0,5:0};data.forEach(u=>{if(Number(u.level) in levels)levels[Number(u.level)]++});host.innerHTML=`<div class="jta-team-summary"><div class="jta-team-mini"><b>${data.length}</b><small>Contas listadas</small></div><div class="jta-team-mini"><b>${levels[0]}</b><small>Criador</small></div><div class="jta-team-mini"><b>${levels[2]+levels[3]}</b><small>Direção/coordenação</small></div></div><div class="jta-team-list">${data.slice(0,100).map(u=>`<div class="jta-team-row"><div><strong>${safe(u.display_name||u.username||u.email||u.user_id)}</strong><small>${safe(u.email||u.user_id||'Conta')}</small></div><span class="jta-team-level">Nível ${Number(u.level)} · ${safe(u.role_name||'Cargo')}</span></div>`).join('')||'<p class="jta-empty">Nenhuma conta retornada.</p>'}</div>`}catch(e){host.innerHTML=`<p class="jta-empty">Não foi possível consultar a equipe: ${safe(e.message||String(e))}. Confira a RPC jornatec_list_user_roles.</p>`}}
- async function refresh(){if(!supabaseClient||busy)return;busy=true;$('jta-refresh').disabled=true;try{const {data:{session},error:se}=await supabaseClient.auth.getSession();if(se)throw se;if(!session?.user)throw Error('Faça login para ver os dados administrativos.');const r=await Promise.all(tables.map(count)),get=t=>r.find(x=>x.t===t);const metric=(title,t)=>`<article class="jta-stat"><span>${safe(title)}</span><strong>${get(t).ok?get(t).count:'—'}</strong><small>${get(t).ok?'Registros visíveis pela sessão atual':'Sem acesso ou tabela ausente'}</small></article>`;$('jta-stats').innerHTML=metric('Perfis','profiles')+metric('Notícias','news')+metric('Blocos','blocks')+metric('Mídia','media')+metric('Entrevistas','interviews')+metric('Planilhas','spreadsheets')+metric('Votações','votes')+metric('Atividades','activity_logs');$('jta-service-health').innerHTML=r.map(x=>`<div class="jta-health-row"><span><b>${safe(names[x.t])}</b></span><span class="jta-health-status ${x.ok?'ok':'bad'}">${x.ok?'Disponível · '+x.count:'Indisponível'}</span></div>`).join('');const failed=r.filter(x=>!x.ok).length;$('jta-admin-notice').textContent=`Consulta realizada às ${new Date().toLocaleTimeString('pt-BR')}. ${r.length-failed}/${r.length} tabelas responderam. Os totais respeitam as políticas RLS e podem mostrar apenas registros autorizados.`;$('jta-modules').innerHTML=[['Notícias','news'],['Equipe','profiles'],['Blocos','blocks'],['Entrevistas','interviews'],['Mídia','media'],['Planilhas','spreadsheets'],['Votações','votes'],['Configurações','journal_settings'],['Auditoria','activity_logs']].map(([n,t])=>`<div class="jta-module"><b>${safe(n)} · ${get(t).ok?get(t).count:'—'}</b><small>${get(t).ok?'Leitura confirmada no banco.':'Leitura não confirmada nesta sessão.'}</small></div>`).join('');live(true,channel?'Supabase · tempo real ativo':'Supabase conectado');await team()}catch(e){live(false,'Falha de conexão');$('jta-admin-notice').textContent='Não foi possível carregar: '+(e.message||String(e));$('jta-service-health').innerHTML='<p class="jta-empty">Verifique a sessão e as políticas do Supabase.</p>'}finally{busy=false;$('jta-refresh').disabled=false}}
- async function start(){if(!supabaseClient||channel)return;const {data:{session}}=await supabaseClient.auth.getSession();if(!session?.user)return;let ch=supabaseClient.channel('jornatec-admin-live-'+session.user.id);tables.forEach(t=>{ch=ch.on('postgres_changes',{event:'*',schema:'public',table:t},p=>{const row=p.new||p.old||{};events.unshift({table:t,event:p.eventType,title:String(row.title||row.name||row.email||row.role_name||row.id||'registro'),at:new Date().toISOString()});events=events.slice(0,14);feed();clearTimeout(window.__jtaTimer);window.__jtaTimer=setTimeout(()=>{if(open)refresh()},450)})});channel=ch;ch.subscribe(s=>{if(s==='SUBSCRIBED')live(true,'Supabase · tempo real ativo');else if(['CHANNEL_ERROR','TIMED_OUT','CLOSED'].includes(s))live(false,'Tempo real indisponível')})}
- async function stop(){if(channel&&supabaseClient){try{await supabaseClient.removeChannel(channel)}catch{}}channel=null}
- function openAdmin(){open=true;refresh().then(start)}function closeAdmin(){open=false;stop()}
- $('jta-refresh')?.addEventListener('click',refresh);$('jta-team-refresh')?.addEventListener('click',team);document.querySelector('[data-jtr-tab="admin"]')?.addEventListener('click',openAdmin);document.querySelector('[data-jtr-tab="overview"]')?.addEventListener('click',closeAdmin);document.querySelectorAll('[data-jtr-tab]').forEach(b=>{if(!['admin','overview'].includes(b.dataset.jtrTab))b.addEventListener('click',closeAdmin)});$('jtr-close')?.addEventListener('click',closeAdmin);supabaseClient?.auth.onAuthStateChange((ev,s)=>{if(!s)closeAdmin();else if(open)stop().then(()=>refresh().then(start))});
 })();
 </script>
 
