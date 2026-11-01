@@ -1054,7 +1054,7 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 </style>
 
 </head>
-<body data-jornatec-version="59.6-public-card-thumbnails">
+<body data-jornatec-version="59.9-home-redesign-featured-readable">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
@@ -3007,6 +3007,80 @@ load();
 .jt-public-dots{margin-top:9px!important}
 @media(max-width:760px){.jt-public-feature-slide{grid-template-columns:minmax(0,1fr)!important;gap:8px!important;padding:10px!important}.jt-public-preview-thumb,.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{height:125px!important;min-height:125px!important;max-height:125px!important}.jt-public-feature-copy{padding:7px 5px!important}.jt-public-feature-copy h3{font-size:20px!important;margin:6px 0!important}.jt-public-feature-copy p{font-size:11px!important}.jt-public-feature-actions{margin-top:8px!important}.jt-public-featured{margin-bottom:22px!important}}
 </style>
+<style id="v59-9-modern-home-and-readable-featured">
+/* V59.9 — identidade visual renovada para a área autenticada */
+:root{--jt-ink:#142b40;--jt-muted:#66788a;--jt-line:#e2e9ef;--jt-paper:#f4f7fa;--jt-blue:#123b5a;--jt-red:#8f2635;--jt-gold:#d5a84d}
+body:has(main#app:not([hidden])){background:linear-gradient(180deg,#edf3f8 0,#f7f9fb 360px,#f4f6f8 100%)!important}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){width:auto!important;max-width:none!important;min-height:100vh;padding:18px 28px 48px clamp(250px,20vw,285px)!important;color:var(--jt-ink)}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar{max-width:1500px;margin:0 auto 14px;padding:11px 15px;min-height:54px;display:flex;align-items:center;gap:9px;background:#ffffffeb;border:1px solid var(--jt-line);border-radius:16px;box-shadow:0 7px 24px #18344d0b;backdrop-filter:blur(12px)}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar #who{font-weight:750;color:#24445f;background:#eef4f8;padding:8px 12px;border-radius:999px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar .btn{border-radius:10px;padding:9px 12px;font-weight:750}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav{max-width:1500px;margin:0 auto 17px;padding:7px;gap:6px;background:#fff;border:1px solid var(--jt-line);border-radius:15px;box-shadow:0 6px 20px #18344d09}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav a{padding:10px 13px;border-radius:10px;color:#456078;font-weight:750;font-size:12px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav a:hover{background:#eaf2f8;color:#123b5a}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast{max-width:1500px;min-height:155px;margin:0 auto 20px;padding:25px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:22px;background:radial-gradient(circle at 82% 20%,#ffffff20 0 2px,transparent 3px),radial-gradient(circle at 90% 80%,#ffffff18 0 50px,transparent 51px),linear-gradient(115deg,#0c2942 0%,#174c70 58%,#812b3b 100%);box-shadow:0 18px 38px #0d304b25;overflow:hidden}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast-brand{align-items:center;gap:17px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast-logo{width:58px;height:58px;object-fit:contain;border-radius:15px;background:#fff;padding:5px;box-shadow:0 6px 18px #001a2c40}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast-brand h1{font-size:clamp(30px,3.5vw,44px);font-weight:850;letter-spacing:-.045em}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .date{background:#ffffff1b;border:1px solid #ffffff36;border-radius:999px;padding:9px 13px;color:#fff;font-weight:700}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox{background:#ffffff18;border:1px solid #ffffff40;border-radius:13px;padding:9px 12px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox input{color:#fff;background:transparent}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox input::placeholder{color:#dce7ef}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .tabs{max-width:1500px;margin:0 auto 18px;padding:7px;background:#fff;border:1px solid var(--jt-line);border-radius:14px;box-shadow:0 5px 18px #18344d08}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .tabs button{border-radius:9px;font-weight:750}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .top2{max-width:1500px;margin:0 auto 22px;gap:18px;align-items:stretch}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #feat,main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs{border:1px solid var(--jt-line);border-radius:19px;background:#fff;box-shadow:0 10px 28px #18344d0b;overflow:hidden}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #feat{padding:19px;background:linear-gradient(145deg,#fff,#f8fbfd)}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs{padding:19px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .sh3{max-width:1500px;margin:26px auto 13px;color:#173b56;font-size:clamp(20px,2vw,26px);font-weight:850;letter-spacing:-.035em}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list{max-width:1500px;margin:0 auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;border:1px solid var(--jt-line);border-radius:18px;background:#fff;box-shadow:0 8px 24px #18344d08}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list .item{border:1px solid #e6edf2;border-radius:14px;background:#fff;box-shadow:0 4px 14px #18344d08;transition:transform .18s,box-shadow .18s}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list .item:hover{transform:translateY(-3px);box-shadow:0 12px 25px #18344d13}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{max-width:1500px;margin:0 auto;border-radius:15px 15px 0 0;background:#fff;border:1px solid var(--jt-line);box-shadow:0 -5px 22px #18344d0b}
+/* Vitrine pública: capa limpa, sem textos ou etiquetas sobre a área da imagem. */
+.jt-public-featured{max-width:1180px;margin:0 auto 28px!important;padding:0 18px}
+.jt-public-featured-stage{min-height:0!important}
+.jt-public-carousel-wrap{grid-template-columns:38px minmax(0,1fr) 38px!important;gap:10px!important;padding:0!important}
+.jt-public-feature-slide{grid-template-columns:minmax(150px,205px) minmax(0,1fr)!important;gap:20px!important;align-items:center!important;padding:15px!important;border:1px solid #e1e8ee!important;border-radius:17px!important;background:#fff!important;box-shadow:0 9px 28px #17364d10!important}
+.jt-public-preview-thumb{height:158px!important;min-height:158px!important;max-height:158px!important;aspect-ratio:4/3;background:#eef2f5!important;border:1px solid #e4e9ed!important;border-radius:10px!important;overflow:hidden!important;isolation:isolate}
+.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{display:block!important;width:100%!important;height:158px!important;min-height:158px!important;max-height:158px!important;object-fit:contain!important;border:0!important;background:#f7f8fa!important;pointer-events:none!important}
+.jt-public-preview-thumb:before,.jt-public-preview-thumb:after{content:none!important;display:none!important}
+.jt-public-preview-thumb .jt-file-mark{font:800 34px/1 system-ui,sans-serif!important;color:#34536b!important;background:#e6eef4!important;border-radius:14px;padding:20px 24px}
+.jt-public-feature-copy{min-width:0;padding:4px 8px!important;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.jt-public-feature-copy .jt-public-card-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:#f4f0e6;color:#816126!important;font-size:9px!important;letter-spacing:.1em!important;font-weight:850!important}
+.jt-public-feature-copy h3{margin:10px 0 7px!important;color:#19364d!important;font:800 clamp(18px,2vw,24px)/1.18 system-ui,sans-serif!important;letter-spacing:-.035em}
+.jt-public-feature-copy p{margin:0!important;color:#65788a!important;font-size:12px!important;line-height:1.5!important}
+.jt-public-feature-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px!important}
+.jt-public-feature-actions .btn{border-radius:9px!important;padding:8px 12px!important;font-size:11px!important;font-weight:800!important}
+.jt-public-arrow{width:36px!important;height:36px!important;background:#fff!important;border:1px solid #dce5ec!important;color:#21445f!important;box-shadow:0 3px 12px #18344d10!important}
+.jt-public-dots{margin-top:10px!important}
+.jt-public-section-head{max-width:1180px;margin-left:auto!important;margin-right:auto!important;padding-left:18px;padding-right:18px}
+.jt-public-section-head h2{color:#17364d!important;letter-spacing:-.035em}
+@media(max-width:760px){
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){padding:10px 10px 35px!important}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar{position:relative;flex-wrap:wrap;padding:9px;gap:6px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar .grow{display:none}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar #who{order:2}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast{padding:17px 15px;min-height:130px;border-radius:17px;flex-wrap:wrap}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox{width:100%;margin-top:7px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .top2{display:block}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs{margin-top:13px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list{grid-template-columns:1fr;padding:8px}
+ .jt-public-featured{padding:0 10px!important}
+ .jt-public-carousel-wrap{grid-template-columns:28px minmax(0,1fr) 28px!important;gap:5px!important}
+ .jt-public-arrow{width:28px!important;height:34px!important;font-size:22px!important}
+ .jt-public-feature-slide{grid-template-columns:112px minmax(0,1fr)!important;gap:10px!important;padding:9px!important;align-items:center!important}
+ .jt-public-preview-thumb,.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{height:112px!important;min-height:112px!important;max-height:112px!important}
+ .jt-public-feature-copy{padding:2px!important}
+ .jt-public-feature-copy h3{font-size:15px!important;line-height:1.2!important;margin:6px 0!important}
+ .jt-public-feature-copy p{font-size:10px!important;line-height:1.35!important}
+ .jt-public-feature-copy .jt-public-card-tag{font-size:8px!important;padding:4px 6px}
+ .jt-public-feature-actions{margin-top:7px!important;gap:5px!important}
+ .jt-public-feature-actions .btn{font-size:9px!important;padding:6px 7px!important}
+}
+@media(prefers-reduced-motion:no-preference){main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list .item{animation:jtCardIn .35s ease both}@keyframes jtCardIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}}
+</style>
+
 </body>
 </html>
 
