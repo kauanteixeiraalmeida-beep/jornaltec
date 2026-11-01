@@ -949,6 +949,110 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 @media(max-width:760px){.jt-public-preview-head{height:auto;min-height:58px;padding:9px;flex-wrap:wrap}.jt-public-preview-dialog #public-preview-body{height:calc(100% - 64px);min-height:0}.jt-public-preview-dialog #public-preview-body iframe,.jt-public-preview-dialog #public-preview-body img{min-height:70vh}.jt-public-carousel-wrap{grid-template-columns:30px minmax(0,1fr) 30px;gap:5px;padding:0 10px}.jt-public-arrow{width:30px;height:36px;font-size:23px}.jt-public-feature-slide{grid-template-columns:1fr;padding:10px;gap:10px}.jt-public-preview-thumb,.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{min-height:210px}.jt-public-feature-copy{padding:10px 6px}.jt-public-feature-copy h3{font-size:25px}.jt-public-featured{margin-bottom:30px}.jt-public-events{margin-top:34px}.jt-public-preview-dialog{width:100vw;height:92vh;border-radius:0}}
 @media(max-width:760px){.jt-public-hero{margin:16px 12px 36px;min-height:0}.jt-public-art{width:110px;height:110px;flex-basis:110px}.jt-public-art span{font-size:56px}.jt-public-grid{grid-template-columns:1fr;padding:0 12px}.jt-public-section-head{padding:0 12px}.jt-public-header{padding:15px 12px}.jt-public-hero h1{font-size:34px}.jt-public-art i{font-size:22px}.jt-public-footer{padding:18px 12px;flex-wrap:wrap}}
 </style>
+
+<style id="jt-v598-home-interna">
+/* V59.8 — modernização visual da página inicial autenticada; preserva IDs e fluxos existentes */
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){
+  --jt-ink:#132c43;--jt-muted:#657789;--jt-line:#e4eaf0;--jt-surface:#fff;
+  --jt-bg:#f3f6fa;
+  background:var(--jt-bg)!important;color:var(--jt-ink);
+  padding:18px clamp(14px,3vw,38px) 42px!important;
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar{
+  position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:10px;
+  margin:0 auto 14px;padding:11px 15px;max-width:1500px;
+  border:1px solid #e5eaf0;border-radius:16px;background:#ffffffed;
+  box-shadow:0 8px 28px #18344d0b;backdrop-filter:blur(14px);
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar #today{
+  color:#64778a;font-size:12px;font-weight:650;letter-spacing:.02em
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar #who{
+  color:#183750;font-weight:750;font-size:13px;background:#eef4f8;border-radius:999px;padding:8px 12px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar .btn{
+  border-radius:10px;padding:9px 13px;font-weight:700
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar .btn:not(.ghost){
+  background:#123b5a;border-color:#123b5a
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav{
+  max-width:1500px;margin:0 auto 18px;padding:7px;display:flex;gap:6px;flex-wrap:wrap;
+  border:1px solid #e3eaf0;border-radius:14px;background:#fff;
+  box-shadow:0 5px 20px #18344d08
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav a{
+  border-radius:10px;padding:10px 13px;color:#4d6377;font-size:12px;font-weight:750;
+  text-decoration:none;transition:background .18s,color .18s,transform .18s
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav a:hover{
+  background:#edf4f8;color:#123b5a;transform:translateY(-1px)
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast{
+  max-width:1500px;margin:0 auto 14px;padding:22px 26px;border:0;border-radius:20px;
+  color:#fff;background:radial-gradient(circle at 85% 10%,#ffffff25 0 2px,transparent 3px),
+  linear-gradient(115deg,#102f49 0%,#174b69 58%,#8b2930 100%);
+  box-shadow:0 14px 35px #123b5a20;overflow:hidden
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast-brand{
+  gap:14px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast-brand h1,
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #mast{
+  color:#fff!important;font-size:clamp(27px,3vw,38px);letter-spacing:-.04em
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .date{
+  color:#e4edf4;background:#ffffff18;border:1px solid #ffffff2c;
+  padding:8px 12px;border-radius:999px;font-size:11px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox{
+  border:1px solid #ffffff38;background:#ffffff18;border-radius:12px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox input{
+  color:#fff;background:transparent
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox input::placeholder{color:#d5e0e9}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .tabs{
+  max-width:1500px;margin:0 auto 20px;padding:5px 7px;border:1px solid #e3eaf0;
+  border-radius:13px;background:#fff;box-shadow:0 5px 20px #18344d08
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .tabs button{
+  border-radius:9px;font-weight:700
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .top2{
+  max-width:1500px;margin:0 auto 20px;gap:18px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #feat,
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs,
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list{
+  border:1px solid #e2e9ef;border-radius:17px;background:#fff;
+  box-shadow:0 8px 26px #18344d09;overflow:hidden
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #feat{padding:16px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs{padding:18px}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .sh3{
+  max-width:1500px;margin:24px auto 12px;color:#183750;font-weight:850;
+  letter-spacing:-.025em;font-size:clamp(19px,2vw,25px)
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list{
+  max-width:1500px;margin:0 auto;padding:8px
+}
+main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
+  border-radius:15px 15px 0 0;box-shadow:0 -5px 22px #18344d0b
+}
+@media(max-width:760px){
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){padding:10px 10px 32px!important}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar{position:relative;flex-wrap:wrap;padding:10px;border-radius:13px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar .grow{display:none}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .topbar #who{order:2}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .app-quicknav{overflow-x:auto;flex-wrap:nowrap;white-space:nowrap}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast{padding:18px 16px;border-radius:16px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .mast .sbox{width:100%;margin-top:12px}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .top2{display:block}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #evs{margin-top:14px}
+}
+</style>
+
 </head>
 <body data-jornatec-version="59.6-public-card-thumbnails">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
