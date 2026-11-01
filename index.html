@@ -1116,8 +1116,66 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 }
 </style>
 
+
+<style id="jornatec-v60-1-home-alignment-and-featured-fix">
+/* V60.1 — Corrige o deslocamento lateral da home interna: o menu é flutuante/recolhido,
+   portanto não deve reservar 250–285px vazios à esquerda. */
+@media (min-width:761px){
+  main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){
+    box-sizing:border-box!important;
+    width:100%!important;max-width:none!important;
+    margin-left:0!important;margin-right:0!important;
+    padding:18px clamp(18px,2.4vw,42px) 48px!important;
+  }
+}
+@media (max-width:760px){
+  main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){
+    box-sizing:border-box!important;width:100%!important;max-width:none!important;
+    margin:0!important;padding:10px 10px 35px!important;
+  }
+}
+/* Vitrine: cartão limpo, com a capa isolada e informações em coluna própria.
+   Remove a etiqueta decorativa que competia visualmente com a prévia. */
+.jt-public-featured{width:100%;max-width:1320px!important;box-sizing:border-box!important;margin-left:auto!important;margin-right:auto!important}
+.jt-public-section-head{width:100%;max-width:1320px!important;box-sizing:border-box!important}
+.jt-public-carousel-wrap{width:100%;box-sizing:border-box!important;grid-template-columns:38px minmax(0,1fr) 38px!important;gap:12px!important;padding:0 18px!important}
+.jt-public-featured-stage{min-width:0!important;min-height:0!important}
+.jt-public-feature-slide{
+  width:100%;box-sizing:border-box!important;
+  grid-template-columns:minmax(180px,250px) minmax(0,1fr)!important;
+  gap:22px!important;padding:18px!important;align-items:center!important;
+  overflow:hidden!important;background:#fff!important;
+}
+.jt-public-preview-thumb{
+  position:relative!important;isolation:isolate!important;
+  width:100%!important;height:170px!important;min-height:170px!important;max-height:170px!important;
+  overflow:hidden!important;border-radius:11px!important;background:#edf1f4!important;
+}
+.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{
+  display:block!important;position:static!important;inset:auto!important;
+  width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+  object-fit:contain!important;border:0!important;background:#f7f8fa!important;
+}
+.jt-public-feature-copy{position:static!important;min-width:0!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;padding:5px 4px!important;gap:0!important;overflow-wrap:anywhere!important}
+.jt-public-feature-copy .jt-public-card-tag{display:none!important}
+.jt-public-feature-copy h3{position:static!important;margin:0 0 9px!important;font:750 clamp(19px,1.8vw,27px)/1.2 system-ui,sans-serif!important;color:#18364e!important;letter-spacing:-.025em!important;overflow-wrap:anywhere!important}
+.jt-public-feature-copy p{margin:0!important;font-size:12px!important;line-height:1.5!important;color:#647789!important}
+.jt-public-feature-actions{position:static!important;margin-top:13px!important;display:flex!important;gap:8px!important;flex-wrap:wrap!important}
+.jt-public-feature-actions .btn{min-height:36px!important;padding:8px 12px!important;font-size:11px!important;border-radius:9px!important}
+.jt-public-arrow{flex:0 0 auto!important}
+@media(max-width:760px){
+ .jt-public-carousel-wrap{grid-template-columns:28px minmax(0,1fr) 28px!important;gap:5px!important;padding:0 8px!important}
+ .jt-public-feature-slide{grid-template-columns:minmax(0,1fr)!important;gap:10px!important;padding:11px!important}
+ .jt-public-preview-thumb{height:138px!important;min-height:138px!important;max-height:138px!important}
+ .jt-public-feature-copy{padding:4px 3px!important}
+ .jt-public-feature-copy h3{font-size:18px!important;margin:0 0 6px!important}
+ .jt-public-feature-copy p{font-size:11px!important}
+ .jt-public-feature-actions{margin-top:9px!important}
+}
+</style>
+
 </head>
-<body data-jornatec-version="59.9-home-redesign-featured-readable">
+<body data-jornatec-version="60.1-home-alinhada-vitrine-legivel">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
