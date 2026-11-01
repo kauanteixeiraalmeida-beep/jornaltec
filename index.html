@@ -950,7 +950,7 @@ main#app.chat-mode #main-home-menu,main#app.chat-mode #main-menu-toggle,main#app
 @media(max-width:760px){.jt-public-hero{margin:16px 12px 36px;min-height:0}.jt-public-art{width:110px;height:110px;flex-basis:110px}.jt-public-art span{font-size:56px}.jt-public-grid{grid-template-columns:1fr;padding:0 12px}.jt-public-section-head{padding:0 12px}.jt-public-header{padding:15px 12px}.jt-public-hero h1{font-size:34px}.jt-public-art i{font-size:22px}.jt-public-footer{padding:18px 12px;flex-wrap:wrap}}
 </style>
 </head>
-<body data-jornatec-version="59.4-public-guest-entry-preview-fix">
+<body data-jornatec-version="59.5-storage-public-preview-fix">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
@@ -1326,7 +1326,20 @@ async function loadDocuments(){
 
 let publicFeaturedIndex=0,publicFeaturedTimer=null,publicObjectUrls=new Map();
 function publicFileKind(d){const t=(d.type||d.mime_type||'').toLowerCase(),n=(d.name||d.file_name||'').toLowerCase();if(t.includes('pdf')||n.endsWith('.pdf'))return'pdf';if(t.startsWith('image/')||/\.(png|jpe?g|webp|gif|svg|bmp)$/i.test(n))return'image';if(t.startsWith('video/')||/\.(mp4|m4v|mov|webm|ogv|3gp)$/i.test(n))return'video';if(t.startsWith('audio/')||/\.(mp3|m4a|wav|ogg|oga|aac|flac)$/i.test(n))return'audio';if(t.includes('html')||/\.(html|htm)$/i.test(n))return'html';if(t.startsWith('text/')||/\.(txt|md|csv|log)$/i.test(n))return'text';return'other'}
-async function publicBlob(d){if(publicObjectUrls.has(d.id))return publicObjectUrls.get(d.id);if(!d.storage_path)throw new Error('Esta publicação não possui um caminho de arquivo no armazenamento.');const sb=await requireSB();const {data,error}=await sb.storage.from('documents').download(d.storage_path);if(error)throw error;const url=URL.createObjectURL(data);publicObjectUrls.set(d.id,url);return url}
+async function publicBlob(d){
+ if(publicObjectUrls.has(d.id))return publicObjectUrls.get(d.id);
+ if(!d.storage_path)throw new Error('O registro deste jornal não possui storage_path. Confira o caminho salvo na tabela documents.');
+ const sb=await requireSB();
+ const result=await sb.storage.from('documents').download(d.storage_path);
+ if(result.error){
+   const message=result.error.message||String(result.error);
+   if(/permission|not authorized|row.level security|403/i.test(message))throw new Error('O Supabase bloqueou a leitura do arquivo. Execute a migração V59.5 para conceder SELECT em storage.objects e confira a política RLS do bucket documents. Detalhe: '+message);
+   if(/not found|404|object not found/i.test(message))throw new Error('O arquivo não foi encontrado no bucket documents. Confira se storage_path corresponde ao nome do objeto armazenado. Detalhe: '+message);
+   throw new Error('Falha ao baixar o arquivo do bucket documents: '+message);
+ }
+ if(!(result.data instanceof Blob)||result.data.size===0)throw new Error('O Supabase retornou um arquivo vazio. Confira se o objeto existe e se o caminho está correto.');
+ const url=URL.createObjectURL(result.data);publicObjectUrls.set(d.id,url);return url;
+}
 function publicPreviewMarkup(d,url){const k=publicFileKind(d),name=esc(d.name||d.title||'arquivo');if(k==='image')return `<div class="jt-preview-image-wrap"><img src="${url}" alt="${esc(d.title)}" onerror="this.outerHTML='<p class=preview-note>Não foi possível carregar a imagem. Confira o arquivo no Supabase.</p>'"></div>`;if(k==='pdf')return `<iframe title="Pré-visualização de ${esc(d.title)}" src="${url}#toolbar=1&navpanes=0&view=FitH"></iframe>`;if(k==='html')return `<iframe title="Pré-visualização de ${esc(d.title)}" sandbox="allow-same-origin" src="${url}"></iframe>`;if(k==='video')return `<div class="jt-preview-media"><video controls playsinline preload="metadata" src="${url}">Seu navegador não consegue reproduzir este vídeo.</video></div>`;if(k==='audio')return `<div class="jt-preview-media"><div class="jt-preview-file-icon">♫</div><h3>${name}</h3><audio controls preload="metadata" src="${url}">Seu navegador não consegue reproduzir este áudio.</audio></div>`;if(k==='text')return `<iframe title="Pré-visualização de ${esc(d.title)}" src="${url}"></iframe>`;return `<div class="jt-preview-media"><div class="jt-preview-file-icon">JT</div><h3>${esc(d.title)}</h3><p>O formato deste arquivo não pode ser exibido diretamente no navegador. Você pode baixar o original para abrir no aplicativo compatível.</p></div>`}
 function renderPublicFeatured(){
  const host=$('public-featured'),dots=$('public-featured-dots'),items=(window.jtPublicDocs||[]).slice(0,5);if(!host)return;
