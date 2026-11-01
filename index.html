@@ -1175,7 +1175,7 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 </style>
 
 </head>
-<body data-jornatec-version="60.1-home-alinhada-vitrine-legivel">
+<body data-jornatec-version="60.2-home-layout-e-vitrine-final">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
@@ -3218,4 +3218,36 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{max-wid
 <style id="v35-menu-overlay-fix">
 #chat-section .jt-chat-nav-backdrop{display:none!important}
 @media(max-width:680px){main#app.chat-mode #chat-section.jt-mobile-nav-open .jt-chat-nav-backdrop{display:block!important}main#app.chat-mode #chat-section:not(.jt-mobile-nav-open) .jt-chat-nav-backdrop{display:none!important}}
+</style>
+
+
+<style id="jornatec-v60-2-final-layout-fix">
+/* Correções finais, aplicadas depois das regras antigas para não serem sobrescritas. */
+@media (min-width:761px){
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){display:block!important;box-sizing:border-box!important;width:100%!important;max-width:none!important;min-height:100vh!important;margin:0!important;padding:18px 28px 48px 248px!important}
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.topbar,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.app-quicknav,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.mast,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.tabs,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.top2,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.sh3,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>#list,
+ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode)>.btabs{width:100%!important;max-width:none!important;box-sizing:border-box!important}
+}
+@media(max-width:760px){main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0!important;padding:10px 10px 35px!important}}
+/* A capa fica isolada; etiqueta, título e botões nunca são sobrepostos à imagem. */
+.jt-public-featured,.jt-public-section-head{width:100%!important;max-width:1320px!important;box-sizing:border-box!important;margin-left:auto!important;margin-right:auto!important}
+.jt-public-carousel-wrap{width:100%!important;box-sizing:border-box!important;grid-template-columns:38px minmax(0,1fr) 38px!important;gap:12px!important;padding:0 18px!important}
+.jt-public-featured-stage{min-width:0!important;min-height:0!important}
+.jt-public-feature-slide{display:grid!important;position:relative!important;width:100%!important;box-sizing:border-box!important;grid-template-columns:minmax(170px,230px) minmax(0,1fr)!important;align-items:center!important;gap:20px!important;padding:15px!important;overflow:hidden!important;border:1px solid #e1e8ee!important;border-radius:16px!important;background:#fff!important;box-shadow:0 8px 24px #17364d0d!important}
+.jt-public-preview-thumb{display:grid!important;position:relative!important;width:100%!important;height:150px!important;min-height:150px!important;max-height:150px!important;overflow:hidden!important;border:1px solid #e4e9ed!important;border-radius:10px!important;background:#f0f3f5!important}
+.jt-public-preview-thumb:before,.jt-public-preview-thumb:after{content:none!important;display:none!important}
+.jt-public-preview-thumb iframe,.jt-public-preview-thumb img{display:block!important;position:static!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;object-fit:contain!important;border:0!important;background:#f7f8fa!important;pointer-events:none!important}
+.jt-public-feature-copy{display:flex!important;position:static!important;min-width:0!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:0!important;padding:4px 6px!important;overflow-wrap:anywhere!important}
+.jt-public-feature-copy .jt-public-card-tag{display:none!important;position:static!important}
+.jt-public-feature-copy h3{position:static!important;margin:0 0 9px!important;font:750 clamp(19px,1.8vw,27px)/1.2 system-ui,sans-serif!important;color:#18364e!important;letter-spacing:-.025em!important;overflow-wrap:anywhere!important}
+.jt-public-feature-copy p{position:static!important;margin:0!important;font-size:12px!important;line-height:1.5!important;color:#647789!important}
+.jt-public-feature-actions{position:static!important;margin-top:13px!important;display:flex!important;gap:8px!important;flex-wrap:wrap!important}
+.jt-public-feature-actions .btn{min-height:36px!important;padding:8px 12px!important;font-size:11px!important;border-radius:9px!important}
+@media(max-width:760px){.jt-public-carousel-wrap{grid-template-columns:28px minmax(0,1fr) 28px!important;gap:5px!important;padding:0 8px!important}.jt-public-feature-slide{grid-template-columns:minmax(0,1fr)!important;gap:10px!important;padding:11px!important}.jt-public-preview-thumb{height:138px!important;min-height:138px!important;max-height:138px!important}.jt-public-feature-copy{padding:4px 3px!important}.jt-public-feature-copy h3{font-size:18px!important;margin:0 0 6px!important}.jt-public-feature-copy p{font-size:11px!important}.jt-public-feature-actions{margin-top:9px!important}}
 </style>
