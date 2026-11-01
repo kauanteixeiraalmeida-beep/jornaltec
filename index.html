@@ -2949,7 +2949,38 @@ function switchTab(tab){hub.querySelectorAll('[data-jtr-tab]').forEach(b=>b.clas
 async function openHub(){if(!(await hasLevelAccess([0,2,3])))return;hub.hidden=false;document.body.style.overflow='hidden';renderAll();switchTab('overview');$('jtr-close').focus()}
 function closeHub(){hub.hidden=true;document.body.style.overflow='';($('publication-redacao-open')||$('publication-open-studio'))?.focus()}
 function saveBlob(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
-function exportEdition(e){const html='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(e.title)+'</title><style>body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.7 Georgia,serif;color:#222}h1,h2{line-height:1.15}img{max-width:100%;height:auto}blockquote{border-left:4px solid #dba528;padding-left:16px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>'+safe(e.title)+'</h1><p><small>JornalTec · '+safe(dateFmt(e.createdAt.slice(0,10)))+'</small></p><hr>'+e.html+'</body></html>';saveBlob((e.title||'edicao-jornaltec').replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')+'.html',new Blob([html],{type:'text/html;charset=utf-8'}))}
+function exportEdition(e){const html='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(e.title)+'</title><style>body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.7 Georgia,serif;color:#222}h1,h2{line-height:1.15}img{max-width:100%;height:auto}blockquote{border-left:4px solid #dba528;padding-left:16px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>'+safe(e.title)+'</h1><p><small>JornalTec · '+safe(dateFmt(e.createdAt.slice(0,10)))+'</small></p><hr>'+e.html+'
+<style id="jornatec-v60-3-authenticated-home-fix">
+/* V60.3 — Corrige SOMENTE a página inicial autenticada (#app).
+   O menu principal é um painel lateral sobreposto (off-canvas), não uma sidebar fixa aberta.
+   Portanto, não reservar 248–285px à esquerda quando o menu está fechado. */
+@media (min-width:761px){
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){
+    display:block!important; box-sizing:border-box!important;
+    width:100%!important; max-width:none!important; min-height:100vh!important;
+    margin:0!important; padding:22px clamp(22px,3vw,52px) 56px!important;
+    position:relative!important; left:0!important; transform:none!important;
+  }
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .topbar,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .app-quicknav,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .mast,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #feat,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #evs,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #list{
+    width:100%!important; max-width:none!important; box-sizing:border-box!important;
+  }
+}
+@media (min-width:761px){
+  /* Menu fechado fica fora da tela; quando aberto, sobrepõe o conteúdo sem empurrá-lo. */
+  html body #main-home-menu{position:fixed!important;left:0!important;top:0!important;bottom:0!important;
+    width:min(290px,82vw)!important;max-width:290px!important;z-index:150!important;
+    transform:translateX(-105%)!important;transition:transform .22s ease!important}
+  html body #main-home-menu.is-open{transform:translateX(0)!important}
+}
+/* A vitrine pública não é alterada por esta correção da área autenticada. */
+</style>
+
+</body></html>';saveBlob((e.title||'edicao-jornaltec').replace(/[^a-z0-9-_ ]/gi,'').trim().replace(/\s+/g,'-')+'.html',new Blob([html],{type:'text/html;charset=utf-8'}))}
 $('publication-redacao-open')?.addEventListener('click',openHub);$('jtr-close').addEventListener('click',closeHub);hub.addEventListener('click',e=>{if(e.target===hub)closeHub()});document.addEventListener('keydown',e=>{if(!hub.hidden&&e.key==='Escape'){if(!$('jtr-task-dialog-wrap').hidden)closeTask();else closeHub()}});
 hub.querySelectorAll('[data-jtr-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.jtrTab)));hub.querySelectorAll('[data-jtr-action="new-task"]').forEach(b=>b.addEventListener('click',()=>openTask()));
 $('jtr-task-dialog-close').addEventListener('click',closeTask);$('jtr-task-cancel').addEventListener('click',closeTask);$('jtr-task-dialog-wrap').addEventListener('click',e=>{if(e.target===$('jtr-task-dialog-wrap'))closeTask()});
@@ -3210,6 +3241,37 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{max-wid
  .jt-public-feature-actions .btn{font-size:9px!important;padding:6px 7px!important}
 }
 @media(prefers-reduced-motion:no-preference){main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) #list .item{animation:jtCardIn .35s ease both}@keyframes jtCardIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}}
+</style>
+
+
+<style id="jornatec-v60-3-authenticated-home-fix">
+/* V60.3 — Corrige SOMENTE a página inicial autenticada (#app).
+   O menu principal é um painel lateral sobreposto (off-canvas), não uma sidebar fixa aberta.
+   Portanto, não reservar 248–285px à esquerda quando o menu está fechado. */
+@media (min-width:761px){
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode){
+    display:block!important; box-sizing:border-box!important;
+    width:100%!important; max-width:none!important; min-height:100vh!important;
+    margin:0!important; padding:22px clamp(22px,3vw,52px) 56px!important;
+    position:relative!important; left:0!important; transform:none!important;
+  }
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .topbar,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .app-quicknav,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > .mast,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #feat,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #evs,
+  html body main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) > #list{
+    width:100%!important; max-width:none!important; box-sizing:border-box!important;
+  }
+}
+@media (min-width:761px){
+  /* Menu fechado fica fora da tela; quando aberto, sobrepõe o conteúdo sem empurrá-lo. */
+  html body #main-home-menu{position:fixed!important;left:0!important;top:0!important;bottom:0!important;
+    width:min(290px,82vw)!important;max-width:290px!important;z-index:150!important;
+    transform:translateX(-105%)!important;transition:transform .22s ease!important}
+  html body #main-home-menu.is-open{transform:translateX(0)!important}
+}
+/* A vitrine pública não é alterada por esta correção da área autenticada. */
 </style>
 
 </body>
