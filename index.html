@@ -1344,8 +1344,37 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 @media(max-width:380px){#public-portal .jt-public-grid{grid-template-columns:1fr}#public-portal .jt-public-card-thumb{aspect-ratio:16/8}#public-portal .jt-public-card .acts{flex-direction:row;flex-wrap:wrap}}
 </style>
 
+
+<style id="jt-v608-single-home">
+/* V60.8: portal público e espaço autenticado vivem na mesma página. */
+#app{display:block;min-height:100vh}
+#app[hidden]{display:block!important}
+#app:not([data-jt-auth="true"]) > :not(#public-portal){display:none!important}
+#app[data-jt-auth="true"] > #public-portal{display:block}
+#public-portal{position:relative}
+#app[data-jt-auth="true"] > .main-menu-toggle{margin-top:18px}
+#app[data-jt-auth="true"] > .topbar{position:relative}
+</style>
 </head>
-<body data-jornatec-version="60.7-home-unificada-layout-antigo">
+<body data-jornatec-version="60.8-pagina-inicial-realmente-unificada">
+<section id="login" hidden><form id="lform" class="lcard">
+<div class="llogo">
+<svg width="66" height="66" viewBox="0 0 48 48" fill="none" stroke="#e23b45" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="8" width="34" height="32" rx="5"/><path d="M14 17h20M14 24h9M14 31h9M28 24h6v7h-6z"/></svg>
+<div class="wm">Jornal<i>Tec</i></div>
+</div>
+<p class="lred">Notícias e avisos</p>
+<div class="ldiv"><span></span></div>
+<h2>Entrar</h2>
+<p class="lsub">Acesse com seu usuário e senha</p>
+<div class="lfield"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="lu" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></div>
+<div class="lfield"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input id="lp" type="password" placeholder="Senha" aria-label="Senha" autocomplete="current-password" required></div>
+<p id="msg" role="alert"></p>
+<button class="lbtn red" type="submit">Entrar na plataforma</button>
+<button class="lbtn out" id="lreg" type="button">Criar conta</button>
+<div class="ldiv"><span></span></div>
+<p class="lfoot">Contas e áreas internas protegidas por níveis de acesso.</p><button class="lbtn out" id="login-public-back" type="button">← Voltar ao portal público</button>
+</form></section>
+<main id="app">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><div class="jt-public-header-actions"><button type="button" class="btn" id="public-login-open">Entrar na equipe</button><button type="button" class="btn" id="public-workspace-open" hidden>Espaço de trabalho</button><button type="button" class="btn ghost" id="public-personalize-open" hidden>🎨 Personalização</button></div></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
@@ -1364,24 +1393,8 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
   <footer class="jt-public-footer"><span>JornalTec · Comunicação escolar</span><button type="button" class="btn ghost" id="public-login-footer">Acessar áreas internas</button></footer>
   <dialog id="public-preview-dialog" class="jt-public-preview-dialog"><div class="jt-public-preview-head"><strong id="public-preview-title">Pré-visualização do jornal</strong><div class="acts" style="margin:0"><a class="btn ghost" id="public-preview-download" href="#" download>Baixar original</a><button type="button" class="btn ghost" id="public-preview-close">Fechar</button></div></div><div id="public-preview-body"><div class="preview-note">Selecione um jornal para visualizar.</div></div></dialog>
 </section>
-<section id="login" hidden><form id="lform" class="lcard">
-<div class="llogo">
-<svg width="66" height="66" viewBox="0 0 48 48" fill="none" stroke="#e23b45" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="8" width="34" height="32" rx="5"/><path d="M14 17h20M14 24h9M14 31h9M28 24h6v7h-6z"/></svg>
-<div class="wm">Jornal<i>Tec</i></div>
-</div>
-<p class="lred">Notícias e avisos</p>
-<div class="ldiv"><span></span></div>
-<h2>Entrar</h2>
-<p class="lsub">Acesse com seu usuário e senha</p>
-<div class="lfield"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><input id="lu" type="email" placeholder="E-mail" aria-label="E-mail" autocomplete="email" required></div>
-<div class="lfield"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input id="lp" type="password" placeholder="Senha" aria-label="Senha" autocomplete="current-password" required></div>
-<p id="msg" role="alert"></p>
-<button class="lbtn red" type="submit">Entrar na plataforma</button>
-<button class="lbtn out" id="lreg" type="button">Criar conta</button>
-<div class="ldiv"><span></span></div>
-<p class="lfoot">Contas e áreas internas protegidas por níveis de acesso.</p><button class="lbtn out" id="login-public-back" type="button">← Voltar ao portal público</button>
-</form></section>
-<main id="app" hidden>
+
+
   <button type="button" id="main-menu-toggle" class="main-menu-toggle" aria-expanded="false" aria-controls="main-home-menu">☰ Menu</button>
   <nav id="main-home-menu" class="main-home-menu" aria-label="Menu principal do JornalTec">
     <div class="main-home-brand"><strong>JornalTec</strong><small>Menu principal</small></div>
@@ -1612,13 +1625,13 @@ const supabaseClient = sbReady
 
 const $=id=>document.getElementById(id);
 function syncPublicHeader(){const signed=!!me;const login=$("public-login-open"),workspace=$("public-workspace-open"),personalize=$("public-personalize-open"),footer=$("public-login-footer");if(login)login.hidden=signed;if(workspace)workspace.hidden=!signed;if(personalize)personalize.hidden=!signed;if(footer)footer.hidden=signed;}
-function showPublicPortal(){const portal=$("public-portal"),login=$("login"),app=$("app");if(portal)portal.hidden=false;if(login)login.hidden=true;if(app)app.hidden=true;syncPublicHeader();window.scrollTo?.({top:0,behavior:"auto"});}
-function showLogin(){if(me){showInternalApp();return;}const portal=$("public-portal"),login=$("login");if(portal)portal.hidden=true;if(login)login.hidden=false;$("lu")?.focus();}
-function showInternalApp(){if(!me){showLogin();return;}const portal=$("public-portal"),login=$("login"),app=$("app");if(portal)portal.hidden=true;if(login)login.hidden=true;if(app)app.hidden=false;window.scrollTo?.({top:0,behavior:"auto"});}
+function showPublicPortal(){const login=$("login"),app=$("app");if(login)login.hidden=true;if(app){app.hidden=false;app.dataset.jtAuth="false";}syncPublicHeader();window.scrollTo?.({top:0,behavior:"auto"});}
+function showLogin(){if(me){showInternalApp();return;}const login=$("login"),app=$("app");if(app){app.hidden=false;app.dataset.jtAuth="false";}if(login)login.hidden=false;$("lu")?.focus();}
+function showInternalApp(){if(!me){showLogin();return;}const login=$("login"),app=$("app");if(login)login.hidden=true;if(app){app.hidden=false;app.dataset.jtAuth="true";}syncPublicHeader();const target=$("main-menu-toggle")||$("publication-area");target?.scrollIntoView?.({behavior:"smooth",block:"start"});}
 $("public-login-open")?.addEventListener("click",showLogin);$("public-login-footer")?.addEventListener("click",showLogin);$("login-public-back")?.addEventListener("click",showPublicPortal);
 $("public-workspace-open")?.addEventListener("click",showInternalApp);
 $("public-personalize-open")?.addEventListener("click",()=>{if(!me){showLogin();return;}showInternalApp();setTimeout(()=>$("custom")?.click(),0);});
-$("app-public-home")?.addEventListener("click",showPublicPortal);
+$("app-public-home")?.addEventListener("click",()=>window.scrollTo?.({top:0,behavior:"smooth"}));
 
 $("today").textContent=new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 let db,docs=[],section="Todas",queue=[],curURL=null,me=null;
@@ -2184,7 +2197,7 @@ async function enterSession(user){
   me=user.id;
   try{sessionStorage.setItem("jornal_me",user.id)}catch(e){}
   $("who").textContent="Olá, "+(p.display||user.email||"usuário");
-  $("app").hidden=true;showPublicPortal();
+  $("app").hidden=false;showInternalApp();
   if(window.jtPublicDocs===undefined)loadPublicDocuments();
   currentAccessLevel=await fetchAccessLevel().catch(()=>null);
   setLock(false);applyP();await refresh();startNotifications();chatInit();await startRealtime();
@@ -2225,12 +2238,12 @@ $("logout").onclick=async()=>{
   try{await stopRealtime();if(supabaseClient)await supabaseClient.auth.signOut()}catch(e){}
   me=null;applyP();unlocked=false;currentAccessLevel=null;clearInterval(notifTimer);if(chatChannel&&supabaseClient){supabaseClient.removeChannel(chatChannel);chatChannel=null}chatCurrentId=null;
   try{sessionStorage.removeItem("jornal_me")}catch(e){}
-  currentAccessLevel=null;$("app").hidden=true;$("lp").value="";$("viewer").hidden=true;$("vbody").innerHTML="";freeURL();showPublicPortal();
+  currentAccessLevel=null;$("app").hidden=false;$("lp").value="";$("viewer").hidden=true;$("vbody").innerHTML="";freeURL();showPublicPortal();
 };
 
 supabaseClient?.auth.onAuthStateChange((event,session)=>{
   if(session?.user && !me){setTimeout(()=>enterSession(session.user).catch(e=>{console.error(e);$("msg").textContent="Não foi possível carregar seu perfil: "+(e.message||e)}),0)}
-  if(event==="SIGNED_OUT"&&!session){me=null;currentAccessLevel=null;$("app").hidden=true;showPublicPortal();freeURL()}
+  if(event==="SIGNED_OUT"&&!session){me=null;currentAccessLevel=null;$("app").hidden=false;showPublicPortal();freeURL()}
 });
 
 const SORTS={new:(a,b)=>b.date-a.date,old:(a,b)=>a.date-b.date,az:(a,b)=>a.title.localeCompare(b.title,"pt-BR")};
@@ -3000,7 +3013,7 @@ async function restoreSession(force=false){
       await enterSession(session.user);
     }else if(!me){
       // Visitante sem sessão: permanece no portal público, nunca na tela de login.
-      $("app").hidden=true;
+      $("app").hidden=false;
       showPublicPortal();
       if(window.jtPublicDocs===undefined)loadPublicDocuments();
     }
@@ -3008,7 +3021,7 @@ async function restoreSession(force=false){
     console.error(e);
     if(!me){
       // Sessão expirada, inválida ou conta removida: libera o portal público.
-      $("app").hidden=true;
+      $("app").hidden=false;
       showPublicPortal();
       if(window.jtPublicDocs===undefined)loadPublicDocuments();
     }
