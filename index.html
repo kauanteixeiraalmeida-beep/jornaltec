@@ -1174,8 +1174,92 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 }
 </style>
 
+
+<style id="jornatec-v60-5-preview-cleanup">
+/* V60.5 — capas limpas: nenhum texto deve ficar por cima da pré-visualização */
+#public-featured .jt-public-feature-slide{
+  display:grid!important;grid-template-columns:minmax(190px,235px) minmax(0,1fr)!important;
+  align-items:center!important;gap:22px!important;width:100%!important;min-width:0!important;
+  height:auto!important;min-height:0!important;box-sizing:border-box!important;
+  padding:16px!important;overflow:hidden!important;background:#fff!important;
+  border:1px solid #e2e8ee!important;border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(20,43,64,.07)!important;
+}
+#public-featured .jt-public-preview-thumb{
+  display:grid!important;position:relative!important;inset:auto!important;isolation:isolate!important;
+  width:100%!important;height:168px!important;min-height:168px!important;max-height:168px!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;
+  border:1px solid #e3e8ed!important;border-radius:11px!important;background:#f1f4f6!important;
+}
+#public-featured .jt-public-preview-thumb::before,
+#public-featured .jt-public-preview-thumb::after{content:none!important;display:none!important}
+#public-featured .jt-public-preview-thumb iframe,
+#public-featured .jt-public-preview-thumb img{
+  display:block!important;position:static!important;inset:auto!important;transform:none!important;
+  width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+  margin:0!important;padding:0!important;object-fit:contain!important;border:0!important;
+  background:#f7f8fa!important;pointer-events:none!important;
+}
+#public-featured .jt-public-feature-copy{
+  position:static!important;inset:auto!important;z-index:auto!important;display:flex!important;
+  min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;
+  flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;
+  gap:7px!important;margin:0!important;padding:2px 4px!important;overflow:visible!important;
+  color:#19364d!important;background:transparent!important;box-shadow:none!important;
+}
+#public-featured .jt-public-feature-copy .jt-public-card-tag{
+  display:inline-flex!important;position:static!important;inset:auto!important;max-width:100%!important;
+  padding:5px 9px!important;border-radius:999px!important;background:#f3f5f7!important;
+  color:#637587!important;font-size:9px!important;line-height:1.3!important;letter-spacing:.07em!important;
+}
+#public-featured .jt-public-feature-copy h3{
+  position:static!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;overflow:hidden!important;width:100%!important;max-width:100%!important;
+  margin:0!important;padding:0!important;background:transparent!important;color:#19364d!important;
+  font-size:clamp(18px,2vw,24px)!important;line-height:1.22!important;font-weight:800!important;
+}
+#public-featured .jt-public-feature-copy p{
+  position:static!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;overflow:hidden!important;width:100%!important;margin:0!important;
+  padding:0!important;background:transparent!important;color:#68798a!important;
+  font-size:12px!important;line-height:1.5!important;
+}
+#public-featured .jt-public-feature-actions{position:static!important;display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin:5px 0 0!important;padding:0!important;background:transparent!important}
+#public-featured .jt-public-feature-actions .btn{position:static!important;margin:0!important;padding:8px 12px!important;font-size:11px!important}
+#public-featured .jt-public-carousel-wrap{align-items:center!important;min-width:0!important}
+#public-featured .jt-public-featured-stage{min-width:0!important;min-height:0!important;height:auto!important;overflow:hidden!important}
+/* Cartões de jornais e entrevistas: a capa fica isolada e as informações abaixo dela. */
+.jt-public-card-thumb{
+  position:relative!important;display:grid!important;place-items:center!important;
+  height:164px!important;min-height:164px!important;max-height:164px!important;
+  overflow:hidden!important;background:#f0f3f5!important;
+}
+.jt-public-card-thumb::before,.jt-public-card-thumb::after{content:none!important;display:none!important}
+.jt-public-card-thumb img,.jt-public-card-thumb iframe,.jt-public-card-thumb video{
+  display:block!important;position:static!important;inset:auto!important;transform:none!important;
+  width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;
+  object-fit:contain!important;border:0!important;background:#f7f8fa!important;
+}
+.jt-public-card-content{position:static!important;display:flex!important;flex-direction:column!important;gap:7px!important;background:#fff!important;padding:15px 16px!important}
+.jt-public-card-content .jt-public-card-tag,.jt-public-card-content h3,.jt-public-card-content p,.jt-public-card-content .acts{position:static!important;inset:auto!important;transform:none!important;margin-top:0!important}
+.jt-public-card-content h3{color:#19364d!important;line-height:1.25!important;margin-bottom:0!important}
+.jt-public-card-content p{color:#68798a!important;line-height:1.45!important;margin-bottom:2px!important}
+.jt-public-thumb-play{position:absolute!important;right:10px!important;bottom:10px!important;z-index:2!important;display:grid!important;place-items:center!important;width:32px!important;height:32px!important;border-radius:50%!important;background:#173b56!important;color:#fff!important;box-shadow:0 2px 8px #0003!important}
+@media(max-width:760px){
+ #public-featured .jt-public-feature-slide{grid-template-columns:112px minmax(0,1fr)!important;gap:12px!important;padding:10px!important}
+ #public-featured .jt-public-preview-thumb{height:124px!important;min-height:124px!important;max-height:124px!important}
+ #public-featured .jt-public-feature-copy{gap:5px!important;padding:0!important}
+ #public-featured .jt-public-feature-copy .jt-public-card-tag{font-size:8px!important;padding:4px 7px!important}
+ #public-featured .jt-public-feature-copy h3{font-size:15px!important;line-height:1.2!important;-webkit-line-clamp:3!important}
+ #public-featured .jt-public-feature-copy p{font-size:10px!important;line-height:1.35!important;-webkit-line-clamp:2!important}
+ #public-featured .jt-public-feature-actions{gap:5px!important;margin-top:2px!important}
+ #public-featured .jt-public-feature-actions .btn{font-size:9px!important;padding:6px 8px!important}
+ .jt-public-card-thumb{height:138px!important;min-height:138px!important;max-height:138px!important}
+}
+@media(max-width:390px){#public-featured .jt-public-feature-slide{grid-template-columns:96px minmax(0,1fr)!important;gap:9px!important}#public-featured .jt-public-preview-thumb{height:112px!important;min-height:112px!important;max-height:112px!important}}
+</style>
 </head>
-<body data-jornatec-version="60.2-home-layout-e-vitrine-final">
+<body data-jornatec-version="60.5-preview-cleanup">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><button type="button" class="btn" id="public-login-open">Entrar na equipe</button></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
