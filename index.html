@@ -1259,8 +1259,93 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
 }
 @media(max-width:390px){#public-featured .jt-public-feature-slide{grid-template-columns:96px minmax(0,1fr)!important;gap:9px!important}#public-featured .jt-public-preview-thumb{height:112px!important;min-height:112px!important;max-height:112px!important}}
 </style>
+
+<style id="jornatec-v60-7-unified-home-old-design">
+/* V60.7 — A página pública unificada adota o visual editorial da antiga home autenticada.
+   As regras ficam limitadas a #public-portal para não alterar o Espaço de Trabalho. */
+#public-portal{max-width:none;width:100%;margin:0 auto;padding:18px clamp(12px,3vw,34px) 42px;background:#f5f8fa;color:#183750;min-height:100vh;box-sizing:border-box}
+#public-portal .jt-public-header{max-width:1500px;margin:0 auto 14px;padding:10px 14px;border:1px solid #e3eaf0;border-radius:15px;background:#fff;box-shadow:0 5px 20px #18344d08}
+#public-portal .jt-public-brand{gap:12px}
+#public-portal .jt-public-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#102f49,#1d5b80);color:#fff;box-shadow:0 5px 14px #102f4924}
+#public-portal .jt-public-brand b{font:800 20px/1.1 system-ui,sans-serif;color:#183750;letter-spacing:-.03em}
+#public-portal .jt-public-brand small{font-size:11px;color:#6e7d89}
+#public-portal .jt-public-header-actions .btn{border-radius:9px;font-weight:750}
+#public-portal .jt-public-hero{max-width:1500px;min-height:155px;margin:0 auto 20px;padding:clamp(20px,2.4vw,32px);border:0;border-radius:20px;color:#fff;background:radial-gradient(circle at 85% 10%,#ffffff25 0 2px,transparent 3px),linear-gradient(115deg,#102f49 0%,#174b69 58%,#8b2930 100%);box-shadow:0 14px 35px #123b5a20;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden}
+#public-portal .jt-public-hero h1{font:bold clamp(27px,3.2vw,42px)/1.12 Georgia,serif;color:#fff;margin:9px 0 8px;letter-spacing:-.025em}
+#public-portal .jt-public-hero p{max-width:680px;color:#e1eaf0;font-size:14px;line-height:1.55;margin:0 0 13px}
+#public-portal .jt-public-kicker{color:#f2c66d;font-size:10px;font-weight:850;letter-spacing:.16em}
+#public-portal .jt-public-hero .btn{background:#f2c66d;border-color:#f2c66d;color:#183750;font-weight:800;border-radius:9px}
+#public-portal .jt-public-art{opacity:.75;flex:0 0 145px}
+#public-portal .jt-public-featured,#public-portal #public-interviews-section,#public-portal #public-documents,#public-portal #public-events-section{max-width:1500px;margin-left:auto;margin-right:auto}
+#public-portal .jt-public-section-head{max-width:1500px;margin:24px auto 12px;padding:0;display:flex;align-items:end;justify-content:space-between;gap:12px}
+#public-portal .jt-public-section-head>div>span{color:#9b7626;font-size:10px;letter-spacing:.13em;font-weight:850}
+#public-portal .jt-public-section-head h2{font:bold clamp(20px,2vw,25px)/1.15 Georgia,serif;color:#183750;margin:5px 0 4px;letter-spacing:-.02em}
+#public-portal .jt-public-section-head p{color:#71808b;font-size:12px;line-height:1.45;margin:0}
+#public-portal .jt-public-count{border:1px solid #e1e9ef;border-radius:999px;background:#fff;padding:6px 10px;color:#627483;font-size:11px;font-weight:750;white-space:nowrap}
+#public-portal .jt-public-carousel-wrap{max-width:1500px;margin:0 auto;padding:0;grid-template-columns:40px minmax(0,1fr) 40px;gap:12px}
+#public-portal .jt-public-arrow{width:38px;height:38px;border:1px solid #dce5eb;background:#fff;color:#183750;box-shadow:0 4px 14px #18344d0c}
+#public-portal .jt-public-featured-stage{min-height:0}
+#public-portal .jt-public-feature-slide{display:grid;grid-template-columns:minmax(190px,270px) minmax(0,1fr);gap:18px;align-items:center;padding:14px;background:#fff;border:1px solid #e3eaf0;border-radius:16px;box-shadow:0 6px 20px #18344d0a;animation:jtPubFade .28s ease}
+#public-portal .jt-public-preview-thumb{height:190px;min-height:190px;max-height:190px;border:1px solid #e6edf2;border-radius:11px;background:#f0f3f5;overflow:hidden;display:grid;place-items:center}
+#public-portal .jt-public-preview-thumb img,#public-portal .jt-public-preview-thumb iframe{width:100%;height:100%;min-height:0;max-height:none;object-fit:contain;border:0;background:#fff}
+#public-portal .jt-public-feature-copy{padding:8px 10px;justify-content:center}
+#public-portal .jt-public-feature-copy .jt-public-card-tag{font-size:10px;letter-spacing:.12em;color:#9b7626;font-weight:850}
+#public-portal .jt-public-feature-copy h3{font:bold clamp(20px,2.2vw,28px)/1.16 Georgia,serif;color:#183750;margin:8px 0}
+#public-portal .jt-public-feature-copy p{font-size:12px;line-height:1.5;color:#71808b;margin:0}
+#public-portal .jt-public-feature-actions{margin-top:11px;gap:7px}
+#public-portal .jt-public-feature-actions .btn{font-size:11px;padding:7px 10px;border-radius:8px}
+#public-portal .jt-public-dots{margin-top:11px}
+#public-portal .jt-public-dots button[aria-current=true]{background:#174b69}
+#public-portal .jt-public-grid{max-width:1500px;margin:0 auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:14px;border:1px solid #e2e9ef;border-radius:17px;background:#fff;box-shadow:0 8px 26px #18344d09}
+#public-portal .jt-public-card{min-width:0;display:flex;flex-direction:column;padding:0;overflow:hidden;border:1px solid #e6edf2;border-radius:14px;background:#fff;box-shadow:0 4px 14px #18344d08;transition:transform .18s,box-shadow .18s}
+#public-portal .jt-public-card:hover{transform:translateY(-3px);box-shadow:0 12px 25px #18344d13}
+#public-portal .jt-public-card-thumb{height:auto;min-height:0;aspect-ratio:16/9;background:#eef2f5;border:0;border-bottom:1px solid #e6edf2;overflow:hidden}
+#public-portal .jt-public-card-thumb img,#public-portal .jt-public-card-thumb iframe,#public-portal .jt-public-card-thumb video{width:100%;height:100%;min-height:0;object-fit:cover;border:0;background:#fff}
+#public-portal .jt-public-thumb-placeholder{min-height:0;height:100%;background:linear-gradient(135deg,#f0f4f7,#e6edf2);color:#174b69}
+#public-portal .jt-public-thumb-placeholder span{font:800 34px Georgia,serif}
+#public-portal .jt-public-thumb-placeholder small{color:#71808b}
+#public-portal .jt-public-card-content{padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+#public-portal .jt-public-card .jt-public-card-tag{font:800 10px system-ui,sans-serif;letter-spacing:.08em;color:#9b7626}
+#public-portal .jt-public-card h3{font:bold 17px/1.22 Georgia,serif;color:#183750;margin:2px 0 3px;overflow-wrap:anywhere}
+#public-portal .jt-public-card p{font-size:11px;line-height:1.4;color:#71808b;margin:0 0 5px}
+#public-portal .jt-public-card .acts{margin-top:auto;padding-top:7px;gap:6px}
+#public-portal .jt-public-card .btn{font-size:11px;padding:7px 9px;border-radius:8px}
+#public-portal .jt-public-empty{background:#fff;border:1px dashed #d5e0e8;border-radius:14px;padding:30px 16px;text-align:center;color:#71808b;font-size:13px}
+#public-portal .jt-public-events{max-width:1500px;margin:34px auto 0;padding-top:8px;border-top:0}
+#public-portal .jt-public-event-card{border:1px solid #e3eaf0;border-radius:14px;background:#fff;box-shadow:0 4px 14px #18344d08}
+#public-portal .jt-public-footer{max-width:1500px;margin:35px auto 0;padding:18px 4px 0;border-top:1px solid #dce5eb;color:#71808b}
+#public-portal .jt-public-preview-dialog{border:1px solid #dce5eb;border-radius:16px;box-shadow:0 20px 60px #102f4933}
+@media(max-width:760px){
+ #public-portal{padding:10px 10px 30px}
+ #public-portal .jt-public-header{padding:10px;align-items:center}
+ #public-portal .jt-public-brand b{font-size:17px}
+ #public-portal .jt-public-header-actions{gap:5px}
+ #public-portal .jt-public-header-actions .btn{font-size:10px;padding:7px 8px}
+ #public-portal .jt-public-hero{padding:18px 16px;min-height:130px;border-radius:16px;gap:8px}
+ #public-portal .jt-public-hero h1{font-size:clamp(24px,7vw,34px)}
+ #public-portal .jt-public-hero p{font-size:12px}
+ #public-portal .jt-public-art{display:none}
+ #public-portal .jt-public-section-head{padding:0 2px;align-items:flex-start}
+ #public-portal .jt-public-section-head h2{font-size:20px}
+ #public-portal .jt-public-section-head p{font-size:11px}
+ #public-portal .jt-public-carousel-wrap{grid-template-columns:28px minmax(0,1fr) 28px;gap:5px}
+ #public-portal .jt-public-arrow{width:28px;height:34px;font-size:22px}
+ #public-portal .jt-public-feature-slide{grid-template-columns: minmax(0,1fr);gap:9px;padding:10px}
+ #public-portal .jt-public-preview-thumb{height:150px;min-height:150px;max-height:150px}
+ #public-portal .jt-public-feature-copy{padding:4px 3px}
+ #public-portal .jt-public-feature-copy h3{font-size:20px;margin:5px 0}
+ #public-portal .jt-public-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:8px;border-radius:14px}
+ #public-portal .jt-public-card-content{padding:9px}
+ #public-portal .jt-public-card h3{font-size:14px}
+ #public-portal .jt-public-card p{font-size:10px}
+ #public-portal .jt-public-card .acts{flex-direction:column;align-items:stretch}
+ #public-portal .jt-public-card .btn{width:100%;font-size:10px;padding:7px 5px}
+}
+@media(max-width:380px){#public-portal .jt-public-grid{grid-template-columns:1fr}#public-portal .jt-public-card-thumb{aspect-ratio:16/8}#public-portal .jt-public-card .acts{flex-direction:row;flex-wrap:wrap}}
+</style>
+
 </head>
-<body data-jornatec-version="60.6-home-publica-unificada">
+<body data-jornatec-version="60.7-home-unificada-layout-antigo">
 <section id="public-portal" class="jt-public-portal" aria-label="Portal público do JornalTec">
   <header class="jt-public-header"><div class="jt-public-brand"><span class="jt-public-mark">JT</span><div><b>JornalTec</b><small>Jornal e comunicação escolar</small></div></div><div class="jt-public-header-actions"><button type="button" class="btn" id="public-login-open">Entrar na equipe</button><button type="button" class="btn" id="public-workspace-open" hidden>Espaço de trabalho</button><button type="button" class="btn ghost" id="public-personalize-open" hidden>🎨 Personalização</button></div></header>
   <section class="jt-public-hero"><div><span class="jt-public-kicker">INFORMAÇÃO · CULTURA · ESCOLA</span><h1>As notícias da nossa comunidade escolar.</h1><p>Leia as edições e publicações que a equipe do JornalTec disponibilizou para todos.</p><button type="button" class="btn" id="public-refresh">Atualizar publicações</button></div><div class="jt-public-art" aria-hidden="true"><span>J</span><span>T</span><i>✦</i></div></section>
@@ -1273,7 +1358,7 @@ main#app:not(.chat-mode):not(.studio-mode):not(.publication-mode) .btabs{
     <div class="jt-public-section-head"><div><span>JORNALTEC EM VÍDEO</span><h2>Entrevistas e reportagens</h2><p>Assista aos vídeos publicados pela equipe do JornalTec.</p></div><span class="jt-public-count" id="public-interview-count">Carregando…</span></div>
     <div id="public-interview-list" class="jt-public-grid"><div class="jt-public-empty">Carregando vídeos…</div></div>
   </section>
-  <div class="jt-public-section-head"><div><span>ARQUIVO ABERTO</span><h2>Jornais, entrevistas e vídeos</h2><p>Explore as edições, entrevistas e conteúdos publicados pela equipe, sem precisar criar uma conta.</p></div><span class="jt-public-count" id="public-count">Carregando…</span></div>
+  <div class="jt-public-section-head"><div><span>ARQUIVO ABERTO</span><h2>Arquivo de jornais publicados</h2><p>Explore as edições anteriores da equipe do JornalTec, sem precisar criar uma conta.</p></div><span class="jt-public-count" id="public-count">Carregando…</span></div>
   <div id="public-documents" class="jt-public-grid"><div class="jt-public-empty">Carregando jornais públicos…</div></div>
   <section id="public-events-section" class="jt-public-events" aria-label="Eventos escolares"><div class="jt-public-section-head"><div><span>AGENDA DA COMUNIDADE</span><h2>Eventos e avisos</h2><p>Fique por dentro do que acontece na escola.</p></div><span class="jt-public-count" id="public-event-count">Carregando…</span></div><div id="public-event-list" class="jt-public-grid"><div class="jt-public-empty">Carregando eventos…</div></div></section>
   <footer class="jt-public-footer"><span>JornalTec · Comunicação escolar</span><button type="button" class="btn ghost" id="public-login-footer">Acessar áreas internas</button></footer>
@@ -1689,9 +1774,9 @@ function renderPublicInterviewCards(rows){
 async function loadPublicDocuments(){
  const host=$('public-documents'),count=$('public-count');if(!host)return;host.innerHTML='<div class="jt-public-empty">Buscando publicações…</div>';
  try{const sb=await requireSB();const {data,error}=await sb.from('documents').select('id,title,section,name,type,size,created_at,storage_path,is_public').order('created_at',{ascending:false});if(error)throw error;
- const rows=(data||[]).map(d=>({id:d.id,title:d.title||d.name||'Jornal sem título',section:d.section||'Edição',name:d.name||d.file_name||'arquivo',type:d.type||d.mime_type||'',size:Number(d.size??d.file_size??0),date:new Date(d.created_at).getTime(),storage_path:d.storage_path,is_public:true}));window.jtPublicDocs=rows;count.textContent=rows.length+(rows.length===1?' jornal':' jornais');
+ const rows=(data||[]).map(d=>({id:d.id,title:d.title||d.name||'Jornal sem título',section:d.section||'Edição',name:d.name||d.file_name||'arquivo',type:d.type||d.mime_type||'',size:Number(d.size??d.file_size??0),date:new Date(d.created_at).getTime(),storage_path:d.storage_path,is_public:true}));window.jtPublicDocs=rows;const editions=rows.filter(d=>publicFileKind(d)!=='video');count.textContent=editions.length+(editions.length===1?' jornal':' jornais');
  if(!rows.length)host.innerHTML='<div class="jt-public-empty">Ainda não há jornais publicados. Quando a equipe publicar uma edição, ela aparecerá aqui.</div>';
- else host.innerHTML=rows.map(d=>`<article class="jt-public-card"><div class="jt-public-card-thumb" data-public-card-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>${publicFileKind(d)==='pdf'?'PDF':publicFileKind(d)==='video'?'▶':publicFileKind(d)==='audio'?'♫':'JT'}</span><small>Carregando capa…</small></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'Edição')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')} · ${esc(d.name)}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Pré-visualizar</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar original</button></div></div></article>`).join('');
+ else host.innerHTML=editions.map(d=>`<article class="jt-public-card"><div class="jt-public-card-thumb" data-public-card-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>${publicFileKind(d)==='pdf'?'PDF':publicFileKind(d)==='video'?'▶':publicFileKind(d)==='audio'?'♫':'JT'}</span><small>Carregando capa…</small></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'Edição')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')} · ${esc(d.name)}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Pré-visualizar</button><button class="btn ghost" type="button" data-public-download="${esc(d.id)}">Baixar original</button></div></div></article>`).join('');
  publicFeaturedIndex=0;renderPublicFeatured();loadPublicEvents();renderPublicInterviewCards(rows);
  const first=rows.filter(d=>publicFileKind(d)!=='video').slice(0,5);for(const d of rows){publicBlob(d).then(url=>{renderPublicCardThumbnail(d,url);if(first[publicFeaturedIndex]?.id===d.id)renderPublicFeatured()}).catch(err=>markPublicCardThumbnailError(d,err))}
  startPublicFeatured();
