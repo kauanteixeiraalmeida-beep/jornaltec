@@ -1497,6 +1497,33 @@ html,body{background:#f1f5f9!important}
 @media(max-width:760px){#public-portal #public-archive-section .jt-public-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}#public-portal #public-archive-section .jt-public-card-thumb{height:160px!important;min-height:160px!important;max-height:160px!important}#public-portal #public-archive-section .jt-public-card-content{padding:10px!important}#public-portal #public-archive-section .jt-public-card h3{font-size:14px!important}#public-portal #public-archive-section .jt-public-card .acts .btn{font-size:9px!important;padding:6px 7px!important}}
 @media(max-width:390px){#public-portal #public-archive-section .jt-public-grid{grid-template-columns:1fr!important}#public-portal #public-archive-section .jt-public-card{display:grid!important;grid-template-columns:94px minmax(0,1fr)!important}#public-portal #public-archive-section .jt-public-card-thumb{height:130px!important;min-height:130px!important;max-height:130px!important;border:0!important;border-right:1px solid #e8edf2!important}}
 </style>
+
+<style id="jt-v61-2-layout-fixes">
+/* V61.2: maior miniatura no cartão do arquivo, correção dos eventos e página ampla. */
+html,body{width:100%!important;min-width:0!important;margin:0!important;padding:0!important;overflow-x:hidden!important}
+#public-portal{width:100%!important;max-width:none!important;min-height:100vh!important;min-height:100dvh!important;margin:0 auto!important;padding-left:clamp(14px,2.2vw,34px)!important;padding-right:clamp(14px,2.2vw,34px)!important;box-sizing:border-box!important}
+#public-portal>.jt-public-header,#public-portal>.jt-public-hero,#public-portal>.jt-public-categories,#public-portal>.jt-public-teambar,#public-portal>.jt-public-main,#public-portal>.jt-public-footer{width:100%!important;max-width:none!important;box-sizing:border-box!important}
+#public-portal .jt-public-main{max-width:none!important;width:100%!important}
+@media(min-width:1500px){#public-portal{padding-left:clamp(28px,3vw,64px)!important;padding-right:clamp(28px,3vw,64px)!important}#public-portal .jt-public-main{max-width:none!important}}
+/* Arquivo: aumenta a área de capa ANTES de abrir a publicação. */
+#public-portal #public-archive-section .jt-public-card-thumb{height:250px!important;min-height:250px!important;max-height:250px!important;padding:10px!important}
+#public-portal #public-archive-section .jt-public-card-thumb img,
+#public-portal #public-archive-section .jt-public-card-thumb iframe,
+#public-portal #public-archive-section .jt-public-card-thumb video{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
+/* Eventos: o visual não pode ficar espremido na coluna estreita de data. */
+#public-portal #public-events-section .jt-public-event-list{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;align-items:stretch!important}
+#public-portal #public-events-section .jt-public-event-card{display:grid!important;grid-template-columns:minmax(112px,30%) minmax(0,1fr)!important;align-items:stretch!important;min-width:0!important;overflow:hidden!important;border:1px solid #e0e7ed!important;border-radius:13px!important;background:#fff!important;box-shadow:0 4px 14px #18344d0d!important}
+#public-portal #public-events-section .jt-public-event-card .event-visual{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;min-width:0!important;min-height:112px!important;height:auto!important;padding:13px!important;box-sizing:border-box!important;background-color:var(--evc,#173b59)!important;background-size:cover!important;background-position:center!important;color:#fff!important;text-align:left!important;overflow-wrap:anywhere!important}
+#public-portal #public-events-section .jt-public-event-card .event-visual small{font:800 9px/1.35 system-ui,sans-serif!important;letter-spacing:.08em!important}
+#public-portal #public-events-section .jt-public-event-card .event-visual h3{margin:7px 0 0!important;color:#fff!important;font:700 16px/1.2 Georgia,serif!important;overflow-wrap:anywhere!important}
+#public-portal #public-events-section .jt-public-event-card .event-info{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:6px!important;min-width:0!important;padding:12px 14px!important;background:#fff!important;box-sizing:border-box!important}
+#public-portal #public-events-section .jt-public-event-card .event-meta{color:#92722d!important;font:750 10px/1.45 system-ui,sans-serif!important;overflow-wrap:anywhere!important}
+#public-portal #public-events-section .jt-public-event-card .event-info p{margin:2px 0!important;color:#65727b!important;font:400 11px/1.5 system-ui,sans-serif!important;overflow-wrap:anywhere!important}
+#public-portal #public-events-section .jt-public-event-card .event-info a.btn{align-self:flex-start!important}
+@media(max-width:760px){#public-portal #public-archive-section .jt-public-card-thumb{height:205px!important;min-height:205px!important;max-height:205px!important}#public-portal #public-events-section .jt-public-event-card{grid-template-columns:104px minmax(0,1fr)!important}#public-portal #public-events-section .jt-public-event-card .event-visual{min-height:100px!important;padding:10px!important}#public-portal #public-events-section .jt-public-event-card .event-visual h3{font-size:14px!important}#public-portal #public-events-section .jt-public-event-card .event-info{padding:10px!important}}
+@media(max-width:390px){#public-portal #public-archive-section .jt-public-card-thumb{height:175px!important;min-height:175px!important;max-height:175px!important}#public-portal #public-events-section .jt-public-event-card{grid-template-columns:1fr!important}#public-portal #public-events-section .jt-public-event-card .event-visual{min-height:76px!important}}
+</style>
+
 </head>
 <body data-jornatec-version="60.9-home-publica-com-pesquisa">
 <section id="login" hidden><form id="lform" class="lcard">
