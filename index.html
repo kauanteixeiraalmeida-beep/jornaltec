@@ -1524,6 +1524,103 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
 @media(max-width:390px){#public-portal #public-archive-section .jt-public-card-thumb{height:175px!important;min-height:175px!important;max-height:175px!important}#public-portal #public-events-section .jt-public-event-card{grid-template-columns:1fr!important}#public-portal #public-events-section .jt-public-event-card .event-visual{min-height:76px!important}}
 </style>
 
+<style id="jt-v61-3-mobile-final">
+<style id="jt-v61-3-mobile-final">
+/* V61.3 — regras mobile finais: prevalecem sobre os estilos antigos conflitantes. */
+@media (max-width: 760px) {
+  html, body { width:100%!important; min-width:0!important; margin:0!important; padding:0!important; overflow-x:hidden!important; }
+  body { min-height:100vh!important; min-height:100dvh!important; }
+  #public-portal {
+    display:block!important; width:100%!important; max-width:none!important;
+    min-height:100vh!important; min-height:100dvh!important;
+    margin:0!important; padding:12px 14px calc(28px + env(safe-area-inset-bottom,0px))!important;
+    box-sizing:border-box!important; overflow-x:clip!important;
+  }
+  #public-portal > .jt-public-header,
+  #public-portal > .jt-public-hero,
+  #public-portal > .jt-public-categories,
+  #public-portal > .jt-public-teambar,
+  #public-portal > .jt-public-main,
+  #public-portal > .jt-public-footer,
+  #public-portal .jt-public-main,
+  #public-portal .jt-public-main > section,
+  #public-portal .jt-public-main > .jt-public-bottom-grid {
+    width:100%!important; max-width:none!important; min-width:0!important;
+    margin-left:0!important; margin-right:0!important; box-sizing:border-box!important;
+  }
+  #public-portal .jt-public-header { padding:10px 2px!important; gap:8px!important; }
+  #public-portal .jt-public-header-actions { display:flex!important; flex-wrap:wrap!important; gap:6px!important; width:100%!important; }
+  #public-portal .jt-public-header-actions .btn { flex:0 1 auto!important; max-width:100%!important; white-space:normal!important; }
+  #public-portal .jt-public-hero { margin:8px 0 18px!important; padding:18px!important; width:100%!important; min-height:0!important; box-sizing:border-box!important; }
+  #public-portal .jt-public-categories { display:flex!important; flex-wrap:nowrap!important; overflow-x:auto!important; max-width:100%!important; padding:0 0 8px!important; }
+  #public-portal .jt-public-teambar { display:flex!important; flex-wrap:nowrap!important; overflow-x:auto!important; max-width:100%!important; padding:8px 0!important; }
+  #public-portal .jt-public-main { padding:0!important; }
+  #public-portal .jt-public-section-head { display:flex!important; align-items:flex-start!important; justify-content:space-between!important; gap:10px!important; padding:0 2px!important; margin:22px 0 12px!important; }
+  #public-portal .jt-public-section-head > div { min-width:0!important; }
+  #public-portal .jt-public-section-head h2 { font-size:clamp(22px,6vw,28px)!important; line-height:1.12!important; }
+  #public-portal .jt-public-count { flex:0 0 auto!important; max-width:42%!important; white-space:normal!important; text-align:center!important; }
+
+  /* Destaques: capa em cima e texto abaixo, sem a miniatura lateral estreita. */
+  #public-portal .jt-public-featured { width:100%!important; max-width:none!important; margin:0 0 26px!important; }
+  #public-portal .jt-public-carousel-wrap { width:100%!important; display:grid!important; grid-template-columns:28px minmax(0,1fr) 28px!important; gap:5px!important; padding:0!important; box-sizing:border-box!important; }
+  #public-portal .jt-public-featured-stage { width:100%!important; min-width:0!important; min-height:0!important; }
+  #public-portal .jt-public-feature-slide { display:flex!important; flex-direction:column!important; align-items:stretch!important; width:100%!important; min-width:0!important; gap:0!important; padding:10px!important; box-sizing:border-box!important; }
+  #public-portal .jt-public-preview-thumb { width:100%!important; height:clamp(220px,62vw,310px)!important; min-height:0!important; max-height:310px!important; border-radius:10px!important; }
+  #public-portal .jt-public-preview-thumb img,
+  #public-portal .jt-public-preview-thumb iframe,
+  #public-portal .jt-public-preview-thumb video { width:100%!important; height:100%!important; min-height:0!important; object-fit:contain!important; }
+  #public-portal .jt-public-feature-copy { width:100%!important; min-width:0!important; padding:13px 4px 4px!important; box-sizing:border-box!important; }
+  #public-portal .jt-public-feature-copy h3 { font-size:clamp(19px,5vw,23px)!important; line-height:1.2!important; }
+  #public-portal .jt-public-arrow { width:28px!important; height:36px!important; font-size:23px!important; }
+
+  /* Últimas notícias e vídeos: uma coluna, cartões com largura confortável. */
+  #public-portal #public-latest-list,
+  #public-portal #public-interview-list { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:14px!important; padding:0!important; width:100%!important; }
+  #public-portal #public-latest-list .jt-public-card,
+  #public-portal #public-interview-list .jt-public-card { display:flex!important; flex-direction:column!important; width:100%!important; min-width:0!important; }
+  #public-portal #public-latest-list .jt-public-card-thumb,
+  #public-portal #public-interview-list .jt-public-card-thumb { width:100%!important; height:clamp(190px,56vw,260px)!important; min-height:0!important; max-height:260px!important; }
+  #public-portal #public-latest-list .jt-public-card-thumb img,
+  #public-portal #public-interview-list .jt-public-card-thumb img { width:100%!important; height:100%!important; min-height:0!important; object-fit:contain!important; }
+  #public-portal #public-latest-list .jt-public-card-content,
+  #public-portal #public-interview-list .jt-public-card-content { padding:14px!important; }
+  #public-portal #public-latest-list .jt-public-card h3,
+  #public-portal #public-interview-list .jt-public-card h3 { font-size:18px!important; line-height:1.25!important; }
+  #public-portal #public-latest-list .jt-public-card-content .acts { display:flex!important; flex-wrap:wrap!important; gap:8px!important; }
+  #public-portal #public-latest-list .jt-public-card-content .acts .btn { flex:1 1 130px!important; font-size:12px!important; padding:10px!important; }
+
+  /* Arquivo de edições: capa grande acima das informações e dos botões. */
+  #public-portal #public-archive-section .jt-public-grid { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:14px!important; padding:0!important; border:0!important; background:transparent!important; }
+  #public-portal #public-archive-section .jt-public-card { display:flex!important; flex-direction:column!important; width:100%!important; min-width:0!important; }
+  #public-portal #public-archive-section .jt-public-card-thumb { width:100%!important; height:clamp(220px,64vw,320px)!important; min-height:0!important; max-height:320px!important; padding:10px!important; border:0!important; border-bottom:1px solid #e8edf2!important; }
+  #public-portal #public-archive-section .jt-public-card-thumb img,
+  #public-portal #public-archive-section .jt-public-card-thumb iframe,
+  #public-portal #public-archive-section .jt-public-card-thumb video { width:100%!important; height:100%!important; min-height:0!important; object-fit:contain!important; }
+  #public-portal #public-archive-section .jt-public-card-content { padding:14px!important; }
+  #public-portal #public-archive-section .jt-public-card h3 { font-size:18px!important; line-height:1.25!important; }
+  #public-portal #public-archive-section .jt-public-card .acts { display:flex!important; flex-wrap:wrap!important; gap:8px!important; }
+  #public-portal #public-archive-section .jt-public-card .acts .btn { flex:1 1 125px!important; font-size:12px!important; padding:10px!important; }
+
+  /* Agenda: cartões inteiros e legíveis; sem faixa de data espremida. */
+  #public-portal .jt-public-bottom-grid { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:24px!important; margin:24px 0 0!important; padding:0!important; }
+  #public-portal #public-event-list { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:12px!important; width:100%!important; }
+  #public-portal #public-events-section .jt-public-event-card { display:flex!important; flex-direction:column!important; width:100%!important; min-width:0!important; }
+  #public-portal #public-events-section .jt-public-event-card .event-visual { width:100%!important; min-height:100px!important; height:auto!important; padding:15px!important; align-items:flex-start!important; text-align:left!important; box-sizing:border-box!important; }
+  #public-portal #public-events-section .jt-public-event-card .event-visual small { font-size:10px!important; }
+  #public-portal #public-events-section .jt-public-event-card .event-visual h3 { font-size:19px!important; line-height:1.2!important; }
+  #public-portal #public-events-section .jt-public-event-card .event-info { width:100%!important; padding:14px!important; box-sizing:border-box!important; }
+  #public-portal #public-events-section .jt-public-event-card .event-info p { font-size:13px!important; line-height:1.5!important; }
+  #public-portal .jt-public-footer { padding-left:0!important; padding-right:0!important; }
+}
+@media (max-width: 390px) {
+  #public-portal { padding-left:10px!important; padding-right:10px!important; }
+  #public-portal .jt-public-header-actions .btn { font-size:10px!important; padding:7px 8px!important; }
+  #public-portal .jt-public-carousel-wrap { grid-template-columns:24px minmax(0,1fr) 24px!important; gap:4px!important; }
+  #public-portal .jt-public-arrow { width:24px!important; }
+  #public-portal .jt-public-preview-thumb { height:220px!important; }
+}
+</style>
+</style>
 </head>
 <body data-jornatec-version="60.9-home-publica-com-pesquisa">
 <section id="login" hidden><form id="lform" class="lcard">
