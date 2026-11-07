@@ -1735,8 +1735,56 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
 @media(max-width:360px){#public-portal .jt-archive-grid{grid-template-columns:1fr}#public-portal .jt-archive-item{display:grid;grid-template-columns:110px minmax(0,1fr)}#public-portal .jt-archive-item-preview{height:100%;min-height:150px;border:0;border-right:1px solid #e5ebf0}#public-portal .jt-archive-item-content{padding:10px}}
 </style>
 
+
+<style id="jt-v61-8-archive-reader-events-permissions">
+/* V61.8 — arquivo abre no mesmo leitor da publicação, em escala editorial moderada. */
+#public-portal .jt-archive-item-preview{height:188px!important;min-height:188px!important;padding:9px!important}
+#public-portal .jt-archive-item-preview iframe{width:100%!important;height:100%!important;border:0!important;background:#fff!important;pointer-events:none!important}
+#public-portal .jt-archive-item-actions{display:flex!important;flex-wrap:wrap!important;gap:7px!important}
+#public-portal .jt-archive-item-actions .btn{flex:1 1 120px!important;min-width:0!important;min-height:36px!important}
+#public-portal .jt-archive-item-actions .jt-archive-read{background:#10334f!important;color:#fff!important;border-color:#10334f!important}
+#public-portal .jt-public-event-card{position:relative;isolation:isolate;animation:jtEventEnter .55s cubic-bezier(.2,.8,.2,1) both}
+#public-portal .jt-public-event-card .event-visual{position:relative;overflow:hidden;background-color:var(--evc,#8a1c1c);background-size:cover;background-position:center;min-height:130px}
+#public-portal .jt-public-event-card .event-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,#061b2c66,transparent 68%);pointer-events:none}
+#public-portal .jt-public-event-card .event-visual small,#public-portal .jt-public-event-card .event-visual h3{position:relative;z-index:1}
+#public-portal .jt-public-event-card .event-visual h3{font-size:clamp(19px,2vw,27px);line-height:1.14;text-wrap:balance;max-width:34ch}
+#public-portal .jt-public-event-card .event-info{position:relative}
+#public-portal .jt-public-event-card .jt-public-event-poster{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;background:#f4f5f6}
+#public-portal .jt-public-event-admin{display:flex;justify-content:flex-end;margin-top:10px;padding-top:9px;border-top:1px solid #edf0f3}
+#public-portal .jt-public-event-card.ev-float{animation:jtEventFloat 4s ease-in-out infinite}
+#public-portal .jt-public-event-card.ev-pulse{animation:jtEventPulse 2.6s ease-in-out infinite}
+#public-portal .jt-public-event-card.ev-zoom{animation:jtEventZoom .65s cubic-bezier(.2,.8,.2,1) both}
+#public-portal .jt-public-event-card.ev-slide{animation:jtEventSlide .55s ease-out both}
+#public-portal .jt-public-event-card.ev-bounce{animation:jtEventBounce .75s ease-out both}
+#public-portal .jt-public-event-card.ev-rotate{animation:jtEventRotate .65s ease-out both}
+#public-portal .jt-public-event-card.ev-shine .event-visual:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 20%,#ffffff66 48%,transparent 72%);transform:translateX(-120%);animation:jtEventShine 3.2s ease-in-out infinite}
+#public-portal .jt-public-event-card.ev-sparkle .event-visual:after,#public-portal .jt-public-event-card.ev-confetti .event-visual:after{content:"✦　✧　•　✦";position:absolute;right:14px;top:12px;color:white;font-size:20px;letter-spacing:5px;text-shadow:0 2px 8px #0008;animation:jtEventSparkle 1.8s ease-in-out infinite;pointer-events:none}
+#public-portal .jt-public-event-card.ev-float.image-only .jt-public-event-poster{animation:jtEventFloat 4s ease-in-out infinite}
+#public-portal .jt-public-event-card.ev-pulse.image-only .jt-public-event-poster{animation:jtEventPulse 2.6s ease-in-out infinite}
+#public-portal .jt-public-event-card.ev-zoom.image-only .jt-public-event-poster{animation:jtEventZoom .65s ease both}
+@keyframes jtEventEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes jtEventFloat{50%{transform:translateY(-3px)}}
+@keyframes jtEventPulse{50%{box-shadow:0 12px 30px color-mix(in srgb,var(--evc) 22%,transparent)}}
+@keyframes jtEventZoom{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes jtEventSlide{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:translateY(0)}}
+@keyframes jtEventBounce{0%{opacity:0;transform:scale(.92)}65%{opacity:1;transform:scale(1.02)}100%{transform:scale(1)}}
+@keyframes jtEventRotate{from{opacity:0;transform:perspective(900px) rotateY(-12deg)}to{opacity:1;transform:perspective(900px) rotateY(0)}}
+@keyframes jtEventShine{50%,100%{transform:translateX(120%)}}
+@keyframes jtEventSparkle{50%{opacity:.35;transform:translateY(-5px) rotate(8deg)}}
+#public-portal .jt-public-event-card.ev-shine .event-visual:after{z-index:2}
+#public-portal .jt-public-event-card .event-info p{overflow-wrap:anywhere}
+@media(max-width:600px){
+ #public-portal .jt-archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #public-portal .jt-archive-item-preview{height:clamp(125px,36vw,175px)!important;min-height:clamp(125px,36vw,175px)!important}
+ #public-portal .jt-archive-item-content h3{font-size:14px!important;line-height:1.25!important}
+ #public-portal .jt-archive-item-actions .btn{flex-basis:100%!important}
+ #public-portal .jt-public-event-card .event-visual{min-height:116px!important}
+}
+@media(prefers-reduced-motion:reduce){#public-portal .jt-public-event-card,#public-portal .jt-public-event-card.ev-float,#public-portal .jt-public-event-card.ev-pulse,#public-portal .jt-public-event-card.ev-zoom,#public-portal .jt-public-event-card.ev-slide,#public-portal .jt-public-event-card.ev-bounce,#public-portal .jt-public-event-card.ev-rotate{animation:none!important}#public-portal .jt-public-event-card .event-visual:after{animation:none!important}}
+</style>
+
 </head>
-<body data-jornatec-version="61.7-arquivo-completo-exclusao-editorial">
+<body data-jornatec-version="61.8-arquivo-leitura-eventos-exclusao">
 <section id="login" hidden><form id="lform" class="lcard">
 <div class="llogo">
 <svg width="66" height="66" viewBox="0 0 48 48" fill="none" stroke="#e23b45" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="8" width="34" height="32" rx="5"/><path d="M14 17h20M14 24h9M14 31h9M28 24h6v7h-6z"/></svg>
@@ -2210,7 +2258,7 @@ function renderPublicLatest(rows){
  const items=(rows||[]).filter(d=>publicFileKind(d)!=='video'&&(!publicCategoryFilter||String(d.section||'').toLocaleLowerCase('pt-BR')===publicCategoryFilter.toLocaleLowerCase('pt-BR'))&&publicSearchMatch(d)).slice(0,6);
  count.textContent=items.length+(items.length===1?' notícia':' notícias');
  if(!items.length){host.innerHTML='<div class="jt-public-empty">Nenhuma notícia corresponde aos filtros atuais.</div>';return;}
- host.innerHTML=items.map(d=>`<article class="jt-public-card jt-public-news-card"><div class="jt-public-card-thumb" data-public-latest-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>JT</span></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'ESCOLA')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Ler publicação</button></div></div></article>`).join('');
+ host.innerHTML=items.map(d=>`<article class="jt-public-card jt-public-news-card"><div class="jt-public-card-thumb" data-public-latest-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>JT</span></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'ESCOLA')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Ler publicação</button>${me&&(currentAccessLevel===0||currentAccessLevel===4)?`<button class="btn jt-archive-delete" type="button" data-act="del" data-id="${esc(d.id)}">Excluir</button>`:''}</div></div></article>`).join('');
  for(const d of items){const url=publicObjectUrls.get(d.id);if(url){const el=host.querySelector(`[data-public-latest-thumb="${CSS.escape(String(d.id))}"]`);if(el){const k=publicFileKind(d);el.innerHTML=k==='image'?`<img src="${url}" alt="${esc(d.title)}" loading="lazy">`:k==='pdf'?`<iframe title="${esc(d.title)}" src="${url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe>`:'<div class="jt-public-thumb-placeholder"><span>JT</span></div>'}}else publicBlob(d).then(u=>{const el=host.querySelector(`[data-public-latest-thumb="${CSS.escape(String(d.id))}"]`);if(el){const k=publicFileKind(d);el.innerHTML=k==='image'?`<img src="${u}" alt="${esc(d.title)}" loading="lazy">`:k==='pdf'?`<iframe title="${esc(d.title)}" src="${u}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe>`:'<div class="jt-public-thumb-placeholder"><span>JT</span></div>'}}).catch(()=>{});}
 }
 function renderPublicTopFeature(rows){const host=$('public-top-feature');if(!host)return;const d=(rows||[]).find(x=>publicFileKind(x)!=='video'&&publicSearchMatch(x));if(!d){host.innerHTML='<div class="jt-public-top-feature-inner"><span class="jt-public-kicker">DESTAQUE · ESCOLA</span><h2>Bem-vindo ao JornalTec</h2><p>As principais notícias e publicações da comunidade escolar.</p></div>';return;}host.innerHTML=`<div class="jt-public-top-feature-inner"><span class="jt-public-kicker">DESTAQUE · ${esc(d.section||'ESCOLA')}</span><h2>${esc(d.title)}</h2><p>Redação JornalTec · ${new Date(d.date).toLocaleDateString('pt-BR')}</p><button class="btn" type="button" data-public-preview="${esc(d.id)}">Ler notícia</button></div>`;}
@@ -2219,7 +2267,7 @@ async function loadPublicEvents(){
  const host=$('public-event-list'),count=$('public-event-count');if(!host)return;
  try{const sb=await requireSB();const {data,error}=await sb.from('events').select('id,type,title,text,theme,created_at,event_options(id,event_id,text,votes)').order('created_at',{ascending:false});if(error)throw error;const a=data||[];renderPublicTopEvents(a);count.textContent=a.length+(a.length===1?' evento':' eventos');
  if(!a.length){host.innerHTML='<div class="jt-public-empty">Nenhum evento ou aviso publicado no momento.</div>';return}
- host.innerHTML=a.map(e=>{const t=e.theme||{},date=t.eventDate?new Date(t.eventDate+'T12:00:00').toLocaleDateString('pt-BR'):new Date(e.created_at).toLocaleDateString('pt-BR'),safeImage=t.image?String(t.image).replace(/[\"'\\\n\r]/g,''):'';const image=t.image&&!t.imageOnly?`background-image:linear-gradient(120deg,${esc(t.color||'#8a1c1c')}dd,${esc(t.color||'#8a1c1c')}88),url('${safeImage}')`:'';const visual=t.imageOnly&&t.image?`<img class="jt-public-event-poster" src="${esc(t.image)}" alt="${esc(e.title||'Cartaz do evento')}" loading="lazy">`:`<small>${esc(t.icon||'📣')} · ${e.type==='opcoes'?'ENQUETE':'EVENTO / AVISO'}</small><h3>${esc(e.title||'Comunicado escolar')}</h3>`;return `<article class="jt-public-event-card${t.imageOnly&&t.image?' image-only':''}"><div class="event-visual" style="--evc:${esc(t.color||'#8a1c1c')};${image}">${visual}</div><div class="event-info">${t.imageOnly&&t.image?`<h3 class="jt-public-event-title">${esc(e.title||'Evento escolar')}</h3>`:''}<div class="event-meta">📅 ${date}${t.eventTime?' · 🕒 '+esc(t.eventTime):''}${t.location?' · 📍 '+esc(t.location):''}</div>${e.text?`<p>${esc(e.text)}</p>`:''}${t.subtitle?`<p><b>${esc(t.subtitle)}</b></p>`:''}${e.type==='opcoes'&&e.event_options?.length?`<p><b>Opções:</b> ${e.event_options.map(o=>esc(o.text)).join(' · ')}</p><small>Para participar da votação, entre na equipe com uma conta autorizada.</small>`:''}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:''}${me&&(currentAccessLevel===0||currentAccessLevel===4)?`<div class="jt-public-event-admin"><button type="button" class="btn jt-archive-delete" data-act="rmEv" data-id="${esc(e.id)}">Excluir evento</button></div>`:''}</div></article>`}).join('');applyPublicSearch();
+ host.innerHTML=a.map(e=>{const t=e.theme||{},date=t.eventDate?new Date(t.eventDate+'T12:00:00').toLocaleDateString('pt-BR'):new Date(e.created_at).toLocaleDateString('pt-BR'),safeImage=t.image?String(t.image).replace(/[\"'\\\n\r]/g,''):'';const image=t.image&&!t.imageOnly?`background-image:linear-gradient(120deg,${esc(t.color||'#8a1c1c')}dd,${esc(t.color||'#8a1c1c')}88),url('${safeImage}')`:'';const visual=t.imageOnly&&t.image?`<img class="jt-public-event-poster" src="${esc(t.image)}" alt="${esc(e.title||'Cartaz do evento')}" loading="lazy">`:`<small>${esc(t.icon||'📣')} · ${e.type==='opcoes'?'ENQUETE':'EVENTO / AVISO'}</small><h3>${esc(e.title||'Comunicado escolar')}</h3>`;const anim=['shine','float','pulse','zoom','sparkle','slide','bounce','rotate','confetti'].includes(t.animation)?` ev-${t.animation}`:'';return `<article class="jt-public-event-card${t.imageOnly&&t.image?' image-only':''}${anim}" data-event-id="${esc(e.id)}" style="--evc:${esc(t.color||'#8a1c1c')}"><div class="event-visual" style="--evc:${esc(t.color||'#8a1c1c')};${image}">${visual}</div><div class="event-info">${t.imageOnly&&t.image?`<h3 class="jt-public-event-title">${esc(e.title||'Evento escolar')}</h3>`:''}<div class="event-meta">📅 ${date}${t.eventTime?' · 🕒 '+esc(t.eventTime):''}${t.location?' · 📍 '+esc(t.location):''}</div>${e.text?`<p>${esc(e.text)}</p>`:''}${t.subtitle?`<p><b>${esc(t.subtitle)}</b></p>`:''}${e.type==='opcoes'&&e.event_options?.length?`<p><b>Opções:</b> ${e.event_options.map(o=>esc(o.text)).join(' · ')}</p><small>Para participar da votação, entre na equipe com uma conta autorizada.</small>`:''}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:''}${me&&(currentAccessLevel===0||currentAccessLevel===4)?`<div class="jt-public-event-admin"><button type="button" class="btn jt-archive-delete" data-act="rmEv" data-id="${esc(e.id)}">Excluir evento</button></div>`:''}</div></article>`}).join('');applyPublicSearch();
  }catch(e){console.error('Eventos públicos:',e);count.textContent='Indisponível';host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os eventos. Verifique as permissões públicas da tabela events no Supabase.</div>';applyPublicSearch()}
 }
 function renderPublicCardThumbnail(d,url){const el=document.querySelector(`[data-public-card-thumb="${CSS.escape(String(d.id))}"]`);if(!el)return;const k=publicFileKind(d);if(k==='image'){el.innerHTML=`<img src="${url}" alt="Capa de ${esc(d.title)}" loading="lazy">`;return}if(k==='pdf'){el.innerHTML=`<iframe title="Capa de ${esc(d.title)}" src="${url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe>`;return}if(k==='video'){el.innerHTML=`<video src="${url}" muted playsinline preload="metadata"></video><span class="jt-public-thumb-play">▶</span>`;return}if(k==='html'){el.innerHTML=`<iframe title="Prévia de ${esc(d.title)}" src="${url}" loading="lazy"></iframe>`;return}const label=k==='audio'?'♫':k==='text'?'TXT':'JT';el.innerHTML=`<div class="jt-public-thumb-placeholder"><span>${label}</span><small>${k==='audio'?'Arquivo de áudio':k==='text'?'Documento de texto':'Edição JornalTec'}</small></div>`}
@@ -2228,7 +2276,7 @@ function renderPublicInterviewCards(rows){
  const host=$('public-interview-list'),count=$('public-interview-count');if(!host||!count)return;
  const videos=(rows||[]).filter(d=>publicFileKind(d)==='video');count.textContent=videos.length+(videos.length===1?' vídeo':' vídeos');
  if(!videos.length){host.innerHTML='<div class="jt-public-empty">As entrevistas e reportagens em vídeo aparecerão aqui quando forem publicadas.</div>';return;}
- host.innerHTML=videos.map(d=>`<article class="jt-public-card"><div class="jt-public-card-thumb" data-public-interview-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>▶</span><small>Carregando vídeo…</small></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'Entrevista / reportagem')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Assistir vídeo</button></div></div></article>`).join('');
+ host.innerHTML=videos.map(d=>`<article class="jt-public-card"><div class="jt-public-card-thumb" data-public-interview-thumb="${esc(d.id)}"><div class="jt-public-thumb-placeholder"><span>▶</span><small>Carregando vídeo…</small></div></div><div class="jt-public-card-content"><span class="jt-public-card-tag">${esc(d.section||'Entrevista / reportagem')}</span><h3>${esc(d.title)}</h3><p>${new Date(d.date).toLocaleDateString('pt-BR')}</p><div class="acts"><button class="btn" type="button" data-public-preview="${esc(d.id)}">Assistir vídeo</button>${me&&(currentAccessLevel===0||currentAccessLevel===4)?`<button class="btn jt-archive-delete" type="button" data-act="del" data-id="${esc(d.id)}">Excluir</button>`:''}</div></div></article>`).join('');
  for(const d of videos){publicBlob(d).then(url=>{const el=host.querySelector(`[data-public-interview-thumb="${CSS.escape(String(d.id))}"]`);if(el)el.innerHTML=`<video src="${url}" muted playsinline preload="metadata"></video><span class="jt-public-thumb-play">▶</span>`}).catch(err=>{const el=host.querySelector(`[data-public-interview-thumb="${CSS.escape(String(d.id))}"]`);if(el)el.innerHTML='<div class="jt-public-thumb-placeholder"><span>▶</span><small>Vídeo indisponível</small></div>';console.warn('Prévia do vídeo indisponível:',err)});}
 }
 let jtArchiveFilter='all';
@@ -2240,7 +2288,7 @@ function renderDedicatedArchive(){
  const count=$('jt-archive-count');if(count)count.textContent=filtered.length+(filtered.length===1?' arquivo':' arquivos');
  const canDelete=!!me&&(currentAccessLevel===0||currentAccessLevel===4);
  if(!filtered.length){host.innerHTML='<div class="jt-public-empty">Nenhum arquivo encontrado para este filtro.</div>';return;}
- host.innerHTML=filtered.map(d=>{const k=publicFileKind(d),kindLabel=k==='video'?'ENTREVISTA / VÍDEO':k==='audio'?'ÁUDIO':'JORNAL / PUBLICAÇÃO',date=d.date?new Date(d.date).toLocaleDateString('pt-BR'):'',mark=k==='pdf'?'PDF':k==='video'?'▶':k==='audio'?'♫':k==='image'?'IMG':'JT';return `<article class="jt-archive-item" data-archive-item="${esc(d.id)}"><div class="jt-archive-item-preview" data-archive-thumb="${esc(d.id)}"><span class="jt-archive-filemark">${mark}</span></div><div class="jt-archive-item-content"><small>${kindLabel} · ${esc(d.section||'Geral')}</small><h3>${esc(d.title||d.name||'Arquivo sem título')}</h3><p>${date}${d.size?' · '+size(Number(d.size)):''}</p><div class="jt-archive-item-actions"><button type="button" class="btn" data-archive-download="${esc(d.id)}">↓ Baixar arquivo</button>${canDelete?`<button type="button" class="btn jt-archive-delete" data-archive-delete="${esc(d.id)}">Excluir</button>`:''}</div></div></article>`}).join('');
+ host.innerHTML=filtered.map(d=>{const k=publicFileKind(d),kindLabel=k==='video'?'ENTREVISTA / VÍDEO':k==='audio'?'ÁUDIO':'JORNAL / PUBLICAÇÃO',date=d.date?new Date(d.date).toLocaleDateString('pt-BR'):'',mark=k==='pdf'?'PDF':k==='video'?'▶':k==='audio'?'♫':k==='image'?'IMG':'JT';return `<article class="jt-archive-item" data-archive-item="${esc(d.id)}"><div class="jt-archive-item-preview" data-archive-thumb="${esc(d.id)}"><span class="jt-archive-filemark">${mark}</span></div><div class="jt-archive-item-content"><small>${kindLabel} · ${esc(d.section||'Geral')}</small><h3>${esc(d.title||d.name||'Arquivo sem título')}</h3><p>${date}${d.size?' · '+size(Number(d.size)):''}</p><div class="jt-archive-item-actions"><button type="button" class="btn jt-archive-read" data-public-preview="${esc(d.id)}">${k==='video'?'▶ Assistir vídeo':k==='audio'?'♫ Ouvir áudio':'Ler publicação'}</button><button type="button" class="btn ghost" data-archive-download="${esc(d.id)}">↓ Baixar arquivo</button>${canDelete?`<button type="button" class="btn jt-archive-delete" data-archive-delete="${esc(d.id)}">Excluir</button>`:''}</div></div></article>`}).join('');
  for(const d of filtered){publicBlob(d).then(url=>{const el=host.querySelector(`[data-archive-thumb="${CSS.escape(String(d.id))}"]`);if(!el)return;const k=publicFileKind(d);if(k==='image')el.innerHTML=`<img src="${url}" alt="Capa de ${esc(d.title)}" loading="lazy">`;else if(k==='video')el.innerHTML=`<video src="${url}" muted playsinline preload="metadata"></video>`;else if(k==='audio')el.innerHTML='<span class="jt-archive-filemark">♫</span>';else if(k==='pdf')el.innerHTML=`<iframe title="Prévia de ${esc(d.title)}" src="${url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe>`;}).catch(err=>{const el=host.querySelector(`[data-archive-thumb="${CSS.escape(String(d.id))}"]`);if(el)el.innerHTML='<span class="jt-archive-filemark">JT</span>';console.warn('Prévia do arquivo indisponível:',err)});}
 }
 function openDedicatedArchive(){
@@ -2702,9 +2750,14 @@ async function enterSession(user){
   try{sessionStorage.setItem("jornal_me",user.id)}catch(e){}
   $("who").textContent="Olá, "+(p.display||user.email||"usuário");
   $("app").hidden=false;showInternalApp();
-  if(window.jtPublicDocs===undefined)loadPublicDocuments();
-  currentAccessLevel=await fetchAccessLevel().catch(()=>null);
-  setLock(false);applyP();await refresh();await loadPublicEvents();if($('jt-dedicated-archive')&&!$('jt-dedicated-archive').hidden)renderDedicatedArchive();startNotifications();chatInit();await startRealtime();
+  // Primeiro valida o nível; depois renderiza as ações administrativas no portal público.
+  currentAccessLevel=await fetchAccessLevel().catch(err=>{console.warn("Não foi possível carregar o nível do usuário:",err);return null;});
+  setLock(false);applyP();await refresh();
+  await loadPublicDocuments();
+  await loadPublicEvents();
+  renderPublicLatest(window.jtPublicDocs||[]);renderPublicInterviewCards(window.jtPublicDocs||[]);
+  if($('jt-dedicated-archive')&&!$('jt-dedicated-archive').hidden)renderDedicatedArchive();
+  startNotifications();chatInit();await startRealtime();
 }
 
 async function signIn(){
