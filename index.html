@@ -1628,6 +1628,20 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
   #public-portal .jt-public-preview-thumb { height:220px!important; }
 }
 </style>
+
+<style id="jt-v61-5-event-delete-fixes">
+/* V61.5: eventos públicos e cartazes */
+#public-portal #public-event-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;align-items:stretch!important}
+#public-portal #public-event-list .jt-public-event-card{display:flex!important;flex-direction:column!important;min-width:0!important;overflow:hidden!important}
+#public-portal #public-event-list .jt-public-event-card .event-visual{width:100%!important;min-height:132px!important;height:auto!important;padding:18px!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:flex-start!important;text-align:left!important}
+#public-portal #public-event-list .jt-public-event-card .event-visual h3{font:700 clamp(17px,2vw,22px)/1.2 Georgia,serif!important;margin:9px 0 0!important}
+#public-portal #public-event-list .jt-public-event-card .event-info{padding:16px!important;min-width:0!important}
+#public-portal #public-event-list .jt-public-event-card .event-info p{font-size:13px!important;line-height:1.55!important;overflow-wrap:anywhere!important}
+#public-portal #public-event-list .jt-public-event-card.image-only .event-visual{padding:0!important;min-height:0!important;background:none!important}
+#public-portal #public-event-list .jt-public-event-poster{display:block!important;width:100%!important;height:auto!important;max-height:460px!important;object-fit:contain!important;background:#f4f5f6!important}
+#public-portal #public-event-list .jt-public-event-title{font:700 19px/1.25 Georgia,serif!important;color:#20384b!important;margin:0 0 8px!important}
+@media(max-width:760px){#public-portal #public-event-list{grid-template-columns:minmax(0,1fr)!important;gap:13px!important}#public-portal #public-event-list .jt-public-event-card .event-visual{min-height:108px!important;padding:15px!important}#public-portal #public-event-list .jt-public-event-card .event-info{padding:14px!important}#public-portal #public-event-list .jt-public-event-poster{max-height:420px!important}}
+</style>
 </head>
 <body data-jornatec-version="60.9-home-publica-com-pesquisa">
 <section id="login" hidden><form id="lform" class="lcard">
@@ -2092,7 +2106,7 @@ async function loadPublicEvents(){
  const host=$('public-event-list'),count=$('public-event-count');if(!host)return;
  try{const sb=await requireSB();const {data,error}=await sb.from('events').select('id,type,title,text,theme,created_at,event_options(id,event_id,text,votes)').order('created_at',{ascending:false});if(error)throw error;const a=data||[];renderPublicTopEvents(a);count.textContent=a.length+(a.length===1?' evento':' eventos');
  if(!a.length){host.innerHTML='<div class="jt-public-empty">Nenhum evento ou aviso publicado no momento.</div>';return}
- host.innerHTML=a.map(e=>{const t=e.theme||{},date=t.eventDate?new Date(t.eventDate+'T12:00:00').toLocaleDateString('pt-BR'):new Date(e.created_at).toLocaleDateString('pt-BR'),image=t.image&&!t.imageOnly?`background-image:linear-gradient(120deg,${esc(t.color||'#8a1c1c')}dd,${esc(t.color||'#8a1c1c')}88),url('${String(t.image).replace(/['\\\n\r]/g,'')}')`:'';return `<article class="jt-public-event-card"><div class="event-visual" style="--evc:${esc(t.color||'#8a1c1c')};${image}"><small>${esc(t.icon||'📣')} · ${e.type==='opcoes'?'ENQUETE':'EVENTO / AVISO'}</small><h3>${esc(e.title||'Comunicado escolar')}</h3></div><div class="event-info"><div class="event-meta">📅 ${date}${t.eventTime?' · 🕒 '+esc(t.eventTime):''}${t.location?' · 📍 '+esc(t.location):''}</div>${e.text?`<p>${esc(e.text)}</p>`:''}${t.subtitle?`<p><b>${esc(t.subtitle)}</b></p>`:''}${e.type==='opcoes'&&e.event_options?.length?`<p><b>Opções:</b> ${e.event_options.map(o=>esc(o.text)).join(' · ')}</p><small>Para participar da votação, entre na equipe com uma conta autorizada.</small>`:''}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:''}</div></article>`}).join('');applyPublicSearch();
+ host.innerHTML=a.map(e=>{const t=e.theme||{},date=t.eventDate?new Date(t.eventDate+'T12:00:00').toLocaleDateString('pt-BR'):new Date(e.created_at).toLocaleDateString('pt-BR'),safeImage=t.image?String(t.image).replace(/[\"'\\\n\r]/g,''):'';const image=t.image&&!t.imageOnly?`background-image:linear-gradient(120deg,${esc(t.color||'#8a1c1c')}dd,${esc(t.color||'#8a1c1c')}88),url('${safeImage}')`:'';const visual=t.imageOnly&&t.image?`<img class="jt-public-event-poster" src="${esc(t.image)}" alt="${esc(e.title||'Cartaz do evento')}" loading="lazy">`:`<small>${esc(t.icon||'📣')} · ${e.type==='opcoes'?'ENQUETE':'EVENTO / AVISO'}</small><h3>${esc(e.title||'Comunicado escolar')}</h3>`;return `<article class="jt-public-event-card${t.imageOnly&&t.image?' image-only':''}"><div class="event-visual" style="--evc:${esc(t.color||'#8a1c1c')};${image}">${visual}</div><div class="event-info">${t.imageOnly&&t.image?`<h3 class="jt-public-event-title">${esc(e.title||'Evento escolar')}</h3>`:''}<div class="event-meta">📅 ${date}${t.eventTime?' · 🕒 '+esc(t.eventTime):''}${t.location?' · 📍 '+esc(t.location):''}</div>${e.text?`<p>${esc(e.text)}</p>`:''}${t.subtitle?`<p><b>${esc(t.subtitle)}</b></p>`:''}${e.type==='opcoes'&&e.event_options?.length?`<p><b>Opções:</b> ${e.event_options.map(o=>esc(o.text)).join(' · ')}</p><small>Para participar da votação, entre na equipe com uma conta autorizada.</small>`:''}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:''}</div></article>`}).join('');applyPublicSearch();
  }catch(e){console.error('Eventos públicos:',e);count.textContent='Indisponível';host.innerHTML='<div class="jt-public-empty">Não foi possível carregar os eventos. Verifique as permissões públicas da tabela events no Supabase.</div>';applyPublicSearch()}
 }
 function renderPublicCardThumbnail(d,url){const el=document.querySelector(`[data-public-card-thumb="${CSS.escape(String(d.id))}"]`);if(!el)return;const k=publicFileKind(d);if(k==='image'){el.innerHTML=`<img src="${url}" alt="Capa de ${esc(d.title)}" loading="lazy">`;return}if(k==='pdf'){el.innerHTML=`<iframe title="Capa de ${esc(d.title)}" src="${url}#toolbar=0&navpanes=0&view=FitH" loading="lazy"></iframe>`;return}if(k==='video'){el.innerHTML=`<video src="${url}" muted playsinline preload="metadata"></video><span class="jt-public-thumb-play">▶</span>`;return}if(k==='html'){el.innerHTML=`<iframe title="Prévia de ${esc(d.title)}" src="${url}" loading="lazy"></iframe>`;return}const label=k==='audio'?'♫':k==='text'?'TXT':'JT';el.innerHTML=`<div class="jt-public-thumb-placeholder"><span>${label}</span><small>${k==='audio'?'Arquivo de áudio':k==='text'?'Documento de texto':'Edição JornalTec'}</small></div>`}
@@ -2183,7 +2197,7 @@ async function refresh(){
       <div class="acts"><button class="btn ghost" data-act="view" data-id="${d.id}">Abrir jornal</button>
       <button class="btn ghost" data-act="dl" data-id="${d.id}">Baixar original</button>
       <button class="btn ghost" data-act="viewc" data-id="${d.id}">Comentários (0)</button>
-      ${unlocked?`<button class="btn ghost" data-act="toggle-public" data-id="${d.id}">${d.is_public?"Retirar do portal público":"Publicar para todos"}</button><button class="btn ghost" data-act="pin" data-id="${d.id}">${pins().includes(d.id)?"Tirar destaque":"Marcar importante"}</button><button class="btn ghost" data-act="del" data-id="${d.id}">Excluir</button>`:""}</div></div></div>`).join("")
+      ${unlocked?`<button class="btn ghost" data-act="toggle-public" data-id="${d.id}">${d.is_public?"Retirar do portal público":"Publicar para todos"}</button><button class="btn ghost" data-act="pin" data-id="${d.id}">${pins().includes(d.id)?"Tirar destaque":"Marcar importante"}</button>${currentAccessLevel===0||currentAccessLevel===4?`<button class="btn ghost" data-act="del" data-id="${d.id}">Excluir</button>`:""}`:""}</div></div></div>`).join("")
       :`<div class="empty">${q?"Nada encontrado.":"Nenhum documento ainda. Use a área de publicação abaixo."}</div>`;
     docs.filter(d=>["img","video","pdf"].includes(kind(d))).forEach(mkThumb);
     applyThumbs();renderF();await drawE();
@@ -2401,8 +2415,9 @@ window.togglePublic=async id=>{
 };
 
 window.del=async id=>{
-  if(unlocked&&await ask("Excluir este documento?")){
-    try{await rm(id);setCms(id,[]);await refresh()}catch(e){say("Não foi possível excluir: "+(e.message||e))}
+  if(!unlocked||!(await canDeleteEditorialContent()))return;
+  if(await ask("Excluir este jornal/arquivo? Esta ação não pode ser desfeita.")){
+    try{await rm(id);setCms(id,[]);await refresh();say("Publicação excluída com sucesso.")}catch(e){say("Não foi possível excluir. Confira as permissões de exclusão no Supabase: "+(e.message||e))}
   }
 };
 
@@ -2517,6 +2532,15 @@ async function hasLevelAccess(allowed){
  try{currentAccessLevel=await fetchAccessLevel();}catch(e){alert("Não foi possível validar seu cargo no Supabase. O acesso foi bloqueado por segurança. "+(e.message||e));return false;}
  if(currentAccessLevel===null||!allowed.includes(currentAccessLevel)){alert("Seu cargo não tem permissão para acessar esta área. Níveis autorizados: "+allowed.join(", ")+"). Peça ao Criador para verificar suas permissões.");return false;}
  return true;
+}
+
+// Exclusão editorial é reservada exclusivamente aos níveis 0 (Criador) e 4 (Publicador).
+async function canDeleteEditorialContent(showMessage=true){
+ if(!me){if(showMessage)showLogin();return false;}
+ try{currentAccessLevel=await fetchAccessLevel();}catch(e){if(showMessage)alert("Não foi possível validar seu cargo. A exclusão foi bloqueada por segurança. "+(e.message||e));return false;}
+ const allowed=currentAccessLevel===0||currentAccessLevel===4;
+ if(!allowed&&showMessage)alert("Somente os níveis 0 (Criador) e 4 (Criadores de jornais e publicadores) podem excluir jornais, vídeos e eventos.");
+ return allowed;
 }
 
 async function enterSession(user){
@@ -2765,7 +2789,7 @@ async function drawE(){
   const ids=(events||[]).map(e=>e.id);let votes=[];if(ids.length){const r=await sb.from("event_votes").select("event_id,option_index").eq("user_id",me).in("event_id",ids);votes=r.data||[]}
   const mine=Object.fromEntries(votes.map(v=>[v.event_id,v.option_index]));const a=(events||[]).map(e=>({...e,theme:e.theme||{},opts:(e.event_options||[]).map(o=>({id:o.id,t:o.text,n:o.votes||0})),mine:mine[e.id]}));$("evs").hidden=!a.length;
   const textures={paper:'linear-gradient(135deg,rgba(255,255,255,.12),transparent 45%),repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 5px)',dots:'radial-gradient(rgba(255,255,255,.24) 1px,transparent 1px)',grid:'linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px)',waves:'repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.12) 0 2px,transparent 2px 12px)',none:'none'};
-  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse','zoom','sparkle','slide','bounce','rotate','confetti'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}${t.imageOnly&&t.image?" image-only":""}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero">${t.imageOnly&&t.image?`<img src="${esc(t.image)}" alt="Imagem do aviso">${unlocked?`<button type="button" class="ev-image-delete" data-act="rmEv" data-id="${e.id}" aria-label="Apagar este evento">✕ Apagar evento</button>`:""}`:`<><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2>${t.subtitle?`<p class="ev-subtitle">${esc(t.subtitle)}</p>`:""}</>`}</div>${t.imageOnly&&t.image?"":`<div class="evbody"><div class="evdate">${t.eventDate?"📅 "+new Date(t.eventDate+"T12:00:00").toLocaleDateString("pt-BR"):"📅 "+new Date(e.created_at).toLocaleDateString("pt-BR")}${t.eventTime?" · 🕒 "+esc(t.eventTime):""}${t.eventEndDate?" · Até "+new Date(t.eventEndDate+"T12:00:00").toLocaleDateString("pt-BR"):""}${t.location?" · 📍 "+esc(t.location):""}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:""}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div>`}</article>`}).join("");
+  $("evlist").innerHTML=a.map(e=>{const tot=e.opts.reduce((n,o)=>n+o.n,0),voted=e.mine!=null,t=e.theme||{},ops=e.type==="opcoes"?`<div class="ops">${e.opts.map((o,i)=>{const pc=tot?Math.round(o.n*100/tot):0;return`<button class="opt${e.mine===i?" on":""}" data-act="vote" data-id="${e.id}" data-i="${i}" style="--w:${voted?pc:0}%"><span>${esc(o.t)}</span>${voted?`<b>${pc}%</b>`:""}</button>`}).join("")}</div>`:"",anim=['shine','float','pulse','zoom','sparkle','slide','bounce','rotate','confetti'].includes(t.animation)?` ev-${t.animation}`:"";return`<article class="event-card${anim}${t.imageOnly&&t.image?" image-only":""}" data-event-id="${e.id}" style="--evc:${esc(t.color||'#8a1c1c')};--evtexture:${textures[t.texture||'paper']||textures.paper}"><div class="evhero">${t.imageOnly&&t.image?`<img src="${esc(t.image)}" alt="Imagem do aviso">${unlocked&&(currentAccessLevel===0||currentAccessLevel===4)?`<button type="button" class="ev-image-delete" data-act="rmEv" data-id="${e.id}" aria-label="Apagar este evento">✕ Apagar evento</button>`:""}`:`<><span class="tg2">${e.type==="aviso"?"AVISO":"ENQUETE"}</span><h2>${esc(e.title)}</h2>${t.subtitle?`<p class="ev-subtitle">${esc(t.subtitle)}</p>`:""}</>`}</div>${t.imageOnly&&t.image?"":`<div class="evbody"><div class="evdate">${t.eventDate?"📅 "+new Date(t.eventDate+"T12:00:00").toLocaleDateString("pt-BR"):"📅 "+new Date(e.created_at).toLocaleDateString("pt-BR")}${t.eventTime?" · 🕒 "+esc(t.eventTime):""}${t.eventEndDate?" · Até "+new Date(t.eventEndDate+"T12:00:00").toLocaleDateString("pt-BR"):""}${t.location?" · 📍 "+esc(t.location):""}</div>${e.text?`<p>${esc(e.text)}</p>`:""}${ops}${t.buttonText&&t.buttonUrl?`<p><a class="btn" href="${esc(t.buttonUrl)}" target="_blank" rel="noopener">${esc(t.buttonText)}</a></p>`:""}<div class="evtools"><span class="evtag">Evento escolar</span>${unlocked&&(currentAccessLevel===0||currentAccessLevel===4)?`<button class="btn ghost" data-act="rmEv" data-id="${e.id}">Remover</button>`:""}</div></div>`}</article>`}).join("");
   for(const e of a){const t=e.theme||{},card=document.querySelector(`[data-event-id="${e.id}"] .evhero`);if(card&&t.image&&!t.imageOnly){const u=String(t.image).replace(/["\\\n\r]/g,m=>'\\'+m);card.style.backgroundImage=`linear-gradient(135deg,${t.color||'#8a1c1c'},rgba(0,0,0,.28)),url("${u}")`;}if(card&&t.icon){const tag=card.querySelector('.tg2');if(tag)tag.textContent=t.icon+" "+(e.type==="aviso"?"AVISO":"ENQUETE");}}
   maybePresentEvent(a);
 }
@@ -2780,13 +2804,14 @@ window.vote=async(id,i)=>{
 };
 
 window.rmEv=async id=>{
- if(!unlocked||!await ask("Remover este evento?"))return;
+ if(!unlocked||!(await canDeleteEditorialContent()))return;
+ if(!await ask("Remover este evento ou enquete? Esta ação não pode ser desfeita."))return;
  try{const sb=await requireSB();
   let r=await sb.from("event_votes").delete().eq("event_id",id); if(r.error)throw r.error;
   r=await sb.from("event_options").delete().eq("event_id",id); if(r.error)throw r.error;
   r=await sb.from("events").delete().eq("id",id); if(r.error)throw r.error;
-  await refresh(); await drawE();
- }catch(e){say("Não foi possível remover o evento: "+(e.message||e));}
+  await refresh(); await drawE(); say("Evento removido com sucesso.");
+ }catch(e){say("Não foi possível remover o evento. Confira as permissões de exclusão no Supabase: "+(e.message||e));}
 };
 
 function togE(){$("eoptw").hidden=$("etype").value!=="opcoes"}
