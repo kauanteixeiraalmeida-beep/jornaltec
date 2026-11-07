@@ -1642,6 +1642,63 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
 #public-portal #public-event-list .jt-public-event-title{font:700 19px/1.25 Georgia,serif!important;color:#20384b!important;margin:0 0 8px!important}
 @media(max-width:760px){#public-portal #public-event-list{grid-template-columns:minmax(0,1fr)!important;gap:13px!important}#public-portal #public-event-list .jt-public-event-card .event-visual{min-height:108px!important;padding:15px!important}#public-portal #public-event-list .jt-public-event-card .event-info{padding:14px!important}#public-portal #public-event-list .jt-public-event-poster{max-height:420px!important}}
 </style>
+
+<style id="jt-v61-6-restore-compact-news-design">
+/* Restaura o formato compacto da seção Últimas notícias, sem alterar as permissões ou os módulos. */
+#public-portal #public-latest-list.jt-public-news-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:16px!important;
+  align-items:stretch!important;
+}
+#public-portal #public-latest-list .jt-public-news-card{
+  display:flex!important;flex-direction:column!important;min-width:0!important;
+  border-radius:16px!important;overflow:hidden!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb{
+  height:190px!important;min-height:190px!important;max-height:190px!important;
+  padding:0!important;display:grid!important;place-items:center!important;
+  background:#f3f5f7!important;overflow:hidden!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb img,
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb iframe,
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb video{
+  width:100%!important;height:100%!important;min-height:0!important;max-height:100%!important;
+  object-fit:contain!important;background:#f3f5f7!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-content{
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+  align-items:stretch!important;padding:13px 15px 15px!important;gap:7px!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-content h3{
+  font-size:clamp(15px,1.35vw,19px)!important;line-height:1.28!important;margin:0!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-content p{font-size:12px!important;margin:0!important}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-content .acts{
+  display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin-top:auto!important;padding-top:8px!important;
+}
+#public-portal #public-latest-list .jt-public-news-card .jt-public-card-content .acts .btn{
+  width:auto!important;min-width:0!important;min-height:40px!important;flex:0 1 auto!important;
+  padding:9px 14px!important;font-size:12px!important;border-radius:10px!important;
+}
+@media(max-width:760px){
+  #public-portal #public-latest-list.jt-public-news-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;
+  }
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb{
+    height:155px!important;min-height:155px!important;max-height:155px!important;
+  }
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-content{padding:10px 11px 12px!important;gap:6px!important}
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-content h3{font-size:15px!important;line-height:1.25!important}
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-content p{font-size:11px!important}
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-content .acts .btn{min-height:36px!important;padding:8px 10px!important;font-size:11px!important}
+}
+@media(max-width:390px){
+  #public-portal #public-latest-list.jt-public-news-grid{grid-template-columns:1fr!important;gap:12px!important}
+  #public-portal #public-latest-list .jt-public-news-card .jt-public-card-thumb{height:175px!important;min-height:175px!important;max-height:175px!important}
+}
+</style>
+
 </head>
 <body data-jornatec-version="60.9-home-publica-com-pesquisa">
 <section id="login" hidden><form id="lform" class="lcard">
