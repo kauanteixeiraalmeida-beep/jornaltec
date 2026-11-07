@@ -1525,7 +1525,15 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
 </style>
 
 <style id="jt-v61-3-mobile-final">
-<style id="jt-v61-3-mobile-final">
+/* V61.4 — layout desktop: aproveita a largura útil do notebook/desktop. */
+@media (min-width: 761px) {
+ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:0!important;overflow-x:hidden!important}
+ #public-portal{width:100%!important;max-width:none!important;min-height:100vh!important;margin:0!important}
+ #public-portal .jt-public-main{width:100%!important;max-width:none!important;box-sizing:border-box!important;padding-left:clamp(24px,3vw,60px)!important;padding-right:clamp(24px,3vw,60px)!important}
+ #public-portal #public-latest-list,#public-portal #public-interview-list{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #public-portal #public-archive-section .jt-public-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))!important}
+ #public-portal #public-archive-section .jt-public-card-thumb{height:300px!important;min-height:300px!important;max-height:300px!important}
+}
 /* V61.3 — regras mobile finais: prevalecem sobre os estilos antigos conflitantes. */
 @media (max-width: 760px) {
   html, body { width:100%!important; min-width:0!important; margin:0!important; padding:0!important; overflow-x:hidden!important; }
@@ -1619,7 +1627,6 @@ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:
   #public-portal .jt-public-arrow { width:24px!important; }
   #public-portal .jt-public-preview-thumb { height:220px!important; }
 }
-</style>
 </style>
 </head>
 <body data-jornatec-version="60.9-home-publica-com-pesquisa">
