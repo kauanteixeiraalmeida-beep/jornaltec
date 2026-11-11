@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8a1c1c">
 <link rel="manifest" href="jornatec.webmanifest">
-<title>JornalTec V59.6 — Cartões com miniaturas</title>
+<title>JornalTec V62.3 — Correção de layout e acesso administrativo</title>
 <style>
 :root{--bg:#f4f2ee;--surface:#fff;--ink:#1c1c1c;--muted:#6b675f;--line:#d8d3c8;--accent:#8a1c1c;--accent-ink:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -2354,7 +2354,7 @@ $('public-refresh')?.addEventListener('click',()=>{loadPublicDocuments();loadPub
 document.querySelectorAll('[data-public-category]').forEach(b=>b.addEventListener('click',()=>{publicCategoryFilter=b.dataset.publicCategory||'';document.querySelectorAll('[data-public-category]').forEach(x=>x.classList.toggle('active',x===b));renderPublicLatest(window.jtPublicDocs||[])}));
 $('public-personalize-shortcut')?.addEventListener('click',()=>{if(!me){showLogin();return;}$('public-personalize-open')?.click()});
 document.querySelectorAll('[data-public-open-chat]').forEach(b=>b.addEventListener('click',()=>{if(!me){showLogin();return;}const toggle=$('main-menu-toggle');if(toggle)toggle.click();setTimeout(()=>$('main-home-menu')?.querySelector('[data-main-go="chat"]')?.click(),0)}));
-document.querySelectorAll('[data-public-open-redacao]').forEach(b=>b.addEventListener('click',()=>{if(!me){showLogin();return;}const toggle=$('main-menu-toggle');if(toggle)toggle.click();setTimeout(()=>$('publication-redacao-open')?.click(),0)}));
+document.querySelectorAll('[data-public-open-redacao]').forEach(b=>b.addEventListener('click',async()=>{if(!me){showLogin();return;}if(typeof window.jtOpenAdminArea==='function'){await window.jtOpenAdminArea();return;}alert('A Área Administrativa ainda está carregando. Tente novamente em instantes.');}));
 
 
 document.addEventListener('click',async e=>{
@@ -4080,6 +4080,24 @@ function close(){root.hidden=true;document.body.style.overflow='';$('publication
 window.jtOpenAdminArea=open;$('jta-close').addEventListener('click',close);root.addEventListener('click',e=>{if(e.target===root)close();const b=e.target.closest('[data-jta-page]');if(b)page(b.dataset.jtaPage);const refresh=e.target.closest('[data-jta-users-refresh]');if(refresh)loadAdminUsers($('jta-content'));const save=e.target.closest('[data-jta-role-save]');if(save)saveAdminUserRole(save)});document.addEventListener('keydown',e=>{if(!root.hidden&&e.key==='Escape')close()});
 })();
 </script>
+
+<style id="jornatec-v623-portal-width-fix">
+/* V62.3: o portal público é um <main>; neutraliza o max-width genérico de 760px. */
+#public-portal { width:100%!important; max-width:none!important; min-width:0!important; margin:0!important; box-sizing:border-box!important; }
+#public-portal > .jt-public-header,
+#public-portal > .jt-public-hero,
+#public-portal > .jt-public-categories,
+#public-portal > .jt-public-teambar,
+#public-portal > .jt-public-main,
+#public-portal > .jt-public-footer { width:min(100%, 1500px)!important; max-width:1500px!important; margin-left:auto!important; margin-right:auto!important; box-sizing:border-box!important; }
+#public-portal > .jt-public-main { width:100%!important; max-width:1500px!important; }
+@media(max-width:760px){
+ #public-portal { width:100%!important; max-width:none!important; padding-left:14px!important; padding-right:14px!important; }
+ #public-portal > .jt-public-header, #public-portal > .jt-public-hero,
+ #public-portal > .jt-public-categories, #public-portal > .jt-public-teambar,
+ #public-portal > .jt-public-main, #public-portal > .jt-public-footer { width:100%!important; max-width:none!important; }
+}
+</style>
 </body>
 </html>
 
