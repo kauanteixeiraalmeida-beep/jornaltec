@@ -3024,17 +3024,22 @@ window.vote=async(id,i)=>{
 
 window.rmEv=async id=>{
  if(!(await canDeleteEditorialContent()))return false;
- if(!await ask("Remover este evento ou enquete? Esta ação não pode ser desfeita."))return false;
+ if(!await ask("Remover este aviso ou enquete? A publicação e seus votos serão apagados."))return false;
  try{
   const sb=await requireSB();
-  const {error}=await sb.rpc("jornatec_delete_event",{p_event_id:id});
+  const {data,error}=await sb.rpc("jornatec_delete_event",{p_event_id:id});
   if(error)throw error;
-  await Promise.all([refresh(),drawE(),loadPublicEvents()]);
-  say("Evento removido com sucesso.");
+  if(data!==true)throw new Error("O banco não confirmou a exclusão. Atualize a lista e tente novamente.");
+  // Refresh only event-related views; do not reload the rest of the app.
+  await Promise.all([drawE(),loadPublicEvents()]);
+  if(window.jtAdminCurrentPage==='events')await jtaLoadAdminEvents(document.getElementById('jta-content'));
+  say("Aviso/enquete excluído(a) com sucesso.");
   return true;
  }catch(e){
   console.error("Falha ao excluir evento:",e);
-  say("Não foi possível remover: "+(e.message||e));
+  const msg=e?.message||e?.details||e?.hint||String(e);
+  say("Falha ao excluir: "+msg);
+  alert("O Supabase recusou a exclusão.\n\n"+msg+"\n\nSe aparecer 'function not found', execute a migração SQL V62.9. Se aparecer 'permission denied', confira o cargo da conta Criador e as permissões do banco.");
   return false;
  }
 };
@@ -4183,8 +4188,11 @@ async function jtaLoadAdminEvents(host){
   const sb=await requireSB();
   const {data,error}=await sb.from('events').select('id,type,title,text,theme,created_at,event_options(id,event_id,text,votes)').order('created_at',{ascending:false});
   if(error)throw error;
-  const rows=data||[];const level=Number(await fetchAccessLevel());
-  const canDelete=[0].includes(level);
+  const rows=data||[];
+  // Use the same authoritative permission check as the actual delete RPC.
+  // This avoids hiding the delete control when the creator is recognized by
+  // jornatec_is_creator() but has no ordinary level row.
+  const canDelete=await canDeleteEditorialContent(false);
   const notices=rows.filter(e=>e.type==='aviso').length,polls=rows.filter(e=>e.type==='opcoes').length;
   host.innerHTML=`<section class="jta-card" style="background:linear-gradient(115deg,#173b5b,#28577b);color:#fff;border:0;margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap"><div><span style="font-size:10px;letter-spacing:1.5px;font-weight:800;color:#f0d18c">CENTRAL DE EVENTOS</span><h2 style="margin:7px 0 4px;font-size:23px;color:#fff">Eventos e enquetes</h2><p style="margin:0;color:#d9e6f0;font-size:13px">Crie, publique e acompanhe avisos e votações em um único lugar.</p></div><button type="button" class="jta-btn jta-primary" data-jta-event-create style="background:#e9c77f!important;color:#173b5b!important;border-color:#e9c77f!important;font-weight:800">＋ Criar evento</button></div></section>
   <div class="jta-metrics" style="grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 16px"><article class="jta-card jta-metric"><span>📣 Total de publicações</span><strong>${rows.length}</strong><small>Registros no Supabase</small></article><article class="jta-card jta-metric"><span>📌 Avisos</span><strong>${notices}</strong><small>Eventos informativos</small></article><article class="jta-card jta-metric"><span>🗳️ Enquetes</span><strong>${polls}</strong><small>Votações cadastradas</small></article></div>
