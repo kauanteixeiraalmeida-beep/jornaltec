@@ -2170,7 +2170,23 @@ async function recoverRealtime(){
 function find(id){return docs.find(d=>String(d.id)===String(id))||null}
 function freeURL(){if(curURL){try{URL.revokeObjectURL(curURL)}catch(e){}curURL=null}}
 function say(message){const el=$("pstat");if(el)el.textContent=String(message||"")}
-function ask(message){return new Promise(resolve=>{askResolve=resolve;$("qmsg").textContent=String(message||"");$("qdlg").returnValue="";$("qdlg").showModal()})}
+// Resolve a confirmação nativa quando o usuário confirma, cancela ou fecha com Esc.
+$("qdlg").addEventListener("close",()=>{
+  const resolve=askResolve;
+  askResolve=null;
+  if(resolve)resolve($("qdlg").returnValue==="ok");
+});
+function ask(message){
+  return new Promise(resolve=>{
+    const dlg=$("qdlg");
+    if(!dlg){resolve(false);return;}
+    if(dlg.open){resolve(false);return;}
+    askResolve=resolve;
+    $("qmsg").textContent=String(message||"");
+    dlg.returnValue="";
+    dlg.showModal();
+  });
+}
 
 async function requireSB(){
   if(!supabaseClient) throw new Error("Supabase não configurado. Cole a chave pública/anon no arquivo.");
@@ -3022,10 +3038,11 @@ window.vote=async(id,i)=>{
   }catch(e){say("Não foi possível registrar o voto: "+(e.message||e))}
 };
 
-window.rmEv=async id=>{
- if(!(await canDeleteEditorialContent()))return false;
- if(!await ask("Remover este aviso ou enquete? A publicação e seus votos serão apagados."))return false;
+window.rmEv=async (id,onConfirmed)=>{
  try{
+  if(!(await canDeleteEditorialContent()))return false;
+  if(!await ask("Remover este aviso ou enquete? A publicação e seus votos serão apagados."))return false;
+  if(typeof onConfirmed==="function")onConfirmed();
   const sb=await requireSB();
   const {data,error}=await sb.rpc("jornatec_delete_event",{p_event_id:id});
   if(error)throw error;
@@ -3039,7 +3056,7 @@ window.rmEv=async id=>{
   console.error("Falha ao excluir evento:",e);
   const msg=e?.message||e?.details||e?.hint||String(e);
   say("Falha ao excluir: "+msg);
-  alert("O Supabase recusou a exclusão.\n\n"+msg+"\n\nSe aparecer 'function not found', execute a migração SQL V62.9. Se aparecer 'permission denied', confira o cargo da conta Criador e as permissões do banco.");
+  alert("Não foi possível concluir a exclusão.\n\n"+msg);
   return false;
  }
 };
@@ -4244,7 +4261,7 @@ window.jtAdminRenderPage=page;
 async function jtaExportAdminData(){const status=document.getElementById('jta-export-status');try{const tables=['documents','events','comments','categories','jornatec_editorial_queue','jornatec_editorial_versions','jornatec_editorial_trash','jornatec_admin_audit'];const out={exported_at:new Date().toISOString(),tables:{}};for(const t of tables){try{out.tables[t]=await jtaQueryTable(t,'*',1000);}catch(e){out.tables[t]={unavailable:e.message||String(e)};}}const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='jornatec-backup-administrativo-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);if(status)status.textContent='Exportação JSON gerada. Ela não substitui o backup integral do Supabase.';}catch(e){if(status)status.textContent='Falha: '+(e.message||e);}}
 async function open(){const level=await window.jtAdminAuthorize?.();if(level===null||level===undefined)return;$('jta-level').textContent=`NÍVEL ${level} · ${{0:'CRIADOR',2:'DIREÇÃO',3:'COORDENAÇÃO'}[level]}`;page('dashboard');root.hidden=false;document.body.style.overflow='hidden';$('jta-close').focus()}
 function close(){root.hidden=true;document.body.style.overflow='';$('publication-redacao-open')?.focus()}
-window.jtOpenAdminArea=open;$('jta-close').addEventListener('click',close);root.addEventListener('submit',async e=>{const form=e.target.closest('[data-jta-queue-create]');if(!form)return;e.preventDefault();const status=form.querySelector('[data-jta-form-status]'),submit=form.querySelector('button[type=submit]');submit.disabled=true;submit.textContent='Salvando…';try{const sb=await requireSB();const {data:{user},error:userError}=await sb.auth.getUser();if(userError)throw userError;if(!user)throw new Error('Sua sessão expirou. Entre novamente.');const fd=new FormData(form);const title=String(fd.get('title')||'').trim();const body=String(fd.get('body')||'').trim();const summary=String(fd.get('summary')||'').trim();const content_type=String(fd.get('content_type')||'article');if(!title)throw new Error('Informe o título.');const {error}=await sb.from('jornatec_editorial_queue').insert({title,content_type,payload:{body,summary},status:'draft',submitted_by:user.id});if(error)throw error;await jtaLoadQueue(document.getElementById('jta-content'));}catch(err){if(status)status.textContent='Não foi possível salvar: '+(err.message||String(err));submit.disabled=false;submit.textContent='＋ Criar rascunho';}});root.addEventListener('click',e=>{if(e.target===root)close();const b=e.target.closest('[data-jta-page]');if(b)page(b.dataset.jtaPage);const refresh=e.target.closest('[data-jta-users-refresh]');if(refresh)loadAdminUsers($('jta-content'));const save=e.target.closest('[data-jta-role-save]');if(save)saveAdminUserRole(save);const createEvent=e.target.closest('[data-jta-event-create]');if(createEvent){window.jtAdminEventMode=true;document.getElementById('evbtn')?.click();}const refreshEvents=e.target.closest('[data-jta-events-refresh]');if(refreshEvents)jtaLoadAdminEvents($('jta-content'));const deleteEvent=e.target.closest('[data-jta-event-delete]');if(deleteEvent){deleteEvent.disabled=true;deleteEvent.textContent='Excluindo…';window.rmEv?.(deleteEvent.dataset.jtaEventDelete).then(ok=>{if(ok)jtaLoadAdminEvents($('jta-content'));else{deleteEvent.disabled=false;deleteEvent.textContent='Excluir';}});}const action=e.target.closest('[data-jta-transition],[data-jta-version],[data-jta-trash],[data-jta-restore],[data-jta-filter],[data-jta-refresh]');if(action)jtaHandleAdminAction(action).catch(err=>alert('Falha na operação: '+(err.message||err)));const exp=e.target.closest('[data-jta-export]');if(exp)jtaExportAdminData()});document.addEventListener('keydown',e=>{if(!root.hidden&&e.key==='Escape')close()});
+window.jtOpenAdminArea=open;$('jta-close').addEventListener('click',close);root.addEventListener('submit',async e=>{const form=e.target.closest('[data-jta-queue-create]');if(!form)return;e.preventDefault();const status=form.querySelector('[data-jta-form-status]'),submit=form.querySelector('button[type=submit]');submit.disabled=true;submit.textContent='Salvando…';try{const sb=await requireSB();const {data:{user},error:userError}=await sb.auth.getUser();if(userError)throw userError;if(!user)throw new Error('Sua sessão expirou. Entre novamente.');const fd=new FormData(form);const title=String(fd.get('title')||'').trim();const body=String(fd.get('body')||'').trim();const summary=String(fd.get('summary')||'').trim();const content_type=String(fd.get('content_type')||'article');if(!title)throw new Error('Informe o título.');const {error}=await sb.from('jornatec_editorial_queue').insert({title,content_type,payload:{body,summary},status:'draft',submitted_by:user.id});if(error)throw error;await jtaLoadQueue(document.getElementById('jta-content'));}catch(err){if(status)status.textContent='Não foi possível salvar: '+(err.message||String(err));submit.disabled=false;submit.textContent='＋ Criar rascunho';}});root.addEventListener('click',e=>{if(e.target===root)close();const b=e.target.closest('[data-jta-page]');if(b)page(b.dataset.jtaPage);const refresh=e.target.closest('[data-jta-users-refresh]');if(refresh)loadAdminUsers($('jta-content'));const save=e.target.closest('[data-jta-role-save]');if(save)saveAdminUserRole(save);const createEvent=e.target.closest('[data-jta-event-create]');if(createEvent){window.jtAdminEventMode=true;document.getElementById('evbtn')?.click();}const refreshEvents=e.target.closest('[data-jta-events-refresh]');if(refreshEvents)jtaLoadAdminEvents($('jta-content'));const deleteEvent=e.target.closest('[data-jta-event-delete]');if(deleteEvent&&!deleteEvent.disabled){deleteEvent.disabled=true;deleteEvent.textContent='Aguardando confirmação…';Promise.resolve(window.rmEv?.(deleteEvent.dataset.jtaEventDelete,()=>{if(deleteEvent.isConnected)deleteEvent.textContent='Excluindo…';})).then(ok=>{if(!ok&&deleteEvent.isConnected){deleteEvent.disabled=false;deleteEvent.textContent='Excluir';}}).catch(err=>{console.error('Falha inesperada no botão de exclusão:',err);if(deleteEvent.isConnected){deleteEvent.disabled=false;deleteEvent.textContent='Excluir';}alert('Não foi possível concluir a exclusão: '+(err?.message||String(err)));});}const action=e.target.closest('[data-jta-transition],[data-jta-version],[data-jta-trash],[data-jta-restore],[data-jta-filter],[data-jta-refresh]');if(action)jtaHandleAdminAction(action).catch(err=>alert('Falha na operação: '+(err.message||err)));const exp=e.target.closest('[data-jta-export]');if(exp)jtaExportAdminData()});document.addEventListener('keydown',e=>{if(!root.hidden&&e.key==='Escape')close()});
 })();
 </script>
 
